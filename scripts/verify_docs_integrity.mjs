@@ -43,7 +43,8 @@ const REQUIRED_DOCS = [
   '07-commercial-and-saas-market-landscape.md',
   '08-empirical-open-source-codebase-and-security-audit.md',
   '09-68-feature-competitor-gap-matrix.md',
-  '10-build-vs-leverage-decision-blueprint.md'
+  '10-build-vs-leverage-decision-blueprint.md',
+  '11-architecture-decision-records-and-mvp-spec.md'
 ];
 
 for (const doc of REQUIRED_DOCS) {

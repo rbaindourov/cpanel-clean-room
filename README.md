@@ -36,6 +36,9 @@ This repository contains the complete clean-room reverse-engineering analysis, l
 10. [`docs/10-build-vs-leverage-decision-blueprint.md`](docs/10-build-vs-leverage-decision-blueprint.md)  
     **Build vs. Leverage Decision Blueprint & MVP Roadmap**: Head-to-head comparison of 4 engineering strategies (`Fork`, `Headless Bridge`, `Composable OSS + Clean-Room Agent`, `Pure Scratch`), specification of the 22 atomic Go RPC operations in `winwin-agentd`, clean-room `cpmove` backup importer design, and 8-week MVP build roadmap.
 
+11. [`docs/11-architecture-decision-records-and-mvp-spec.md`](docs/11-architecture-decision-records-and-mvp-spec.md)  
+    **Architecture Decision Records (`ADR-01` to `ADR-11`) & Full-Stack TypeScript MVP Specification**: Canonical specification locking in all 11 interactive `/grill-me` design decisions (Standalone Single-Server Appliance, 100% TypeScript Stack, Unified Single-Port 3-Tier RBAC + Impersonation, Pure Nginx+FPM + Optional Apache2, Local BIND9 + Cloudflare Sync, Postfix/Dovecot/Rspamd/Roundcube, Native React File Manager + Monaco Editor, Embedded `xterm.js` Terminal, Dual `cpmove` + `restic` Backups, WP-CLI + Node/Python App Runner, and Dual `PANEL_SYSROOT` Sandbox/Production Engine).
+
 ---
 
 ## 🗂️ Audit Data & Visual Reference Assets
