@@ -1,0 +1,1009 @@
+{
+  "target": {
+    "domain": "architecturalnumbers.com",
+    "port": 2083,
+    "cpanelUser": "vahag",
+    "inspectedAt": "2026-11-12T01:08:12.145Z"
+  },
+  "serverInfo": {
+    "metadata": {},
+    "messages": null,
+    "status": 1,
+    "warnings": null,
+    "errors": null,
+    "data": {
+      "minimum_password_strength": "65",
+      "php_upload_maximum_filesize": "512",
+      "logout_redirect_url": "",
+      "invite_sub": "0",
+      "disable_mailman": "0",
+      "skip_apache_clients_optimizer": "0",
+      "apache_port": "0.0.0.0:80",
+      "awstats_reverse_dns": "0",
+      "disable_awstats": "0",
+      "disable_analog": "1",
+      "file_upload_maximum_bytes": "500",
+      "skip_mailbox_warnings_check": "0",
+      "display_cpanel_doclinks": "0",
+      "disable_spamassassin": "0",
+      "mysql_host": "localhost",
+      "file_upload_must_leave_bytes": "5",
+      "allow_park_subdomain_on_hostname": "0",
+      "disable_boxtrapper": "0",
+      "email_filter_storage_directory": "/etc/vfilters",
+      "allow_unregistered_domains": "1",
+      "mailbox_storage_format": "maildir",
+      "is_mod_userdir_enabled": "1",
+      "php_loader": "ioncube",
+      "php_system_default_version": null,
+      "cpanel_root_directory": "/usr/local/cpanel",
+      "enable_file_protect": "1",
+      "require_ssl": "0",
+      "database_prefix_required": "1",
+      "mysql_version": "5.5",
+      "disable_spambox": "0",
+      "docroots_in_public_html_only": "0",
+      "awstats_browser_update": "1",
+      "php_maximum_execution_time": "90",
+      "php_open_basedir_home": "0",
+      "htaccess_check_recurse": "2",
+      "ipv6_listen": "0",
+      "php_memory_limit": "512",
+      "file_usage": "1",
+      "api_shell": "0",
+      "phpmyadmin_disable_search_info_schema": "1",
+      "mail_server": "dovecot",
+      "use_mail_for_mailman_url": "0",
+      "empty_trash_days": "30",
+      "php_post_maximum_size": "520",
+      "disable_roundcube": "0",
+      "allow_remote_domains": "1",
+      "version": "8.0",
+      "ssl_default_key_type": "rsa-2048",
+      "allow_reset_password": "1",
+      "skip_bandwidth_limit_check": "1",
+      "disable_webalizer": "0",
+      "allow_reset_password_for_subaccounts": "1",
+      "local_nameserver_type": "bind",
+      "default_theme": "paper_lantern",
+      "ftp_server": "pure-ftpd",
+      "dnsadmin_app": null,
+      "apache_ssl_port": "0.0.0.0:443",
+      "minimum_password_strength_mysql": null,
+      "use_information_schema": "0"
+    }
+  },
+  "dynamicUI": {
+    "errors": [
+      "Failed to load module “DynamicUI”: The system failed to load the module “Cpanel::API::DynamicUI” because of an error: Can't locate Cpanel/API/DynamicUI.pm in @INC (you may need to install the Cpanel::API::DynamicUI module) (@INC entries checked: /usr/local/cpanel /usr/local/cpanel/plugins /usr/local/cpanel/3rdparty/perl/542/cpanel-lib/x86_64-linux /usr/local/cpanel/3rdparty/perl/542/cpanel-lib /usr/local/cpanel/3rdparty/perl/542/lib/x86_64-linux /usr/local/cpanel/3rdparty/perl/542/lib /opt/cpanel/perl5/542/site_lib/x86_64-linux /opt/cpanel/perl5/542/site_lib) at (eval 10) line 1.\nBEGIN failed--compilation aborted at (eval 10) line 1.\n"
+    ],
+    "data": null,
+    "warnings": null,
+    "messages": null,
+    "status": 0,
+    "metadata": {}
+  },
+  "featuresList": {
+    "data": {
+      "cron": 1,
+      "sslmanager": 1,
+      "webmail": 1,
+      "socialbee": 0,
+      "spamassassin": 1,
+      "ea-php83": 1,
+      "filerestoration": 0,
+      "koality": 1,
+      "autossl": 1,
+      "csvimport": 1,
+      "soft_div_icons": 1,
+      "email_disk_usage": 1,
+      "webdisk": 1,
+      "ea-php82": 1,
+      "ea-php85": 1,
+      "defaultaddress": 0,
+      "webprotect": 1,
+      "traceaddy": 1,
+      "blockers": 1,
+      "searchsubmit": 1,
+      "modules-ruby": 0,
+      "fantastico": 0,
+      "setlang": 1,
+      "subdomains": 1,
+      "dnssec": 0,
+      "ea-php84": 1,
+      "bbs": 1,
+      "postgres": 1,
+      "webalizer": 1,
+      "caldavcarddav": 1,
+      "updatecontact": 1,
+      "scgiwrap": 1,
+      "tls_wizard": 1,
+      "errpgs": 1,
+      "ftpsetup": 1,
+      "awstats": 1,
+      "lastvisits": 1,
+      "softaculous": 1,
+      "version_control": 1,
+      "bandwidth": 1,
+      "apitokens": 1,
+      "chat": 0,
+      "agora": 1,
+      "modules-perl": 1,
+      "updatenotificationprefs": 1,
+      "cpanelpro_support": 0,
+      "twofactorauth": 1,
+      "cgi": 1,
+      "diskusageviewer": 1,
+      "ea-php81": 1,
+      "pgp": 1,
+      "team_manager": 0,
+      "countdown": 1,
+      "market": 1,
+      "redirects": 1,
+      "modsecurity": 0,
+      "modules-php-pear": 1,
+      "backup": 1,
+      "rawlog": 1,
+      "greylist": 1,
+      "videotut": 1,
+      "emaildomainfwd": 1,
+      "dirselector": 1,
+      "indexmanager": 1,
+      "spambox": 1,
+      "addondomains": 1,
+      "analog": 0,
+      "emailarchive": 1,
+      "ssh": 1,
+      "lists": 1,
+      "emailtrace": 0,
+      "ftpaccts": 1,
+      "handlers": 1,
+      "autoresponders": 1,
+      "api_shell": 1,
+      "filemanager": 1,
+      "phpmyadmin": 1,
+      "clamavconnector_scan": 0,
+      "parkeddomains": 1,
+      "counter": 1,
+      "popaccts": 1,
+      "nettools": 1,
+      "forwarders": 1,
+      "ror": 0,
+      "ipdeny": 1,
+      "statselect": 1,
+      "multiphp": 1,
+      "serverstatus": 1,
+      "passengerapps": 1,
+      "ea-php80": 0,
+      "dynamicdns": 0,
+      "theme-switch": 1,
+      "clock": 1,
+      "errlog": 1,
+      "simplezoneedit": 1,
+      "hotlink": 1,
+      "optimizews": 1,
+      "password": 1,
+      "subdomainstats": 1,
+      "sslinstall": 1,
+      "multiphp_ini_editor": 1,
+      "user_manager": 1,
+      "emailauth": 1,
+      "boxtrapper": 1,
+      "cpanelpro_images": 1,
+      "sitejet": 0,
+      "getstart": 1,
+      "mysql": 1,
+      "zoneedit": 1,
+      "cpanelpro_leechprotect": 0,
+      "php-config": 0,
+      "mime": 1,
+      "phppgadmin": 1,
+      "changemx": 1
+    },
+    "errors": null,
+    "warnings": null,
+    "status": 1,
+    "messages": null,
+    "metadata": {}
+  },
+  "phpEnvironment": {
+    "installed": {
+      "versions": [
+        "ea-php81",
+        "ea-php82",
+        "ea-php83",
+        "ea-php84",
+        "ea-php85"
+      ]
+    },
+    "vhosts": [
+      {
+        "homedir": "/home4/vahag",
+        "phpversion_source": {
+          "domain": "architecturalnumbers.com"
+        },
+        "main_domain": 1,
+        "version": "alt-php56",
+        "account_owner": "root",
+        "documentroot": "/home4/vahag/public_html",
+        "php_fpm": 0,
+        "account": "vahag",
+        "vhost": "architecturalnumbers.com",
+        "php_fpm_pool_parms": {}
+      },
+      {
+        "account": "vahag",
+        "vhost": "trace4less.com",
+        "php_fpm": 0,
+        "documentroot": "/home4/vahag/trace4less.com",
+        "phpversion_source": {
+          "system_default": 1
+        },
+        "homedir": "/home4/vahag",
+        "version": "ea-php83",
+        "main_domain": 0,
+        "account_owner": "root",
+        "php_fpm_pool_parms": {}
+      }
+    ]
+  },
+  "databaseStats": {
+    "databases": [
+      {
+        "users": [
+          "vahag_k"
+        ],
+        "disk_usage": 54759734,
+        "database": "vahag_architecturalnumbers"
+      },
+      {
+        "users": [
+          "vahag_k"
+        ],
+        "disk_usage": 4157,
+        "database": "vahag_trace4less"
+      }
+    ]
+  },
+  "emailStats": {
+    "accounts": [
+      {
+        "email": "production@architecturalnumbers.com",
+        "diskusedpercent20": 80,
+        "suspended_login": 0,
+        "diskusedpercent_float": 81.6164109230041,
+        "_diskquota": "3145728000",
+        "humandiskused": "2.39 GB",
+        "diskquota": "3000.00",
+        "user": "production",
+        "login": "production@architecturalnumbers.com",
+        "humandiskquota": "2.93 GB",
+        "diskused": "2448.49",
+        "txtdiskquota": "3000.00",
+        "_diskused": "2567430291",
+        "mtime": 1794420850,
+        "domain": "architecturalnumbers.com",
+        "suspended_incoming": 0,
+        "diskusedpercent": 81
+      },
+      {
+        "suspended_login": 0,
+        "_diskquota": "4194304000",
+        "diskusedpercent_float": 58.8879832267761,
+        "humandiskused": "2.3 GB",
+        "diskquota": "4000.00",
+        "email": "sales@architecturalnumbers.com",
+        "diskusedpercent20": 60,
+        "user": "sales",
+        "login": "sales@architecturalnumbers.com",
+        "humandiskquota": "3.91 GB",
+        "suspended_incoming": 0,
+        "domain": "architecturalnumbers.com",
+        "diskusedpercent": 58,
+        "diskused": "2355.52",
+        "txtdiskquota": "4000.00",
+        "mtime": 1794419264,
+        "_diskused": "2469941036"
+      },
+      {
+        "email": "webmaster@architecturalnumbers.com",
+        "diskusedpercent20": 60,
+        "humandiskused": "697.28 MB",
+        "diskquota": "1000.00",
+        "suspended_login": 0,
+        "_diskquota": "1048576000",
+        "diskusedpercent_float": 69.7280074119568,
+        "user": "webmaster",
+        "humandiskquota": "1,000 MB",
+        "login": "webmaster@architecturalnumbers.com",
+        "diskused": "697.28",
+        "txtdiskquota": "1000.00",
+        "_diskused": "731151151",
+        "mtime": 1794416403,
+        "diskusedpercent": 69,
+        "suspended_incoming": 0,
+        "domain": "architecturalnumbers.com"
+      },
+      {
+        "user": "amazon",
+        "email": "amazon@architecturalnumbers.com",
+        "diskusedpercent20": 0,
+        "humandiskused": "12.73 MB",
+        "diskquota": "500.00",
+        "suspended_login": 0,
+        "diskusedpercent_float": 2.54511222839355,
+        "_diskquota": "524288000",
+        "txtdiskquota": "500.00",
+        "diskused": "12.73",
+        "_diskused": "13343718",
+        "mtime": 1794417958,
+        "diskusedpercent": 2,
+        "suspended_incoming": 0,
+        "domain": "architecturalnumbers.com",
+        "humandiskquota": "500 MB",
+        "login": "amazon@architecturalnumbers.com"
+      }
+    ]
+  },
+  "sslStatus": {
+    "hosts": [
+      {
+        "docroot": "/home4/vahag/public_html",
+        "servername": "architecturalnumbers.com",
+        "domains": [
+          "architecturalnumbers.com"
+        ],
+        "needs_sni": 1,
+        "ip": "192.254.236.224",
+        "certificate_text": "-----BEGIN CERTIFICATE-----\nMIIFKDCCBBCgAwIBAgISBt+wdSb9e6VKcIqiQIQCiL0YMA0GCSqGSIb3DQEBCwUA\nMDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQD\nEwNZUjEwHhcNMjYwOTI1MDEzNTQ2WhcNMjYxMjI0MDEzNTQ1WjAlMSMwIQYDVQQD\nDBoqLmFyY2hpdGVjdHVyYWxudW1iZXJzLmNvbTCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBANc+9pDnOB1J0bqYs0ieGIcAx8yZPytiIyEM/nc8lEvY0jye\nmru8vM5xaXuwNO3U36cYMQOHHjVEK0JJS/uknuXPmEY5BcVooLrH0zdpOtLcck/U\nwWHr+OE3NyHN9LQGYIztgvHyfdV72XZ5pi945DtpaNw22yPvxw7cn5JO9tCxzTNP\ngCkEZEQFzDJvi6PrMHu4iQ+2vYVxtvcir52dVvkW5bHOIcvh252HdwZtCMo9h30S\nXmB6nJgwAJ5HbVklaExdJHeFz/HWwvunRwxbzqqJu3tCXUvm+h7jLS6zG78f1A5I\necFrmDB4/EuJiAYlVMgR+ZEKlr19u4g0NJ/AS+8CAwEAAaOCAkIwggI+MA4GA1Ud\nDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMB0G\nA1UdDgQWBBSDt5EKmDffoPoxWWbWehehVn5c7TAfBgNVHSMEGDAWgBQfLzW+RhSC\nzUCxrnksVXj699Ro+zAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6\nLy95cjEuaS5sZW5jci5vcmcvMD8GA1UdEQQ4MDaCGiouYXJjaGl0ZWN0dXJhbG51\nbWJlcnMuY29tghhhcmNoaXRlY3R1cmFsbnVtYmVycy5jb20wEwYDVR0gBAwwCjAI\nBgZngQwBAgEwLgYDVR0fBCcwJTAjoCGgH4YdaHR0cDovL3lyMS5jLmxlbmNyLm9y\nZy8yNS5jcmwwggEMBgorBgEEAdZ5AgQCBIH9BIH6APgAdgDXbX0Q0af1d8LH6V/X\nAL/5gskzWmXh0LMBcxfAyMVpdwAAAaDWadmSAAAEAwBHMEUCIFc03cA4gQUT4G4Q\nyMhVA2e96Mxx+kA0SwbIkIlkuR/aAiEAg51h3ytFdsjI2vS5TK8szR8K22SwPyti\nwJAhrxPkHywAfgBGr4Y9Oz7ln6V33qgkXTaw2e0ioiP0YXdBIpRS7pVQXwAAAaDW\nadpYAAgAAAUANUBnAwQDAEcwRQIgc2Aw2kjAwNQTRuqZzcb38RMwUg+3fV9N41So\nYp7US9sCIQCSXUkI2n7zGxEXSwcI8kDxPfHPZombwf52khNiyaYpXTANBgkqhkiG\n9w0BAQsFAAOCAQEAVTzkSElMOcA4BEKOz+6zILFQhr/GgMpQ0u9N7+P/rUvQy+jI\nTVlI8A/eRyqaNkEob+3tOhnTL234Gu6tspwLFEDc6Jd5xHUKu2pwyQPMz0mJNT3N\nIwfs4VVTiEv7Cc6vJpQCqPgZ3HCKSkkl+sZieFvNjYwlcG3nGca5KocV926V2gSx\nhlZ8urAZa93Z6gUgj3oQ15UJGudMxv+9YcMN7SzBTHat1dRPVw2XiuL3eCx32fw5\nzRMKja/J+Q9QTuOrSqRZdYxl5hefYrYGD40tnpyMyOIq1pWphT0pjhjVtpmxlozC\n5grbsvnfpuMXR0lhuBcLLIi3sNo3pF9RfA8cLA==\n-----END CERTIFICATE-----",
+        "certificate": {
+          "auto_ssl_provider_display_name": "Let’s Encrypt™",
+          "issuer.organizationName": "Let's Encrypt",
+          "subject.commonName": "*.architecturalnumbers.com",
+          "modulus_length": 2048,
+          "is_self_signed": 0,
+          "signature_algorithm": "sha256WithRSAEncryption",
+          "validation_type": "dv",
+          "domains": [
+            "*.architecturalnumbers.com",
+            "architecturalnumbers.com"
+          ],
+          "issuer_text": "countryName\nUS\norganizationName\nLet's Encrypt\ncommonName\nYR1",
+          "subject_text": "commonName\n*.architecturalnumbers.com",
+          "id": "_wildcard__architecturalnumbers_com_d73ef_04bef_1798076145_d57f66fbcffd42e77092c69dd4335d82",
+          "is_autossl": 1,
+          "modulus": "d73ef690e7381d49d1ba98b3489e188700c7cc993f2b6223210cfe773c944bd8d23c9e9abbbcbcce71697bb034edd4dfa7183103871e35442b42494bfba49ee5cf98463905c568a0bac7d337693ad2dc724fd4c161ebf8e1373721cdf4b406608ced82f1f27dd57bd97679a62f78e43b6968dc36db23efc70edc9f924ef6d0b1cd334f802904644405cc326f8ba3eb307bb8890fb6bd8571b6f722af9d9d56f916e5b1ce21cbe1db9d8777066d08ca3d877d125e607a9c9830009e476d5925684c5d247785cff1d6c2fba7470c5bceaa89bb7b425d4be6fa1ee32d2eb31bbf1fd40e4879c16b983078fc4b8988062554c811f9910a96bd7dbb8834349fc04bef",
+          "not_after": 1798076145,
+          "issuer.commonName": "YR1",
+          "not_before": 1790300146,
+          "auto_ssl_provider": "LetsEncrypt"
+        },
+        "mail_sni_status": 1,
+        "is_primary_on_ip": 0,
+        "fqdns": [
+          "architecturalnumbers.com",
+          "autoconfig.architecturalnumbers.com",
+          "autodiscover.architecturalnumbers.com",
+          "cpanel.architecturalnumbers.com",
+          "cpcalendars.architecturalnumbers.com",
+          "cpcontacts.architecturalnumbers.com",
+          "mail.architecturalnumbers.com",
+          "webdisk.architecturalnumbers.com",
+          "webmail.architecturalnumbers.com",
+          "www.architecturalnumbers.com"
+        ]
+      },
+      {
+        "docroot": "/home4/vahag/trace4less.com",
+        "domains": [
+          "trace4less.architecturalnumbers.com",
+          "trace4less.com"
+        ],
+        "servername": "trace4less.architecturalnumbers.com",
+        "needs_sni": 1,
+        "ip": "192.254.236.224",
+        "certificate_text": "-----BEGIN CERTIFICATE-----\nMIIFSjCCBDKgAwIBAgISBV63KnS8ffqo0yh6QzAbPqrnMA0GCSqGSIb3DQEBCwUA\nMDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQD\nEwNZUjEwHhcNMjYwOTIyMDA1OTI2WhcNMjYxMjIxMDA1OTI1WjAuMSwwKgYDVQQD\nEyN0cmFjZTRsZXNzLmFyY2hpdGVjdHVyYWxudW1iZXJzLmNvbTCCASIwDQYJKoZI\nhvcNAQEBBQADggEPADCCAQoCggEBAJ843Rm8r8Zfr5eE7ZpORdoPGhNAuT2aoIXT\n4JuN5MPtDtmRPpk3/fGNDjecnk21DXsJGPlyLbQgUYESf/vZ3NCJgtSbN+c/Xpks\nwpHXQYd/kE6G3gDBx2IcQVksMnMuZeCDvK1HzGLU9mGqAKygynvrdoVmfOSbKWLJ\nX3hQO6m1CBb0WrahczzT66p03wIeJZsiP/yJZh85BFMYvz0qw14/gUaRSL1gaA2a\n+1KKZo+gigXxt3rNvUJviokn4FZYi8Nr/LdQoGCReC2vC4gzj5jB6olJ68RqysBW\nnmzcFCNxx7M/g6vUEhl8EoMwzu+8wiLlr5Esuo3oTNTuzprctHcCAwEAAaOCAlsw\nggJXMA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMB\nAf8EAjAAMB0GA1UdDgQWBBQQJrNi/TUHlOinsBwA/THD0I+imjAfBgNVHSMEGDAW\ngBQfLzW+RhSCzUCxrnksVXj699Ro+zAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUH\nMAKGF2h0dHA6Ly95cjEuaS5sZW5jci5vcmcvMFcGA1UdEQRQME6CI3RyYWNlNGxl\nc3MuYXJjaGl0ZWN0dXJhbG51bWJlcnMuY29tgid3d3cudHJhY2U0bGVzcy5hcmNo\naXRlY3R1cmFsbnVtYmVycy5jb20wEwYDVR0gBAwwCjAIBgZngQwBAgEwLwYDVR0f\nBCgwJjAkoCKgIIYeaHR0cDovL3lyMS5jLmxlbmNyLm9yZy8xMDQuY3JsMIIBDAYK\nKwYBBAHWeQIEAgSB/QSB+gD4AH4ARq+GPTs+5Z+ld96oJF02sNntIqIj9GF3QSKU\nUu6VUF8AAAGgxtWCtwAIAAAFADN0EQwEAwBHMEUCIQC57w89xenBEVmiuU3lWzzB\neAIX6er2XTlH6Tuco/JerAIgSOBxmj3zMQVfFjFmLCrplRHTY+rWCUEeoPDc+KlO\nY+EAdgCUTkOH+uzB74HzGSQmqBhlAcfTXzgCAT9yZ31VNy4Z2AAAAaDG1ZnhAAAE\nAwBHMEUCIQCKkBUeFD4H04LrCt4pEL29MleHufI6wI1sywR/fUNrfAIgXeGQ+mkl\n8d+qbx80YnA3MoTJLgCbAIJR6Z6uCBqRJbIwDQYJKoZIhvcNAQELBQADggEBAGmd\nhLXlezX+frR8Ulc69paPaImknimRwT+ScG5s0I9fNUQdgSeUizV3/rKDRJvO0S5T\ngCTDyuUnLj4hL9jYi71X9wSsuQxXNvE3SKt03iKaaxWBZl3d/7/t+wuMasmosDzD\nPaW7XC/wpKOWVx2Unti3hrhXvK6dHdQ9rJGAJiQbWKhB9NmVZSdpSQNoWIRNTKYF\nLsjPVxtNdPoeC5KLTBAEuQjcyOVXSNokD0+wItJi2qAT6/U/vSUim95RFbez5IRb\n3/Pw1MR5akle8LnVWyBkCZb/PHpfQfqVs7ENSYsYe93oA6nepkSDCIgKz3R7Sc22\nAmp9EAL5AmRDV3fejIU=\n-----END CERTIFICATE-----",
+        "certificate": {
+          "domains": [
+            "trace4less.architecturalnumbers.com",
+            "www.trace4less.architecturalnumbers.com"
+          ],
+          "modulus_length": 2048,
+          "is_self_signed": 0,
+          "signature_algorithm": "sha256WithRSAEncryption",
+          "validation_type": "dv",
+          "auto_ssl_provider_display_name": "Let’s Encrypt™",
+          "issuer.organizationName": "Let's Encrypt",
+          "subject.commonName": "trace4less.architecturalnumbers.com",
+          "not_before": 1790038766,
+          "issuer.commonName": "YR1",
+          "auto_ssl_provider": "LetsEncrypt",
+          "issuer_text": "countryName\nUS\norganizationName\nLet's Encrypt\ncommonName\nYR1",
+          "id": "trace4less_architecturalnumbers_com_9f38d_cb477_1797814765_ad0079c4a922126e8cc9d22fc845ae4f",
+          "subject_text": "commonName\ntrace4less.architecturalnumbers.com",
+          "is_autossl": 1,
+          "not_after": 1797814765,
+          "modulus": "9f38dd19bcafc65faf9784ed9a4e45da0f1a1340b93d9aa085d3e09b8de4c3ed0ed9913e9937fdf18d0e379c9e4db50d7b0918f9722db4205181127ffbd9dcd08982d49b37e73f5e992cc291d741877f904e86de00c1c7621c41592c32732e65e083bcad47cc62d4f661aa00aca0ca7beb7685667ce49b2962c95f78503ba9b50816f45ab6a1733cd3ebaa74df021e259b223ffc89661f39045318bf3d2ac35e3f81469148bd60680d9afb528a668fa08a05f1b77acdbd426f8a8927e056588bc36bfcb750a06091782daf0b88338f98c1ea8949ebc46acac0569e6cdc142371c7b33f83abd412197c128330ceefbcc222e5af912cba8de84cd4eece9adcb477"
+        },
+        "mail_sni_status": 1,
+        "is_primary_on_ip": 0,
+        "fqdns": [
+          "autoconfig.trace4less.com",
+          "autodiscover.trace4less.com",
+          "cpanel.trace4less.com",
+          "cpcalendars.trace4less.com",
+          "cpcontacts.trace4less.com",
+          "mail.trace4less.com",
+          "trace4less.architecturalnumbers.com",
+          "trace4less.com",
+          "webdisk.trace4less.com",
+          "webmail.trace4less.com",
+          "www.trace4less.architecturalnumbers.com",
+          "www.trace4less.com"
+        ]
+      }
+    ]
+  },
+  "cronJobs": {
+    "jobs": {
+      "status": 0,
+      "messages": null,
+      "metadata": {},
+      "data": null,
+      "errors": [
+        "Failed to load module “Cron”: The system failed to load the module “Cpanel::API::Cron” because of an error: Can't locate Cpanel/API/Cron.pm in @INC (you may need to install the Cpanel::API::Cron module) (@INC entries checked: /usr/local/cpanel /usr/local/cpanel/plugins /usr/local/cpanel/3rdparty/perl/542/cpanel-lib/x86_64-linux /usr/local/cpanel/3rdparty/perl/542/cpanel-lib /usr/local/cpanel/3rdparty/perl/542/lib/x86_64-linux /usr/local/cpanel/3rdparty/perl/542/lib /opt/cpanel/perl5/542/site_lib/x86_64-linux /opt/cpanel/perl5/542/site_lib) at (eval 10) line 1.\nBEGIN failed--compilation aborted at (eval 10) line 1.\n"
+      ],
+      "warnings": null
+    }
+  },
+  "categories": [],
+  "domItems": {
+    "allLinksCount": 68,
+    "links": [
+      {
+        "id": "item_email_accounts",
+        "title": "",
+        "description": "",
+        "href": "email_accounts/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-email_accounts",
+        "group": ""
+      },
+      {
+        "id": "item_forwarders",
+        "title": "",
+        "description": "",
+        "href": "mail/fwds.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-forwarders",
+        "group": ""
+      },
+      {
+        "id": "item_email_routing",
+        "title": "",
+        "description": "",
+        "href": "mail/email_routing.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-email_routing",
+        "group": ""
+      },
+      {
+        "id": "item_autoresponders",
+        "title": "",
+        "description": "",
+        "href": "mail/autores.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-autoresponders",
+        "group": ""
+      },
+      {
+        "id": "item_mailing_lists",
+        "title": "",
+        "description": "",
+        "href": "mail/lists.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-mailing_lists",
+        "group": ""
+      },
+      {
+        "id": "item_global_email_filters",
+        "title": "",
+        "description": "",
+        "href": "mail/filters/userfilters.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-global_email_filters",
+        "group": ""
+      },
+      {
+        "id": "item_email_filters",
+        "title": "",
+        "description": "",
+        "href": "mail/filters/managefilters.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-email_filters",
+        "group": ""
+      },
+      {
+        "id": "item_email_deliverability",
+        "title": "",
+        "description": "",
+        "href": "email_deliverability/",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-email_deliverability",
+        "group": ""
+      },
+      {
+        "id": "item_address_importer",
+        "title": "",
+        "description": "",
+        "href": "mail/csvimport.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-address_importer",
+        "group": ""
+      },
+      {
+        "id": "item_apache_spam_assassin",
+        "title": "",
+        "description": "",
+        "href": "mail/spam/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-apache_spam_assassin",
+        "group": ""
+      },
+      {
+        "id": "item_encryption",
+        "title": "",
+        "description": "",
+        "href": "gpg/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-encryption",
+        "group": ""
+      },
+      {
+        "id": "item_boxtrapper",
+        "title": "",
+        "description": "",
+        "href": "mail/boxtrapper.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-boxtrapper",
+        "group": ""
+      },
+      {
+        "id": "item_calendar_and_contacts",
+        "title": "",
+        "description": "",
+        "href": "mail/calendars_and_contacts/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-calendar_and_contacts",
+        "group": ""
+      },
+      {
+        "id": "item_manage_calendar_access",
+        "title": "",
+        "description": "",
+        "href": "manage-calendar-access/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-manage_calendar_access",
+        "group": ""
+      },
+      {
+        "id": "item_calendar_contact_management",
+        "title": "",
+        "description": "",
+        "href": "calendar-contact-management/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-calendar_contact_management",
+        "group": ""
+      },
+      {
+        "id": "item_email_disk_usage",
+        "title": "",
+        "description": "",
+        "href": "mail/manage_disk_usage/",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-email_disk_usage",
+        "group": ""
+      },
+      {
+        "id": "item_file_manager",
+        "title": "",
+        "description": "",
+        "href": "filemanager/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-file_manager",
+        "group": ""
+      },
+      {
+        "id": "item_images",
+        "title": "",
+        "description": "",
+        "href": "cpanelpro/images.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-images",
+        "group": ""
+      },
+      {
+        "id": "item_directory_privacy",
+        "title": "",
+        "description": "",
+        "href": "htaccess/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-directory_privacy",
+        "group": ""
+      },
+      {
+        "id": "item_disk_usage",
+        "title": "",
+        "description": "",
+        "href": "diskusage/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-disk_usage",
+        "group": ""
+      },
+      {
+        "id": "item_web_disk",
+        "title": "",
+        "description": "",
+        "href": "webdav/accounts_webdav.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-web_disk",
+        "group": ""
+      },
+      {
+        "id": "item_ftp_accounts",
+        "title": "",
+        "description": "",
+        "href": "ftp/accounts.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-ftp_accounts",
+        "group": ""
+      },
+      {
+        "id": "item_ftp_connections",
+        "title": "",
+        "description": "",
+        "href": "ftp/session.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-ftp_connections",
+        "group": ""
+      },
+      {
+        "id": "item_anonymous_ftp",
+        "title": "",
+        "description": "",
+        "href": "ftp/anonymous.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-anonymous_ftp",
+        "group": ""
+      },
+      {
+        "id": "item_backup",
+        "title": "",
+        "description": "",
+        "href": "backup/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-backup",
+        "group": ""
+      },
+      {
+        "id": "item_backup_wizard",
+        "title": "",
+        "description": "",
+        "href": "backup/wizard.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-backup_wizard",
+        "group": ""
+      },
+      {
+        "id": "item_version_control",
+        "title": "",
+        "description": "",
+        "href": "version_control/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-version_control",
+        "group": ""
+      },
+      {
+        "id": "item_php_my_admin",
+        "title": "",
+        "description": "",
+        "href": "sql/PhpMyAdmin.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-php_my_admin",
+        "group": ""
+      },
+      {
+        "id": "item_mysql_databases",
+        "title": "",
+        "description": "",
+        "href": "sql/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-mysql_databases",
+        "group": ""
+      },
+      {
+        "id": "item_mysql_database_wizard",
+        "title": "",
+        "description": "",
+        "href": "sql/wizard1.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-mysql_database_wizard",
+        "group": ""
+      },
+      {
+        "id": "item_remote_mysql",
+        "title": "",
+        "description": "",
+        "href": "sql/managehost.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-remote_mysql",
+        "group": ""
+      },
+      {
+        "id": "item_domains",
+        "title": "",
+        "description": "",
+        "href": "domains/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-domains",
+        "group": ""
+      },
+      {
+        "id": "item_redirects",
+        "title": "",
+        "description": "",
+        "href": "mime/redirect.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-redirects",
+        "group": ""
+      },
+      {
+        "id": "item_zone_editor",
+        "title": "",
+        "description": "",
+        "href": "zone_editor/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-zone_editor",
+        "group": ""
+      },
+      {
+        "id": "item_visitors",
+        "title": "",
+        "description": "",
+        "href": "stats/lastvisitors_landing.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-visitors",
+        "group": ""
+      },
+      {
+        "id": "item_cpanel-koality-plugin",
+        "title": "",
+        "description": "",
+        "href": "koality/signup/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-cpanel-koality-plugin",
+        "group": ""
+      },
+      {
+        "id": "item_errors",
+        "title": "",
+        "description": "",
+        "href": "stats/errlog.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-errors",
+        "group": ""
+      },
+      {
+        "id": "item_bandwidth",
+        "title": "",
+        "description": "",
+        "href": "stats/bandwidth.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-bandwidth",
+        "group": ""
+      },
+      {
+        "id": "item_raw_access",
+        "title": "",
+        "description": "",
+        "href": "raw/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-raw_access",
+        "group": ""
+      },
+      {
+        "id": "item_awstats",
+        "title": "",
+        "description": "",
+        "href": "stats/awstats_landing.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-awstats",
+        "group": ""
+      },
+      {
+        "id": "item_webalizer",
+        "title": "",
+        "description": "",
+        "href": "stats/webalizer_landing.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-webalizer",
+        "group": ""
+      },
+      {
+        "id": "item_webalizer_ftp",
+        "title": "",
+        "description": "",
+        "href": "stats/webalizerftp_landing.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-webalizer_ftp",
+        "group": ""
+      },
+      {
+        "id": "item_metrics_editor",
+        "title": "",
+        "description": "",
+        "href": "statmanager/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-metrics_editor",
+        "group": ""
+      },
+      {
+        "id": "item_ssh_access",
+        "title": "",
+        "description": "",
+        "href": "telnet/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-ssh_access",
+        "group": ""
+      },
+      {
+        "id": "item_ip_blocker",
+        "title": "",
+        "description": "",
+        "href": "denyip/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-ip_blocker",
+        "group": ""
+      },
+      {
+        "id": "item_ssl_tls_unified",
+        "title": "",
+        "description": "",
+        "href": "security/tls_wizard/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-ssl_tls_unified",
+        "group": ""
+      },
+      {
+        "id": "item_api_tokens",
+        "title": "",
+        "description": "",
+        "href": "api_tokens/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-api_tokens",
+        "group": ""
+      },
+      {
+        "id": "item_hotlink_protection",
+        "title": "",
+        "description": "",
+        "href": "mime/hotlink.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-hotlink_protection",
+        "group": ""
+      },
+      {
+        "id": "item_php_pear_packages",
+        "title": "",
+        "description": "",
+        "href": "module_installers/index.html?lang=php-pear",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-php_pear_packages",
+        "group": ""
+      },
+      {
+        "id": "item_perl_modules",
+        "title": "",
+        "description": "",
+        "href": "module_installers/index.html?lang=perl",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-perl_modules",
+        "group": ""
+      },
+      {
+        "id": "item_optimize_website",
+        "title": "",
+        "description": "",
+        "href": "optimize/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-optimize_website",
+        "group": ""
+      },
+      {
+        "id": "item_application_manager",
+        "title": "",
+        "description": "",
+        "href": "passenger/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-application_manager",
+        "group": ""
+      },
+      {
+        "id": "item_multiphp_manager",
+        "title": "",
+        "description": "",
+        "href": "multiphp_manager/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-multiphp_manager",
+        "group": ""
+      },
+      {
+        "id": "item_multiphp_ini_editor",
+        "title": "",
+        "description": "",
+        "href": "multiphp_ini_editor/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-multiphp_ini_editor",
+        "group": ""
+      },
+      {
+        "id": "item_softaculous",
+        "title": "",
+        "description": "",
+        "href": "softaculous/index.live.php",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-softaculous",
+        "group": ""
+      },
+      {
+        "id": "item_terminal",
+        "title": "",
+        "description": "",
+        "href": "terminal/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-terminal",
+        "group": ""
+      },
+      {
+        "id": "item_cron_jobs",
+        "title": "",
+        "description": "",
+        "href": "cron/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-cron_jobs",
+        "group": ""
+      },
+      {
+        "id": "item_track_dns",
+        "title": "",
+        "description": "",
+        "href": "net/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-track_dns",
+        "group": ""
+      },
+      {
+        "id": "item_indexes",
+        "title": "",
+        "description": "",
+        "href": "indexmanager/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-indexes",
+        "group": ""
+      },
+      {
+        "id": "item_error_pages",
+        "title": "",
+        "description": "",
+        "href": "err/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-error_pages",
+        "group": ""
+      },
+      {
+        "id": "item_apache_handlers",
+        "title": "",
+        "description": "",
+        "href": "mime/handle.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-apache_handlers",
+        "group": ""
+      },
+      {
+        "id": "item_mime_types",
+        "title": "",
+        "description": "",
+        "href": "mime/mime.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-mime_types",
+        "group": ""
+      },
+      {
+        "id": "item_account_preferences",
+        "title": "",
+        "description": "",
+        "href": "account-preferences/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-account_preferences",
+        "group": ""
+      },
+      {
+        "id": "item_change_password",
+        "title": "",
+        "description": "",
+        "href": "passwd/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-change_password",
+        "group": ""
+      },
+      {
+        "id": "item_change_language",
+        "title": "",
+        "description": "",
+        "href": "setlang/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-change_language",
+        "group": ""
+      },
+      {
+        "id": "item_contact_information",
+        "title": "",
+        "description": "",
+        "href": "contact/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-contact_information",
+        "group": ""
+      },
+      {
+        "id": "item_user_manager",
+        "title": "",
+        "description": "",
+        "href": "user_manager/index.html",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-user_manager",
+        "group": ""
+      },
+      {
+        "id": "item_soft_div_icons",
+        "title": "",
+        "description": "",
+        "href": "softaculous/index.live.php",
+        "icon": "itemImageWrapper integrations_icon spriteicon_img icon-soft_div_icons",
+        "group": ""
+      }
+    ]
+  }
+}

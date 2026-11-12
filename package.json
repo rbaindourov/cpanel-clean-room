@@ -1,0 +1,25 @@
+{
+  "name": "cpanel-clean-room",
+  "version": "1.0.0",
+  "description": "Clean-room functional specification, visual feature audit, open-source control panel evaluation, and native Linux hosting architecture for cPanel parity.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "inventory": "node scripts/cpanel_uapi_inventory.mjs",
+    "screenshots": "node scripts/cpanel_screenshot_crawler.mjs",
+    "verify": "node scripts/verify_docs_integrity.mjs"
+  },
+  "keywords": [
+    "cpanel",
+    "webmin",
+    "virtualmin",
+    "hestiacp",
+    "ispconfig",
+    "froxlor",
+    "clean-room",
+    "hosting",
+    "linux"
+  ],
+  "author": "agents@darter",
+  "license": "UNLICENSED"
+}

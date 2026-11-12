@@ -1,0 +1,345 @@
+[
+  {
+    "category": "00-overview",
+    "name": "00-login-screen",
+    "file": "00-overview/00-login-screen.png",
+    "bytes": 33076,
+    "sha256": "5dc45aaaf02579ef1eabce1acf1749b32d38b374233e2dccfa967ba70b1787ce"
+  },
+  {
+    "category": "00-overview",
+    "name": "01-tools-dashboard",
+    "file": "00-overview/01-tools-dashboard.png",
+    "bytes": 138955,
+    "sha256": "06ddee6c5c53ba44c7140875224550fb3f413fdfcee24269ab91873d75055673",
+    "httpStatus": 200
+  },
+  {
+    "category": "00-overview",
+    "name": "02-server-information",
+    "file": "00-overview/02-server-information.png",
+    "bytes": 54883,
+    "sha256": "654caaade820a2ae61eb1d2d916cb538269b69f93d2277c77e6475a3bda48fa0",
+    "httpStatus": 404
+  },
+  {
+    "category": "01-email",
+    "name": "01-email-accounts",
+    "file": "01-email/01-email-accounts.png",
+    "bytes": 123083,
+    "sha256": "578ccf93b80ea9aec3c34c104b843971559ac99d725b842ee750bb6d85649ec4",
+    "httpStatus": 200
+  },
+  {
+    "category": "01-email",
+    "name": "02-forwarders",
+    "file": "01-email/02-forwarders.png",
+    "bytes": 97924,
+    "sha256": "b79bab32f1c19a8896dd2d3441a052470dbee4b088c056a3346785b9fada2972",
+    "httpStatus": 200
+  },
+  {
+    "category": "01-email",
+    "name": "03-email-routing",
+    "file": "01-email/03-email-routing.png",
+    "bytes": 57199,
+    "sha256": "415fb1b2906826aa7c458baeb0b446f242710c8ee0d50a610af7e22699b10679",
+    "httpStatus": 200
+  },
+  {
+    "category": "01-email",
+    "name": "04-autoresponders",
+    "file": "01-email/04-autoresponders.png",
+    "bytes": 95850,
+    "sha256": "b12cab244b304efe42517168115379adde33e213b31aecaf2dc358c1bd990dfb",
+    "httpStatus": 200
+  },
+  {
+    "category": "01-email",
+    "name": "05-email-filters",
+    "file": "01-email/05-email-filters.png",
+    "bytes": 65804,
+    "sha256": "d2a567257939e69f8253c00b8a52ecc3de1cfae244e616ad8e31f20a4115d32a",
+    "httpStatus": 200
+  },
+  {
+    "category": "01-email",
+    "name": "06-email-deliverability",
+    "file": "01-email/06-email-deliverability.png",
+    "bytes": 80940,
+    "sha256": "f02c70d6b42c6af92a354c3d3ecb0f25ee18b5749f7ea71a642177c63bfd779f",
+    "httpStatus": 200
+  },
+  {
+    "category": "01-email",
+    "name": "07-spam-filters",
+    "file": "01-email/07-spam-filters.png",
+    "bytes": 143444,
+    "sha256": "a0aa4d110ffe48e2490cdbb4e49f4e7bbe0a71ef957eda00117380f10f52f867",
+    "httpStatus": 200
+  },
+  {
+    "category": "02-files",
+    "name": "01-file-manager",
+    "file": "02-files/01-file-manager.png",
+    "bytes": 214574,
+    "sha256": "96d44a94e80c0b8fe2f84f2d5b30fd50d84e50810674ef45a1b810317aa3e24b",
+    "httpStatus": 200
+  },
+  {
+    "category": "02-files",
+    "name": "02-directory-privacy",
+    "file": "02-files/02-directory-privacy.png",
+    "bytes": 81834,
+    "sha256": "13025876ec680b91f97154a9181b59616a2321246a39ca180a2b2d92078b2efc",
+    "httpStatus": 200
+  },
+  {
+    "category": "02-files",
+    "name": "03-disk-usage",
+    "file": "02-files/03-disk-usage.png",
+    "bytes": 87442,
+    "sha256": "42a546406ff9442537f13ced494917b4a9072e82c3de0173c1342ab7f95430e0",
+    "httpStatus": 200
+  },
+  {
+    "category": "02-files",
+    "name": "04-ftp-accounts",
+    "file": "02-files/04-ftp-accounts.png",
+    "bytes": 73353,
+    "sha256": "af779d63f2b6ff09ae395e2fecec3e5fc4daf894c09fb252f5edeea40c1d8ad8",
+    "httpStatus": 200
+  },
+  {
+    "category": "02-files",
+    "name": "05-backup",
+    "file": "02-files/05-backup.png",
+    "bytes": 108665,
+    "sha256": "041c69552c0dfb60f595fb26adbcc4f3e24879d3134ad0fba3663254e17629c1",
+    "httpStatus": 200
+  },
+  {
+    "category": "02-files",
+    "name": "06-backup-wizard",
+    "file": "02-files/06-backup-wizard.png",
+    "bytes": 94400,
+    "sha256": "49511f4b36a9d80b71c259525aab3fc803379663e5c6a9fa4a4d3acdac110154",
+    "httpStatus": 200
+  },
+  {
+    "category": "02-files",
+    "name": "07-git-version-control",
+    "file": "02-files/07-git-version-control.png",
+    "bytes": 70738,
+    "sha256": "bcc6f11b2091172acec7044567b3be46b985854f6dfdb9834db31decc470f919",
+    "httpStatus": 200
+  },
+  {
+    "category": "03-databases",
+    "name": "01-mysql-databases",
+    "file": "03-databases/01-mysql-databases.png",
+    "bytes": 107226,
+    "sha256": "f8776a3f87f673b2d504130882d8a9c88c059d45fb6b659642c74668540398aa",
+    "httpStatus": 200
+  },
+  {
+    "category": "03-databases",
+    "name": "02-mysql-wizard",
+    "file": "03-databases/02-mysql-wizard.png",
+    "bytes": 74904,
+    "sha256": "326a8eb1be7ea9737b83da7965d8cdacdc4743064dfd2bcf93da6abd505450be",
+    "httpStatus": 200
+  },
+  {
+    "category": "03-databases",
+    "name": "03-remote-mysql",
+    "file": "03-databases/03-remote-mysql.png",
+    "bytes": 88714,
+    "sha256": "6c38b30824ab80ccfe8f9198fd69031b84d0d4d5bf916f41a2564b60297356da",
+    "httpStatus": 200
+  },
+  {
+    "category": "04-domains",
+    "name": "01-domains-manager",
+    "file": "04-domains/01-domains-manager.png",
+    "bytes": 84182,
+    "sha256": "d368db37441c63c04fc3b4df40646a419642ad3600ad8cdca4e797538f9d69e7",
+    "httpStatus": 200
+  },
+  {
+    "category": "04-domains",
+    "name": "02-zone-editor",
+    "file": "04-domains/02-zone-editor.png",
+    "bytes": 74526,
+    "sha256": "7e46b8e2d478eb4e7ec33a90795207357d11a7a2e6f4383eb7d69db389873c0c",
+    "httpStatus": 200
+  },
+  {
+    "category": "04-domains",
+    "name": "03-redirects",
+    "file": "04-domains/03-redirects.png",
+    "bytes": 97495,
+    "sha256": "9018b80793110967bd730b3a7d69d46c6a76be62a382890f5c28a2424ed52bc0",
+    "httpStatus": 200
+  },
+  {
+    "category": "05-metrics",
+    "name": "01-visitors",
+    "file": "05-metrics/01-visitors.png",
+    "bytes": 60434,
+    "sha256": "554bbb6407364a59bbcae411c2aa8f478beb938fb4b9918da84bc8ab759f6b27",
+    "httpStatus": 200
+  },
+  {
+    "category": "05-metrics",
+    "name": "03-bandwidth",
+    "file": "05-metrics/03-bandwidth.png",
+    "bytes": 88772,
+    "sha256": "8bf379c0b196e482bde8ee5dc03dadcf758b3689c4c98975ac5573891fcef6ab",
+    "httpStatus": 200
+  },
+  {
+    "category": "05-metrics",
+    "name": "04-awstats",
+    "file": "05-metrics/04-awstats.png",
+    "bytes": 70739,
+    "sha256": "0b85ab37c1f79408dffa538054be975055c92c3cadf48f66dbbeb0938220958a",
+    "httpStatus": 200
+  },
+  {
+    "category": "06-security",
+    "name": "01-ssl-tls-status",
+    "file": "06-security/01-ssl-tls-status.png",
+    "bytes": 149366,
+    "sha256": "5e5d957efba1d4710a3ff2cb1e048764fd722b1f1583813a78b582990604731d",
+    "httpStatus": 200
+  },
+  {
+    "category": "06-security",
+    "name": "02-ip-blocker",
+    "file": "06-security/02-ip-blocker.png",
+    "bytes": 90884,
+    "sha256": "6a132d52328a648d2eeeb8f04ca8c7c82121d681f28ab08d1deffffa366965cc",
+    "httpStatus": 200
+  },
+  {
+    "category": "06-security",
+    "name": "03-ssh-access",
+    "file": "06-security/03-ssh-access.png",
+    "bytes": 108748,
+    "sha256": "7b5991f06c15811c93e2183ef26167d2619014bb975cbb12e97364f8c5ceac21",
+    "httpStatus": 200
+  },
+  {
+    "category": "06-security",
+    "name": "04-api-tokens",
+    "file": "06-security/04-api-tokens.png",
+    "bytes": 88539,
+    "sha256": "890bc5792690b3200c16d352f88fa2144e8caf01212181e25e939e78c3d06a4d",
+    "httpStatus": 200
+  },
+  {
+    "category": "06-security",
+    "name": "05-hotlink-protection",
+    "file": "06-security/05-hotlink-protection.png",
+    "bytes": 125039,
+    "sha256": "f91697847cfcf4fe54380c49c156bd44e7025af96e397c18b04a23bf9a53e589",
+    "httpStatus": 200
+  },
+  {
+    "category": "07-software",
+    "name": "01-multiphp-manager",
+    "file": "07-software/01-multiphp-manager.png",
+    "bytes": 98936,
+    "sha256": "c2e9cb254b06ea23fcfd080d03d7453162c4ba4a9cfb63e5bdf46c9c9e27a0db",
+    "httpStatus": 200
+  },
+  {
+    "category": "07-software",
+    "name": "02-multiphp-ini-editor",
+    "file": "07-software/02-multiphp-ini-editor.png",
+    "bytes": 79810,
+    "sha256": "9f31dd4bb49882c7b821a3e72f4f497a79d7e019ce5e83dcf597b6eec7af2202",
+    "httpStatus": 200
+  },
+  {
+    "category": "07-software",
+    "name": "03-optimize-website",
+    "file": "07-software/03-optimize-website.png",
+    "bytes": 94534,
+    "sha256": "756951d8c6c6fe181148e2beab84cc771728f6aef3355e5c589bc00d8f28e93a",
+    "httpStatus": 200
+  },
+  {
+    "category": "07-software",
+    "name": "04-application-manager",
+    "file": "07-software/04-application-manager.png",
+    "bytes": 70741,
+    "sha256": "2c134a5820a71ceb7765608d7a8374bc9552219cdd3ac84f778c2f4aaf8126ee",
+    "httpStatus": 200
+  },
+  {
+    "category": "08-advanced",
+    "name": "01-cron-jobs",
+    "file": "08-advanced/01-cron-jobs.png",
+    "bytes": 122450,
+    "sha256": "3f87e018e5fd1c738b5474ff3f8fb521f458893d824d76957bdf29e8e1274679",
+    "httpStatus": 200
+  },
+  {
+    "category": "08-advanced",
+    "name": "02-track-dns",
+    "file": "08-advanced/02-track-dns.png",
+    "bytes": 94477,
+    "sha256": "3756485660dfbbc3a681d23d5bbde4bdcdd02bb57ac73e6d5ba1e5d7bc174449",
+    "httpStatus": 200
+  },
+  {
+    "category": "08-advanced",
+    "name": "03-indexes",
+    "file": "08-advanced/03-indexes.png",
+    "bytes": 77675,
+    "sha256": "2c4b25e9f307d96022dea0e5cb63e09e3d1c23ed8ef13a6de206a1d1c2e3249f",
+    "httpStatus": 200
+  },
+  {
+    "category": "08-advanced",
+    "name": "04-error-pages",
+    "file": "08-advanced/04-error-pages.png",
+    "bytes": 109592,
+    "sha256": "467a45e6d5fe9aff815b8f4f08674a2fe4b3861dc51e4c7a5d46f58a37c92ee1",
+    "httpStatus": 200
+  },
+  {
+    "category": "08-advanced",
+    "name": "05-mime-types",
+    "file": "08-advanced/05-mime-types.png",
+    "bytes": 104783,
+    "sha256": "606a0576caef55f14df6198bff297023298575017e17cf7e5bdc56e2e57ad840",
+    "httpStatus": 200
+  },
+  {
+    "category": "09-preferences",
+    "name": "01-user-manager",
+    "file": "09-preferences/01-user-manager.png",
+    "bytes": 138050,
+    "sha256": "a2565e7988db037c4276ff2844c373d26e96bd011f1945800ca1c91f515106e7",
+    "httpStatus": 200
+  },
+  {
+    "category": "09-preferences",
+    "name": "02-change-password",
+    "file": "09-preferences/02-change-password.png",
+    "bytes": 124868,
+    "sha256": "fdcb48d0a94c408b3552ba1b814966c2098096af26fead72eca38cbf82287b95",
+    "httpStatus": 200
+  },
+  {
+    "category": "09-preferences",
+    "name": "03-contact-information",
+    "file": "09-preferences/03-contact-information.png",
+    "bytes": 112104,
+    "sha256": "96e006dc9e35ea12aff794ead09215dde1e4d721ba8e832d01153a1294e4024d",
+    "httpStatus": 200
+  }
+]
