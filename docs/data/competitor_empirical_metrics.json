@@ -1,0 +1,1267 @@
+{
+  "generatedAt": "2026-11-12T01:44:05.159Z",
+  "workstation": "darter",
+  "methodology": "Shallow source clone (--depth 1) + deterministic AST/file walk + GitHub REST API security advisory query",
+  "candidates": [
+    {
+      "id": "hestiacp",
+      "name": "HestiaCP",
+      "category": "full_panel",
+      "github": "hestiacp/hestiacp",
+      "cloneUrl": "https://github.com/hestiacp/hestiacp.git",
+      "licenseSpdx": "GPL-3.0",
+      "copyleftClass": "Strong Copyleft (GPLv3)",
+      "commercialSaasForkViable": false,
+      "headlessIpcViable": true,
+      "architecturePattern": "Bash Atomic CLI (v-*) + PHP Web Frontend",
+      "githubMetrics": {
+        "created_at": "2018-11-07T21:02:45Z",
+        "forks": 959,
+        "license": "GPL-3.0",
+        "open_issues": 168,
+        "pushed_at": "2026-11-11T21:58:13Z",
+        "size_kb": 62587,
+        "stars": 4570
+      },
+      "publishedRepoAdvisoriesCount": 26,
+      "recentAdvisories": [
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-q3m6-6pq7-2vgr",
+          "published_at": "2026-11-08T13:30:12Z",
+          "severity": "critical",
+          "summary": "RCE and Privilege Escalation to Root via Proxy Extensions"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-g8gq-6cmg-6qj8",
+          "published_at": "2026-11-08T13:31:35Z",
+          "severity": "high",
+          "summary": "Protected root administrator read-only bypass through access-key creation"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-whvg-4fmh-9rxg",
+          "published_at": "2026-11-08T13:34:13Z",
+          "severity": "critical",
+          "summary": "RCE and Privilege Escalation to Root via Custom Document Root"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-274c-fvrr-f3qc",
+          "published_at": "2026-11-08T13:42:14Z",
+          "severity": "high",
+          "summary": "Improper Neutralization of Argument Delimiters in a Command ('Argument Injection') in hestiacp"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-jhgf-cvhh-vr4x",
+          "published_at": "2026-11-08T13:40:47Z",
+          "severity": "critical",
+          "summary": "Remote code execution via v-change-web-domain-ftp-path  allows Privilege Escalation to root"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-5jrh-4c42-g53q",
+          "published_at": "2026-11-08T13:45:09Z",
+          "severity": "high",
+          "summary": "Web domain restore runs privileged file operations on user-controlled paths (v-restore-user, *-restic)"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-54r9-vp89-25w2",
+          "published_at": "2026-11-08T13:37:02Z",
+          "severity": "critical",
+          "summary": "Authenticated Root Remote Command Execution via v-delete-user-ssh-key"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-4h7f-52rq-75mj",
+          "published_at": "2026-11-08T13:35:09Z",
+          "severity": "medium",
+          "summary": "Reflected XSS via unescaped array keys in debug_panel.php (incomplete fix of #5550)"
+        }
+      ],
+      "codeMetrics": {
+        "totalFiles": 1567,
+        "totalCodeLines": 110151,
+        "byLanguage": {
+          "Python": {
+            "files": 2,
+            "loc": 134
+          },
+          "Shell": {
+            "files": 675,
+            "loc": 65725
+          },
+          "JavaScript": {
+            "files": 46,
+            "loc": 2906
+          },
+          "Vue": {
+            "files": 7,
+            "loc": 553
+          },
+          "CSS/SCSS": {
+            "files": 11,
+            "loc": 4027
+          },
+          "PHP": {
+            "files": 320,
+            "loc": 35233
+          },
+          "HTML/Templates": {
+            "files": 16,
+            "loc": 1227
+          },
+          "SQL": {
+            "files": 1,
+            "loc": 346
+          }
+        }
+      },
+      "architectureDetails": {
+        "cliScriptCount": 526,
+        "cliBreakdown": {
+          "user": 100,
+          "web": 76,
+          "dns": 51,
+          "mail": 67,
+          "database": 30,
+          "backup": 40,
+          "ssl": 27,
+          "cron": 19,
+          "firewall": 21
+        },
+        "installerScripts": [
+          "hst-install-debian.sh",
+          "hst-install-ubuntu.sh",
+          "hst-install.sh"
+        ],
+        "mailMtaSupport": [
+          "exim4",
+          "dovecot"
+        ],
+        "dnsDaemonSupport": [
+          "bind9"
+        ],
+        "cpanelBackupImporter": true
+      }
+    },
+    {
+      "id": "webmin",
+      "name": "Webmin (Core)",
+      "category": "full_panel",
+      "github": "webmin/webmin",
+      "cloneUrl": "https://github.com/webmin/webmin.git",
+      "licenseSpdx": "BSD-3-Clause",
+      "copyleftClass": "Permissive (BSD-3-Clause)",
+      "commercialSaasForkViable": true,
+      "headlessIpcViable": true,
+      "architecturePattern": "Perl Custom HTTP Daemon (miniserv.pl) + Modular CGI",
+      "githubMetrics": {
+        "created_at": "2009-07-20T22:03:42Z",
+        "forks": 805,
+        "license": "BSD-3-Clause",
+        "open_issues": 133,
+        "pushed_at": "2026-11-11T22:57:01Z",
+        "size_kb": 123561,
+        "stars": 6134
+      },
+      "publishedRepoAdvisoriesCount": 3,
+      "recentAdvisories": [
+        {
+          "cve_id": "CVE-2026-102337",
+          "ghsa_id": "GHSA-x8qr-rx2g-f23g",
+          "published_at": "2026-07-30T18:23:24Z",
+          "severity": "medium",
+          "summary": "SSRF exploit in Upload and Download and File Manager modules"
+        },
+        {
+          "cve_id": "CVE-2026-49243",
+          "ghsa_id": "GHSA-hv4w-p8jq-2rp5",
+          "published_at": "2026-07-21T21:44:34Z",
+          "severity": "critical",
+          "summary": "Reflected XSS in Webmin's Configuration module"
+        },
+        {
+          "cve_id": "CVE-2026-42210",
+          "ghsa_id": "GHSA-qpww-fff2-6fgv",
+          "published_at": "2026-05-16T18:48:03Z",
+          "severity": "medium",
+          "summary": "Webmin 2FA requirement bypass"
+        }
+      ],
+      "codeMetrics": {
+        "totalFiles": 44225,
+        "totalCodeLines": 528311,
+        "byLanguage": {
+          "Perl": {
+            "files": 3748,
+            "loc": 439315
+          },
+          "HTML/Templates": {
+            "files": 22996,
+            "loc": 74711
+          },
+          "CSS/SCSS": {
+            "files": 9,
+            "loc": 7626
+          },
+          "Shell": {
+            "files": 9,
+            "loc": 2334
+          },
+          "JavaScript": {
+            "files": 18,
+            "loc": 2662
+          },
+          "C/C++": {
+            "files": 13,
+            "loc": 599
+          },
+          "Python": {
+            "files": 6,
+            "loc": 1064
+          }
+        }
+      },
+      "architectureDetails": {
+        "coreModulesCount": 135,
+        "sampleModules": [
+          ".github",
+          "acl",
+          "adsl-client",
+          "apache",
+          "at",
+          "backup-config",
+          "bacula-backup",
+          "bandwidth",
+          "bin",
+          "bind8",
+          "bsdexports",
+          "bsdfdisk",
+          "change-user",
+          "cluster-copy",
+          "cluster-cron",
+          "cluster-passwd",
+          "cluster-shell",
+          "cluster-software",
+          "cluster-useradmin",
+          "cluster-usermin"
+        ],
+        "hasMiniserv": true
+      }
+    },
+    {
+      "id": "virtualmin-gpl",
+      "name": "Virtualmin GPL (Webmin Module)",
+      "category": "full_panel",
+      "github": "virtualmin/virtualmin-gpl",
+      "cloneUrl": "https://github.com/virtualmin/virtualmin-gpl.git",
+      "licenseSpdx": "GPL-3.0",
+      "copyleftClass": "Strong Copyleft (GPLv3)",
+      "commercialSaasForkViable": false,
+      "headlessIpcViable": true,
+      "architecturePattern": "Perl Webmin Module + virtualmin CLI + cpmove Importer",
+      "githubMetrics": {
+        "created_at": "2017-03-25T18:33:39Z",
+        "forks": 134,
+        "license": "GPL-3.0",
+        "open_issues": 195,
+        "pushed_at": "2026-11-11T22:53:48Z",
+        "size_kb": 48165,
+        "stars": 421
+      },
+      "publishedRepoAdvisoriesCount": 0,
+      "recentAdvisories": [],
+      "codeMetrics": {
+        "totalFiles": 13390,
+        "totalCodeLines": 205530,
+        "byLanguage": {
+          "Perl": {
+            "files": 538,
+            "loc": 181492
+          },
+          "Shell": {
+            "files": 2,
+            "loc": 153
+          },
+          "HTML/Templates": {
+            "files": 12643,
+            "loc": 23540
+          },
+          "Python": {
+            "files": 2,
+            "loc": 345
+          }
+        }
+      },
+      "architectureDetails": {
+        "cliAndCgiScripts": 226,
+        "migrationParsers": [
+          "migration-cpanel.pl",
+          "migration-directadmin.pl",
+          "migration-plesk.pl"
+        ],
+        "cpanelMigratorFile": "migration-cpanel.pl",
+        "cpanelMigratorLoc": 1702
+      }
+    },
+    {
+      "id": "ispconfig3",
+      "name": "ISPConfig 3",
+      "category": "full_panel",
+      "github": null,
+      "tarballUrl": "https://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz",
+      "licenseSpdx": "BSD-3-Clause",
+      "copyleftClass": "Permissive (BSD-3-Clause)",
+      "commercialSaasForkViable": true,
+      "headlessIpcViable": true,
+      "architecturePattern": "PHP Master/Agent Multi-Server Polling Daemon + SOAP/REST API",
+      "githubMetrics": null,
+      "publishedRepoAdvisoriesCount": null,
+      "recentAdvisories": [],
+      "codeMetrics": {
+        "totalFiles": 8875,
+        "totalCodeLines": 247313,
+        "byLanguage": {
+          "PHP": {
+            "files": 1414,
+            "loc": 174971
+          },
+          "Shell": {
+            "files": 25,
+            "loc": 1997
+          },
+          "SQL": {
+            "files": 113,
+            "loc": 4387
+          },
+          "HTML/Templates": {
+            "files": 413,
+            "loc": 25084
+          },
+          "JavaScript": {
+            "files": 60,
+            "loc": 30800
+          },
+          "TypeScript": {
+            "files": 89,
+            "loc": 7635
+          },
+          "CSS/SCSS": {
+            "files": 10,
+            "loc": 2439
+          }
+        }
+      },
+      "architectureDetails": {
+        "remoteApiModules": 10,
+        "remoteApiMethodCount": 309,
+        "serverAgentPluginsCount": 37,
+        "serverAgentPlugins": [
+          "apache2_plugin.inc.php",
+          "apps_vhost_plugin.inc.php",
+          "aps_plugin.inc.php",
+          "backup_plugin.inc.php",
+          "bind_plugin.inc.php",
+          "cron_jailkit_plugin.inc.php",
+          "cron_plugin.inc.php",
+          "extension_plugin.inc.php",
+          "firewall_plugin.inc.php",
+          "ftpuser_base_plugin.inc.php",
+          "getmail_plugin.inc.php",
+          "mail_plugin.inc.php",
+          "mail_plugin_dkim.inc.php",
+          "maildeliver_plugin.inc.php",
+          "maildrop_plugin.inc.php",
+          "mailman_plugin.inc.php",
+          "mysql_clientdb_plugin.inc.php",
+          "network_settings_plugin.inc.php",
+          "nginx_plugin.inc.php",
+          "openvz_plugin.inc.php",
+          "pma_symlink_plugin.inc.php",
+          "postfix_filter_plugin.inc.php",
+          "postfix_server_plugin.inc.php",
+          "postgresql_clientdb_plugin.inc.php",
+          "powerdns_plugin.inc.php",
+          "pureftpd_sni_plugin.inc.php",
+          "rspamd_plugin.inc.php",
+          "server_services_plugin.inc.php",
+          "shelluser_base_plugin.inc.php",
+          "shelluser_jailkit_plugin.inc.php",
+          "software_update_plugin.inc.php",
+          "squid_plugin.inc.php",
+          "webmail_symlink_plugin.inc.php",
+          "webserver_plugin.inc.php",
+          "website_symlink_plugin.inc.php",
+          "xmpp_plugin.inc.php",
+          "z_php_fpm_incron_reload_plugin.inc.php"
+        ]
+      }
+    },
+    {
+      "id": "froxlor",
+      "localDirName": "froxlor-v2",
+      "cloneBranch": "v2",
+      "name": "Froxlor v2",
+      "category": "full_panel",
+      "github": "froxlor/froxlor",
+      "cloneUrl": "https://github.com/Froxlor/Froxlor.git",
+      "licenseSpdx": "LGPL-3.0",
+      "copyleftClass": "Weak Copyleft (LGPLv3)",
+      "commercialSaasForkViable": false,
+      "headlessIpcViable": true,
+      "architecturePattern": "PHP JSON-RPC API v2 + Cron System Config Generator",
+      "githubMetrics": {
+        "created_at": "2012-03-06T15:14:46Z",
+        "forks": 468,
+        "license": "LGPL-3.0",
+        "open_issues": 44,
+        "pushed_at": "2026-11-09T10:07:54Z",
+        "size_kb": 29767,
+        "stars": 1752
+      },
+      "publishedRepoAdvisoriesCount": 30,
+      "recentAdvisories": [
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-vhfr-xvmw-p2m9",
+          "published_at": "2026-11-03T06:51:42Z",
+          "severity": "medium",
+          "summary": "Froxlor customer Traffic listing API bypasses the customer_hide_options traffic restriction"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-ch7m-649m-x7xg",
+          "published_at": "2026-10-20T07:23:53Z",
+          "severity": "medium",
+          "summary": "Froxlor: Certificates.add/update API overwrites Let's Encrypt-managed certificates and private keys, bypassing the \"not editable\" boundary fixed in 2.3.13 (GHSA-6q2v-jjq5-m2c8 fix incomplete)"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-6vjr-55fw-r5x2",
+          "published_at": "2026-10-20T07:24:06Z",
+          "severity": "medium",
+          "summary": "Mysqls.add API bypasses customer_hide_options policy allowing customers to create databases when MySQL feature is admin-disabled"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-m7gc-8c8g-4f89",
+          "published_at": "2026-10-20T07:24:18Z",
+          "severity": "medium",
+          "summary": "Authorization bypass via identifier confusion in `Admins.get`, enabling a reseller to read any admin's record"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-pp2f-frcg-w8rv",
+          "published_at": "2026-10-20T07:24:31Z",
+          "severity": "medium",
+          "summary": "Missing authorization via unchecked `parentdomainid` in `SubDomains.delete`, enabling deletion of a reseller-assigned main domain"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-vwjv-x8ff-4cvv",
+          "published_at": "2026-10-20T07:24:43Z",
+          "severity": "high",
+          "summary": "Local privilege escalation via missing symlink containment in the root traffic cron's `chown -R`, enabling takeover of any host directory"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-5fm2-8wxf-xc5v",
+          "published_at": "2026-10-20T07:24:56Z",
+          "severity": "high",
+          "summary": "Unscoped API keys listing leaks every account's API key and secret to a customers_see_all admin, enabling super-admin takeover"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-3jpp-mhvh-rv66",
+          "published_at": "2026-09-29T07:21:19Z",
+          "severity": "high",
+          "summary": "Stored XSS via customer theme value enables customer-to-admin account takeover in Froxlor 2.x admin listing"
+        }
+      ],
+      "codeMetrics": {
+        "totalFiles": 571,
+        "totalCodeLines": 108131,
+        "byLanguage": {
+          "PHP": {
+            "files": 356,
+            "loc": 103085
+          },
+          "HTML/Templates": {
+            "files": 146,
+            "loc": 3812
+          },
+          "JavaScript": {
+            "files": 18,
+            "loc": 806
+          },
+          "CSS/SCSS": {
+            "files": 12,
+            "loc": 428
+          }
+        }
+      },
+      "architectureDetails": {
+        "apiCommandModules": [
+          "Admins",
+          "Certificates",
+          "Cronjobs",
+          "Customers",
+          "DataDump",
+          "DirOptions",
+          "DirProtections",
+          "DomainZones",
+          "Domains",
+          "EmailAccounts",
+          "EmailDomains",
+          "EmailForwarders",
+          "EmailSender",
+          "Emails",
+          "FpmDaemons",
+          "Froxlor",
+          "Ftps",
+          "HostingPlans",
+          "IpsAndPorts",
+          "MysqlServer",
+          "Mysqls",
+          "PhpSettings",
+          "SshKeys",
+          "SubDomains",
+          "SysLog",
+          "Traffic"
+        ],
+        "apiCrudMethodsCount": 150
+      }
+    },
+    {
+      "id": "acepanel",
+      "name": "AcePanel (RatPanel)",
+      "category": "full_panel",
+      "github": "acepanel/panel",
+      "cloneUrl": "https://github.com/acepanel/panel.git",
+      "licenseSpdx": "BSD-3-Clause",
+      "copyleftClass": "Permissive (BSD-3-Clause)",
+      "commercialSaasForkViable": true,
+      "headlessIpcViable": true,
+      "architecturePattern": "Compiled Go Single-Binary Daemon + Modern REST API",
+      "githubMetrics": {
+        "created_at": "2022-12-01T10:18:09Z",
+        "forks": 246,
+        "license": "BSD-3-Clause",
+        "open_issues": 4,
+        "pushed_at": "2026-11-11T22:50:09Z",
+        "size_kb": 91245,
+        "stars": 3032
+      },
+      "publishedRepoAdvisoriesCount": 1,
+      "recentAdvisories": [
+        {
+          "cve_id": "CVE-2025-53534",
+          "ghsa_id": "GHSA-fm3m-jrgm-5ppg",
+          "published_at": "2025-08-04T08:08:50Z",
+          "severity": "high",
+          "summary": "RatPanel can perform remote command execution without authorization"
+        }
+      ],
+      "codeMetrics": {
+        "totalFiles": 1371,
+        "totalCodeLines": 178366,
+        "byLanguage": {
+          "Go": {
+            "files": 685,
+            "loc": 107182
+          },
+          "HTML/Templates": {
+            "files": 10,
+            "loc": 177
+          },
+          "TypeScript": {
+            "files": 216,
+            "loc": 8682
+          },
+          "JavaScript": {
+            "files": 1,
+            "loc": 12
+          },
+          "CSS/SCSS": {
+            "files": 4,
+            "loc": 274
+          },
+          "Vue": {
+            "files": 263,
+            "loc": 62039
+          }
+        }
+      },
+      "architectureDetails": {
+        "topLevelStructure": [
+          ".air.toml",
+          ".git",
+          ".gitattributes",
+          ".github",
+          ".gitignore",
+          ".golangci.yml",
+          ".goreleaser.yaml",
+          ".mockery.yaml",
+          "AGENTS.md",
+          "CLAUDE.md",
+          "CODE_OF_CONDUCT.md",
+          "LICENSE",
+          "README.md",
+          "README_EN.md",
+          "SECURITY.md",
+          "cmd",
+          "config.example.yml",
+          "crowdin.yml",
+          "go.mod",
+          "go.sum",
+          "internal",
+          "pkg",
+          "renovate.json",
+          "storage",
+          "web"
+        ],
+        "pkgModules": [
+          "acme",
+          "api",
+          "apploader",
+          "cert",
+          "charset",
+          "chattr",
+          "config",
+          "db",
+          "docker",
+          "embed",
+          "fastcgi",
+          "firewall",
+          "geoip",
+          "io",
+          "ipdb",
+          "lsapi",
+          "network",
+          "notify",
+          "ntp",
+          "os",
+          "passkey",
+          "punycode",
+          "rsacrypto",
+          "shell",
+          "ssh",
+          "sshlog",
+          "storage",
+          "systemctl",
+          "tamper",
+          "tlscert",
+          "tools",
+          "tui",
+          "types",
+          "webserver",
+          "websitestat"
+        ],
+        "internalModules": [
+          "app",
+          "apps",
+          "biz",
+          "bootstrap",
+          "command",
+          "data",
+          "job",
+          "middleware",
+          "migration",
+          "mocks",
+          "request",
+          "route",
+          "rule",
+          "service",
+          "taskqueue"
+        ],
+        "detectedGoRouteRegistrations": 3516
+      }
+    },
+    {
+      "id": "vitodeploy",
+      "name": "VitoDeploy",
+      "category": "full_panel",
+      "github": "vitodeploy/vito",
+      "cloneUrl": "https://github.com/vitodeploy/vito.git",
+      "licenseSpdx": "AGPL-3.0",
+      "copyleftClass": "Network Copyleft (AGPLv3)",
+      "commercialSaasForkViable": false,
+      "headlessIpcViable": false,
+      "architecturePattern": "PHP Laravel + React/Tailwind Control Plane over Remote SSH",
+      "githubMetrics": {
+        "created_at": "2023-07-02T10:46:29Z",
+        "forks": 426,
+        "license": "AGPL-3.0",
+        "open_issues": 20,
+        "pushed_at": "2026-11-11T22:07:14Z",
+        "size_kb": 41459,
+        "stars": 3275
+      },
+      "publishedRepoAdvisoriesCount": 1,
+      "recentAdvisories": [
+        {
+          "cve_id": "CVE-2026-29789",
+          "ghsa_id": "GHSA-3m6w-8qh4-qr76",
+          "published_at": "2026-03-03T21:25:53Z",
+          "severity": "medium",
+          "summary": "Cross-project privilege escalation in workflow site-creation actions allows unauthorized server modification"
+        }
+      ],
+      "codeMetrics": {
+        "totalFiles": 2683,
+        "totalCodeLines": 174079,
+        "byLanguage": {
+          "Shell": {
+            "files": 22,
+            "loc": 919
+          },
+          "PHP": {
+            "files": 1754,
+            "loc": 131858
+          },
+          "JavaScript": {
+            "files": 7,
+            "loc": 71
+          },
+          "HTML/Templates": {
+            "files": 3,
+            "loc": 149
+          },
+          "CSS/SCSS": {
+            "files": 4,
+            "loc": 216
+          },
+          "TypeScript": {
+            "files": 489,
+            "loc": 40866
+          }
+        }
+      },
+      "architectureDetails": {
+        "appSubdirectories": [
+          "Actions",
+          "ComponentCapabilities",
+          "Console",
+          "Contracts",
+          "DNSProviders",
+          "DTOs",
+          "Enums",
+          "Events",
+          "Exceptions",
+          "Facades",
+          "Helpers",
+          "Http",
+          "Jobs",
+          "Listeners",
+          "Mail",
+          "Models",
+          "NotificationChannels",
+          "Notifications",
+          "Plugins",
+          "Policies",
+          "Providers",
+          "RuntimePresets",
+          "SSH",
+          "ServerFeatures",
+          "ServerProviders",
+          "Services",
+          "SiteFeatures",
+          "SiteTypes",
+          "SourceControlProviders",
+          "StorageProviders",
+          "Support",
+          "Tables",
+          "Tooling",
+          "Traits",
+          "ValidationRules",
+          "WebSocket",
+          "WorkflowActions"
+        ],
+        "sshCommandCategories": [],
+        "actionCategories": [
+          "ApiKey",
+          "Application",
+          "Backup",
+          "Bootstrap",
+          "Component",
+          "ComponentCapability",
+          "CronJob",
+          "DNSProvider",
+          "Database",
+          "Domain",
+          "Environment",
+          "EnvironmentAttachment",
+          "EnvironmentDeployment",
+          "EnvironmentDomain",
+          "EnvironmentVariable",
+          "FirewallRule",
+          "GitHook",
+          "GithubApp",
+          "HostedDomain",
+          "IsolatedUser",
+          "Monitoring",
+          "Network",
+          "NotificationChannels",
+          "PHP",
+          "Plugins",
+          "Projects",
+          "Redirect",
+          "SSL",
+          "Script",
+          "Server",
+          "ServerIp",
+          "ServerLog",
+          "ServerProvider",
+          "Service",
+          "Site",
+          "SiteStats",
+          "SourceControl",
+          "SshKey",
+          "StorageProvider",
+          "User",
+          "WebSockets",
+          "Webserver",
+          "Worker",
+          "Workflow"
+        ]
+      }
+    },
+    {
+      "id": "ajenti",
+      "name": "Ajenti 2",
+      "category": "full_panel",
+      "github": "ajenti/ajenti",
+      "cloneUrl": "https://github.com/ajenti/ajenti.git",
+      "licenseSpdx": "MIT",
+      "copyleftClass": "Permissive (MIT)",
+      "commercialSaasForkViable": true,
+      "headlessIpcViable": true,
+      "architecturePattern": "Python 3 IoC Micro-Kernel + Angular Plugin Shell",
+      "githubMetrics": {
+        "created_at": "2010-03-03T08:04:15Z",
+        "forks": 855,
+        "license": "MIT",
+        "open_issues": 10,
+        "pushed_at": "2026-11-01T19:41:36Z",
+        "size_kb": 38797,
+        "stars": 7973
+      },
+      "publishedRepoAdvisoriesCount": 9,
+      "recentAdvisories": [
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-r5vj-3663-gch2",
+          "published_at": "2026-11-07T11:22:53Z",
+          "severity": "high",
+          "summary": "Script origin injection through the X-Url-Prefix header (incomplete fix of CVE-2026-27975)"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-8pv8-4whr-79hw",
+          "published_at": "2026-09-13T16:29:25Z",
+          "severity": "high",
+          "summary": "Unbounded resource cache allows memory exhaustion by an unauthenticated user"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-fqfv-pv2j-2w9g",
+          "published_at": "2026-09-13T16:24:59Z",
+          "severity": "medium",
+          "summary": "TOTP endpoint discloses enrollment state and an internal traceback to unauthenticated callers"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-8328-p99g-qj7x",
+          "published_at": "2026-09-13T16:21:35Z",
+          "severity": "medium",
+          "summary": "Request bodies are buffered and re-encoded before authorization, allowing memory amplification by an unauthenticated user"
+        },
+        {
+          "cve_id": "CVE-2026-79920",
+          "ghsa_id": "GHSA-j8xf-5fw2-f99q",
+          "published_at": "2026-07-15T09:23:30Z",
+          "severity": "critical",
+          "summary": "Privilege escalation to root via unauthenticated/unauthorized plugin install task in Ajenti"
+        },
+        {
+          "cve_id": "CVE-2026-40178",
+          "ghsa_id": "GHSA-8647-755q-fw9p",
+          "published_at": "2026-04-09T14:50:55Z",
+          "severity": "medium",
+          "summary": "Race conditions in 2FA"
+        },
+        {
+          "cve_id": "CVE-2026-40177",
+          "ghsa_id": "GHSA-3mcx-6wxm-qr8v",
+          "published_at": "2026-04-09T14:47:53Z",
+          "severity": "high",
+          "summary": "Password bypass when 2FA is activated"
+        },
+        {
+          "cve_id": "CVE-2026-35175",
+          "ghsa_id": "GHSA-73jv-44c3-j5p2",
+          "published_at": "2026-04-01T15:58:06Z",
+          "severity": "high",
+          "summary": "Unpatched CWE-862 authorization bypass"
+        }
+      ],
+      "codeMetrics": {
+        "totalFiles": 2050,
+        "totalCodeLines": 16292,
+        "byLanguage": {
+          "Python": {
+            "files": 177,
+            "loc": 10873
+          },
+          "HTML/Templates": {
+            "files": 55,
+            "loc": 3586
+          },
+          "Shell": {
+            "files": 7,
+            "loc": 755
+          },
+          "CSS/SCSS": {
+            "files": 1,
+            "loc": 6
+          },
+          "JavaScript": {
+            "files": 3,
+            "loc": 1072
+          }
+        }
+      },
+      "architectureDetails": {
+        "builtinPlugins": [
+          ".gitignore",
+          "ace",
+          "augeas",
+          "auth_users",
+          "check_certificates",
+          "core",
+          "cron",
+          "dashboard",
+          "datetime",
+          "dns_api",
+          "docker",
+          "filemanager",
+          "filesystem",
+          "fstab",
+          "iptables",
+          "network",
+          "notepad",
+          "packages",
+          "passwd",
+          "plugins",
+          "power",
+          "services",
+          "session_list",
+          "settings",
+          "softraid",
+          "supervisor",
+          "terminal",
+          "traffic"
+        ],
+        "builtinPluginCount": 28
+      }
+    },
+    {
+      "id": "filebrowser",
+      "name": "FileBrowser",
+      "category": "composable_subsystem",
+      "subsystemRole": "Web File Manager, Code Editor, Archive & Chmod Engine",
+      "github": "filebrowser/filebrowser",
+      "cloneUrl": "https://github.com/filebrowser/filebrowser.git",
+      "licenseSpdx": "Apache-2.0",
+      "copyleftClass": "Permissive (Apache-2.0)",
+      "commercialSaasForkViable": true,
+      "headlessIpcViable": true,
+      "architecturePattern": "Compiled Go Single Binary + Vue SPA + Proxy Header/JWT Auth",
+      "githubMetrics": {
+        "created_at": "2015-09-11T21:21:58Z",
+        "forks": 4191,
+        "license": "Apache-2.0",
+        "open_issues": 0,
+        "pushed_at": "2026-07-31T10:06:58Z",
+        "size_kb": 24323,
+        "stars": 35854
+      },
+      "publishedRepoAdvisoriesCount": 30,
+      "recentAdvisories": [
+        {
+          "cve_id": "CVE-2026-90927",
+          "ghsa_id": "GHSA-39cx-23x9-5c8p",
+          "published_at": "2026-08-31T06:27:00Z",
+          "severity": "medium",
+          "summary": "Command WebSocket buffers unbounded messages before checking permissions"
+        },
+        {
+          "cve_id": "CVE-2026-90928",
+          "ghsa_id": "GHSA-448h-jr2h-3vhp",
+          "published_at": "2026-08-31T06:27:04Z",
+          "severity": "high",
+          "summary": "Subtitle conversion reads whole files into memory, allowing memory exhaustion"
+        },
+        {
+          "cve_id": "CVE-2026-90929",
+          "ghsa_id": "GHSA-c4fr-5f24-4wrj",
+          "published_at": "2026-08-31T06:26:54Z",
+          "severity": "high",
+          "summary": "Upload failure-cleanup recursively deletes directories, bypassing Perm.Delete and deny rules"
+        },
+        {
+          "cve_id": "CVE-2026-90930",
+          "ghsa_id": "GHSA-7w29-q235-57m9",
+          "published_at": "2026-08-31T08:22:50Z",
+          "severity": "medium",
+          "summary": "Symlink aliases inside a user scope bypass path deny rules"
+        },
+        {
+          "cve_id": "CVE-2026-82235",
+          "ghsa_id": "GHSA-8q5j-8wcr-8v2v",
+          "published_at": "2026-08-14T08:09:05Z",
+          "severity": "medium",
+          "summary": "Archive downloads hang forever on named pipes"
+        },
+        {
+          "cve_id": "CVE-2026-82236",
+          "ghsa_id": "GHSA-r6pg-pg54-rcr5",
+          "published_at": "2026-08-14T08:09:07Z",
+          "severity": "low",
+          "summary": "Deleting another user's shared file leaves their public share link behind"
+        },
+        {
+          "cve_id": "CVE-2026-82237",
+          "ghsa_id": "GHSA-m8v4-4w34-rrvf",
+          "published_at": "2026-08-14T08:09:11Z",
+          "severity": "low",
+          "summary": "Renaming a shared file leaves the public share link behind"
+        },
+        {
+          "cve_id": "CVE-2026-82238",
+          "ghsa_id": "GHSA-4r8p-gqj2-mwgm",
+          "published_at": "2026-08-14T08:09:14Z",
+          "severity": "low",
+          "summary": "Concurrent TUS uploads write past the declared Upload-Length"
+        }
+      ],
+      "codeMetrics": {
+        "totalFiles": 416,
+        "totalCodeLines": 28911,
+        "byLanguage": {
+          "Go": {
+            "files": 131,
+            "loc": 13457
+          },
+          "Shell": {
+            "files": 3,
+            "loc": 42
+          },
+          "TypeScript": {
+            "files": 48,
+            "loc": 3660
+          },
+          "JavaScript": {
+            "files": 2,
+            "loc": 41
+          },
+          "HTML/Templates": {
+            "files": 2,
+            "loc": 318
+          },
+          "Vue": {
+            "files": 58,
+            "loc": 8845
+          },
+          "CSS/SCSS": {
+            "files": 18,
+            "loc": 2548
+          }
+        }
+      },
+      "architectureDetails": {}
+    },
+    {
+      "id": "ttyd",
+      "name": "ttyd",
+      "category": "composable_subsystem",
+      "subsystemRole": "Browser WebSocket SSH / Terminal Emulator",
+      "github": "tsl0922/ttyd",
+      "cloneUrl": "https://github.com/tsl0922/ttyd.git",
+      "licenseSpdx": "MIT",
+      "copyleftClass": "Permissive (MIT)",
+      "commercialSaasForkViable": true,
+      "headlessIpcViable": true,
+      "architecturePattern": "Compiled C Single Binary (libwebsockets + xterm.js)",
+      "githubMetrics": {
+        "created_at": "2016-09-13T01:43:54Z",
+        "forks": 1231,
+        "license": "MIT",
+        "open_issues": 136,
+        "pushed_at": "2026-08-12T03:39:18Z",
+        "size_kb": 20567,
+        "stars": 12614
+      },
+      "publishedRepoAdvisoriesCount": 0,
+      "recentAdvisories": [],
+      "codeMetrics": {
+        "totalFiles": 58,
+        "totalCodeLines": 19441,
+        "byLanguage": {
+          "JavaScript": {
+            "files": 3,
+            "loc": 160
+          },
+          "TypeScript": {
+            "files": 7,
+            "loc": 855
+          },
+          "CSS/SCSS": {
+            "files": 2,
+            "loc": 91
+          },
+          "HTML/Templates": {
+            "files": 1,
+            "loc": 19
+          },
+          "Shell": {
+            "files": 1,
+            "loc": 196
+          },
+          "C/C++": {
+            "files": 10,
+            "loc": 18120
+          }
+        }
+      },
+      "architectureDetails": {}
+    },
+    {
+      "id": "goaccess",
+      "name": "GoAccess",
+      "category": "composable_subsystem",
+      "subsystemRole": "Real-Time Web Traffic & Visitor Analytics (Awstats Replacement)",
+      "github": "allinurl/goaccess",
+      "cloneUrl": "https://github.com/allinurl/goaccess.git",
+      "licenseSpdx": "MIT",
+      "copyleftClass": "Permissive (MIT)",
+      "commercialSaasForkViable": true,
+      "headlessIpcViable": true,
+      "architecturePattern": "Compiled C Single Binary outputting Real-Time HTML5/JSON/CSV",
+      "githubMetrics": {
+        "created_at": "2013-07-14T03:42:08Z",
+        "forks": 1212,
+        "license": "MIT",
+        "open_issues": 449,
+        "pushed_at": "2026-11-10T14:19:39Z",
+        "size_kb": 10099,
+        "stars": 21129
+      },
+      "publishedRepoAdvisoriesCount": 4,
+      "recentAdvisories": [
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-4g8g-wj68-q4fp",
+          "published_at": "2026-09-21T18:18:00Z",
+          "severity": "high",
+          "summary": "Remote pre-auth DoS: NULL deref / OOB read on binary WebSocket frame (missing NUL-termination)"
+        },
+        {
+          "cve_id": "CVE-2026-55768",
+          "ghsa_id": "GHSA-5gm5-pvh2-wg46",
+          "published_at": "2026-07-20T13:04:43Z",
+          "severity": "medium",
+          "summary": " GoAccess WebSocket server: signed 32 bit truncation of the 64 bit frame length causes a remote pre authentication denial of service"
+        },
+        {
+          "cve_id": "CVE-2026-55777",
+          "ghsa_id": "GHSA-5phr-qpgf-hgrg",
+          "published_at": "2026-07-20T13:04:35Z",
+          "severity": "medium",
+          "summary": "Out-of-bounds heap read in parse_ios() via crafted User-Agent (opesys.c:323) lead to remote crash/DoS"
+        },
+        {
+          "cve_id": "CVE-2026-54715",
+          "ghsa_id": "GHSA-qcx5-vh2x-35fr",
+          "published_at": "2026-07-20T13:04:06Z",
+          "severity": "medium",
+          "summary": "Heap Out-of-Bounds Write in GoAccess `parse_browser()`"
+        }
+      ],
+      "codeMetrics": {
+        "totalFiles": 156,
+        "totalCodeLines": 46974,
+        "byLanguage": {
+          "Shell": {
+            "files": 1,
+            "loc": 10
+          },
+          "JavaScript": {
+            "files": 3,
+            "loc": 3896
+          },
+          "CSS/SCSS": {
+            "files": 1,
+            "loc": 1541
+          },
+          "HTML/Templates": {
+            "files": 1,
+            "loc": 321
+          },
+          "C/C++": {
+            "files": 94,
+            "loc": 41206
+          }
+        }
+      },
+      "architectureDetails": {}
+    }
+  ],
+  "referenceRepositories": {
+    "cyberpanel": {
+      "repoMeta": {
+        "created_at": "2017-10-24T13:51:05Z",
+        "forks": 730,
+        "license": "GPL-3.0",
+        "open_issues": 411,
+        "pushed_at": "2026-11-07T09:36:28Z",
+        "size_kb": 501906,
+        "stars": 2031
+      },
+      "publishedRepoAdvisoriesCount": 2,
+      "recentAdvisories": [
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-h2f7-38ww-5pwc",
+          "published_at": "2026-08-26T15:02:35Z",
+          "severity": "high",
+          "summary": "CyberPanel API authentication bypasses two-factor authentication"
+        },
+        {
+          "cve_id": null,
+          "ghsa_id": "GHSA-qmwq-9cc8-x6h2",
+          "published_at": "2026-08-11T11:52:58Z",
+          "severity": "medium",
+          "summary": "CyberPanel AI Scanner debug endpoints expose administrator and scan metadata"
+        }
+      ]
+    },
+    "roundcube": {
+      "repoMeta": {
+        "created_at": "2012-05-04T11:19:01Z",
+        "forks": 1807,
+        "license": "GPL-3.0",
+        "open_issues": 504,
+        "pushed_at": "2026-11-11T14:50:30Z",
+        "size_kb": 68566,
+        "stars": 7270
+      },
+      "publishedRepoAdvisoriesCount": 0,
+      "recentAdvisories": []
+    }
+  }
+}

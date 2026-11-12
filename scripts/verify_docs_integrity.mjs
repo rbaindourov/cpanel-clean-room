@@ -39,7 +39,11 @@ const REQUIRED_DOCS = [
   '03-visual-walkthrough-and-ui-anatomy.md',
   '04-open-source-control-panel-evaluation.md',
   '05-webmin-virtualmin-migration-and-customization-playbook.md',
-  '06-clean-room-winwinhost-control-panel-architecture.md'
+  '06-clean-room-winwinhost-control-panel-architecture.md',
+  '07-commercial-and-saas-market-landscape.md',
+  '08-empirical-open-source-codebase-and-security-audit.md',
+  '09-68-feature-competitor-gap-matrix.md',
+  '10-build-vs-leverage-decision-blueprint.md'
 ];
 
 for (const doc of REQUIRED_DOCS) {
@@ -63,6 +67,30 @@ if (fs.existsSync(manifestPath)) {
   pass(`cpanel_feature_manifest.json valid (Target: ${manifest.target?.domain}, Discovered links: ${manifest.domItems?.allLinksCount})`);
 } else {
   fail('cpanel_feature_manifest.json missing');
+}
+
+const empPath = path.join(DATA_DIR, 'competitor_empirical_metrics.json');
+if (fs.existsSync(empPath)) {
+  const emp = JSON.parse(fs.readFileSync(empPath, 'utf8'));
+  if (Array.isArray(emp.candidates) && emp.candidates.length >= 11) {
+    pass(`competitor_empirical_metrics.json valid (${emp.candidates.length} audited repositories)`);
+  } else {
+    fail('competitor_empirical_metrics.json has fewer than 11 candidates');
+  }
+} else {
+  fail('competitor_empirical_metrics.json missing');
+}
+
+const gapPath = path.join(DATA_DIR, 'competitor_gap_matrix.json');
+if (fs.existsSync(gapPath)) {
+  const gap = JSON.parse(fs.readFileSync(gapPath, 'utf8'));
+  if (gap.baselineManifestFeaturesCount === 68 && Array.isArray(gap.featureMatrix) && gap.featureMatrix.length === 68) {
+    pass(`competitor_gap_matrix.json valid (${gap.featureMatrix.length} cPanel features & ${gap.saasMatrix?.length} SaaS gates scored)`);
+  } else {
+    fail('competitor_gap_matrix.json missing expected 68 features');
+  }
+} else {
+  fail('competitor_gap_matrix.json missing');
 }
 
 const shotManifestPath = path.join(SCREENSHOTS_DIR, 'index.json');

@@ -7,6 +7,8 @@
   "scripts": {
     "inventory": "node scripts/cpanel_uapi_inventory.mjs",
     "screenshots": "node scripts/cpanel_screenshot_crawler.mjs",
+    "audit:competitors": "node scripts/audit_competitor_repos.mjs",
+    "score:gaps": "node scripts/score_feature_gap_matrix.mjs",
     "verify": "node scripts/verify_docs_integrity.mjs"
   },
   "keywords": [
