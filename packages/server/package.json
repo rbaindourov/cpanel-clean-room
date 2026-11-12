@@ -1,0 +1,34 @@
+{
+  "name": "@cpanel-clean-room/server",
+  "version": "1.0.0",
+  "description": "Unprivileged REST API and WebSocket server for cPanel clean-room appliance",
+  "type": "module",
+  "main": "./src/server.ts",
+  "exports": {
+    ".": "./src/server.ts",
+    "./agentd-client": "./src/agentd-client.ts",
+    "./db": "./src/db/sqlite-adapter.ts",
+    "./auth": "./src/auth/jwt.ts",
+    "./seed-vahag": "./src/seed-vahag.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test src/**/*.test.ts",
+    "start": "node --experimental-strip-types src/server.ts"
+  },
+  "dependencies": {
+    "@cpanel-clean-room/shared": "*",
+    "express": "^4.21.2",
+    "ws": "^8.18.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "@types/ws": "^8.5.13",
+    "typescript": "^5.7.2"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^11.8.1"
+  }
+}

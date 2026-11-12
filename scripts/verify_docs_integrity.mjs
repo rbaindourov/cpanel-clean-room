@@ -160,10 +160,22 @@ const BANNED_PATTERNS = [
 
 const filesToAudit = [];
 function walk(dir) {
-  for (const item of fs.readdirSync(dir)) {
-    if (item === 'node_modules' || item === '.git' || item === 'scratch' || item === '.env') continue;
+  let entries;
+  try {
+    entries = fs.readdirSync(dir);
+  } catch {
+    return;
+  }
+  for (const item of entries) {
+    if (item === 'node_modules' || item === '.git' || item === 'scratch' || item === '.env' || item === '.agents') continue;
     const full = path.join(dir, item);
-    const stat = fs.statSync(full);
+    let stat;
+    try {
+      stat = fs.lstatSync(full);
+    } catch {
+      continue;
+    }
+    if (stat.isSymbolicLink()) continue;
     if (stat.isDirectory()) {
       if (item !== 'screenshots') walk(full);
     } else if (item.endsWith('.md') || item.endsWith('.json') || (item.endsWith('.mjs') && item !== 'verify_docs_integrity.mjs')) {

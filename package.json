@@ -4,7 +4,15 @@
   "description": "Clean-room functional specification, visual feature audit, open-source control panel evaluation, and native Linux hosting architecture for cPanel parity.",
   "type": "module",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "build": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test packages/*/src/**/*.test.ts",
+    "test:e2e": "node tests/e2e/run_all_e2e.mjs",
+    "test:all": "node --experimental-strip-types --test packages/*/src/**/*.test.ts && node tests/e2e/run_all_e2e.mjs",
+    "lint": "tsc --noEmit",
     "inventory": "node scripts/cpanel_uapi_inventory.mjs",
     "screenshots": "node scripts/cpanel_screenshot_crawler.mjs",
     "audit:competitors": "node scripts/audit_competitor_repos.mjs",

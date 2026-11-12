@@ -1,0 +1,26 @@
+{
+  "name": "@cpanel-clean-room/agentd",
+  "version": "1.0.0",
+  "description": "Privileged root daemon for cPanel clean-room appliance",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./sysroot": "./src/sysroot.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test src/**/*.test.ts",
+    "dev": "tsx watch src/index.ts",
+    "start": "node --experimental-strip-types src/index.ts"
+  },
+  "dependencies": {
+    "@cpanel-clean-room/shared": "*",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.7.2"
+  }
+}
