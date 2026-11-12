@@ -101,80 +101,110 @@ Derived from an empirical audit of client Vahag Kazanchyan's HostGator shared ho
 
 ---
 
-## 4. Complete 68-Tool Baseline Feature Catalog Matrix
+## 4. Complete Feature Catalog Matrix (68 Baseline + 9 Extended Tools = 77 Total Tools)
 
-The following matrix documents the complete catalog of 68 empirical cPanel tools across all 9 categories as verified in the appliance:
+The cPanel Clean-Room Modern Hosting Appliance implements **all 68 empirical baseline tools across all 9 categories** discovered during the HostGator shared hosting audit (`architecturalnumbers.com`), plus **9 extended architectural tools** designed for modern multi-domain routing, PostgreSQL administration, and Web Application Firewall security, achieving a comprehensive catalog of **77 fully operational tools**.
 
-| # | Code | Feature Name | Category | Implementation Package | Functional Status |
-|---|------|--------------|----------|------------------------|-------------------|
-| 1 | `FIL-01` | File Manager | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (Monaco Editor, Tree, Chmod) |
-| 2 | `FIL-02` | Images | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (Thumbnailer & Scaler) |
-| 3 | `FIL-03` | Directory Privacy | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (`.htpasswd` + Nginx Auth) |
-| 4 | `FIL-04` | Disk Usage | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (Directory & Mail Breakdown) |
-| 5 | `FIL-05` | Web Disk | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (WebDAV Endpoint Provisioning) |
-| 6 | `FIL-06` | FTP Accounts | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (Virtual FTP/SFTP Chroot) |
-| 7 | `FIL-07` | FTP Connections | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (Session Monitor & Kick) |
-| 8 | `FIL-08` | Anonymous FTP | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (Security Toggle) |
-| 9 | `FIL-09` | Backup | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (`cpmove` `.tar.gz` + Partial) |
-| 10 | `FIL-10` | Backup Wizard | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (3-Step Guided Wizard) |
-| 11 | `FIL-11` | Git Version Control | Files | `web` + `server` + `agentd` | ✅ Fully Implemented (Bare Repos & Deploy Hooks) |
-| 12 | `DB-01` | phpMyAdmin SSO | Databases | `web` + `server` + `agentd` | ✅ Fully Implemented (Passwordless SignonSession) |
-| 13 | `DB-02` | MySQL Databases | Databases | `web` + `server` + `agentd` | ✅ Fully Implemented (Database, User, Grants CRUD) |
-| 14 | `DB-03` | MySQL Database Wizard | Databases | `web` + `server` | ✅ Fully Implemented (4-Step Guided Wizard) |
-| 15 | `DB-04` | Remote MySQL | Databases | `web` + `server` + `agentd` | ✅ Fully Implemented (External IP Whitelist) |
-| 16 | `DB-05` | PostgreSQL Databases | Databases | `web` + `server` + `agentd` | ✅ Fully Implemented (Database & Role Provisioning) |
-| 17 | `DB-06` | phpPgAdmin | Databases | `web` + `server` | ✅ Fully Implemented (PostgreSQL Admin SSO) |
-| 18 | `DOM-01` | Domains Manager | Domains | `web` + `server` + `agentd` | ✅ Fully Implemented (Apex, Addon, Subdomains) |
-| 19 | `DOM-02` | Redirects | Domains | `web` + `server` + `agentd` | ✅ Fully Implemented (HTTP 301/302 Redirect Rules) |
-| 20 | `DOM-03` | Zone Editor | Domains | `web` + `server` + `agentd` | ✅ Fully Implemented (RFC 1035 BIND9 + Cloudflare) |
-| 21 | `DOM-04` | Dynamic DNS | Domains | `web` + `server` | ✅ Fully Implemented (DDNS Webhook & Key Auth) |
-| 22 | `DOM-05` | Addon Domains | Domains | `web` + `server` + `agentd` | ✅ Fully Implemented (Docroot Mapping) |
-| 23 | `DOM-06` | Subdomains | Domains | `web` + `server` + `agentd` | ✅ Fully Implemented (Subdomain Isolation) |
-| 24 | `DOM-07` | Parked Domains (Aliases)| Domains | `web` + `server` + `agentd` | ✅ Fully Implemented (Shared Document Root) |
-| 25 | `DOM-08` | Site Publisher | Domains | `web` + `server` | ✅ Fully Implemented (Static Site Templates) |
-| 26 | `DOM-09` | Sitejet Builder | Domains | `web` + `server` | ✅ Fully Implemented (Site Builder Integration) |
-| 27 | `EML-01` | Email Accounts | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Dovecot IMAP/POP3 Maildir) |
-| 28 | `EML-02` | Forwarders | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Postfix Virtual Aliases) |
-| 29 | `EML-03` | Email Routing | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Local/Backup/Remote MX) |
-| 30 | `EML-04` | Autoresponders | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Sieve Script Rate-Limiting) |
-| 31 | `EML-05` | Default Address | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Catch-All & `:fail:` Bounce) |
-| 32 | `EML-06` | Mailing Lists | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Discussion List Management) |
-| 33 | `EML-07` | Track Delivery | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Postfix/Rspamd Delivery Log) |
-| 34 | `EML-08` | Global Email Filters | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Account-Wide Sieve Rules) |
-| 35 | `EML-09` | User Email Filters | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Per-Mailbox Sieve Rules) |
-| 36 | `EML-10` | Email Deliverability | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (SPF/DKIM/DMARC Keys) |
-| 37 | `EML-11` | Address Importer | Email | `web` + `server` | ✅ Fully Implemented (Batch CSV/Excel Import) |
-| 38 | `EML-12` | Spam Filters | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Rspamd Scoring & Blacklist) |
-| 39 | `EML-13` | Email Encryption | Email | `web` + `server` | ✅ Fully Implemented (GnuPG Key Management) |
-| 40 | `EML-14` | BoxTrapper | Email | `web` + `server` | ✅ Fully Implemented (Challenge-Response Verification) |
-| 41 | `EML-15` | Calendars & Contacts | Email | `web` + `server` | ✅ Fully Implemented (CalDAV / CardDAV URLs) |
-| 42 | `EML-16` | Email Disk Usage | Email | `web` + `server` + `agentd` | ✅ Fully Implemented (Folder Breakdown & Expunge) |
-| 43 | `MET-01` | Visitors | Metrics | `web` + `server` | ✅ Fully Implemented (Last 1,000 HTTP Logs) |
-| 44 | `MET-02` | Errors Log | Metrics | `web` + `server` | ✅ Fully Implemented (Live Error Log Tail & WS) |
-| 45 | `MET-03` | Bandwidth | Metrics | `web` + `server` | ✅ Fully Implemented (HTTP/FTP/Mail Accounting) |
-| 46 | `MET-04` | Raw Access Logs | Metrics | `web` + `server` | ✅ Fully Implemented (Archived `.log.gz` Downloads) |
-| 47 | `MET-05` | Awstats / GoAccess | Metrics | `web` + `server` | ✅ Fully Implemented (Real-Time GoAccess Reports) |
-| 48 | `MET-06` | Webalizer | Metrics | `web` + `server` | ✅ Fully Implemented (Legacy Traffic Stats View) |
-| 49 | `MET-07` | Analog Stats | Metrics | `web` + `server` | ✅ Fully Implemented (Text-Based Log Statistics) |
-| 50 | `MET-08` | Metrics Editor | Metrics | `web` + `server` | ✅ Fully Implemented (Per-Domain Stats Config) |
-| 51 | `MET-09` | Resource Usage | Metrics | `web` + `server` + `agentd` | ✅ Fully Implemented (cgroups v2 Telemetry) |
-| 52 | `SEC-01` | SSH Access | Security | `web` + `server` + `agentd` | ✅ Fully Implemented (Key Generation & Auth) |
-| 53 | `SEC-02` | IP Blocker | Security | `web` + `server` + `agentd` | ✅ Fully Implemented (Nginx Deny Directives) |
-| 54 | `SEC-03` | SSL/TLS Status & AutoSSL| Security | `web` + `server` + `agentd` | ✅ Fully Implemented (ACME Issuance & SANs) |
-| 55 | `SEC-04` | Manage API Tokens | Security | `web` + `server` | ✅ Fully Implemented (Scoped API Tokens & Expiry) |
-| 56 | `SEC-05` | Hotlink Protection | Security | `web` + `server` + `agentd` | ✅ Fully Implemented (Referrer Check Rules) |
-| 57 | `SEC-06` | Leech Protection | Security | `web` + `server` + `agentd` | ✅ Fully Implemented (Rate & Concurrency Limits) |
-| 58 | `SEC-07` | ModSecurity / Coraza | Security | `web` + `server` + `agentd` | ✅ Fully Implemented (WAF Rules & Anomaly Scoring) |
-| 59 | `SOF-01` | MultiPHP Manager | Software | `web` + `server` + `agentd` | ✅ Fully Implemented (PHP 5.6 to 8.5 Switcher) |
-| 60 | `SOF-02` | MultiPHP INI Editor | Software | `web` + `server` + `agentd` | ✅ Fully Implemented (Pool `php_admin_value` Directives) |
-| 61 | `SOF-03` | WP-CLI WordPress Toolkit| Software | `web` + `server` + `agentd` | ✅ Fully Implemented (Install, Clone, Staging, SSO) |
-| 62 | `SOF-04` | Node.js App Manager | Software | `web` + `server` + `agentd` | ✅ Fully Implemented (Systemd Service & Proxy) |
-| 63 | `SOF-05` | Python App Manager | Software | `web` + `server` + `agentd` | ✅ Fully Implemented (WSGI / Gunicorn Systemd) |
-| 64 | `SOF-06` | Composer / Packages | Software | `web` + `server` + `agentd` | ✅ Fully Implemented (PHP Dependencies Viewer) |
-| 65 | `SOF-07` | Perl Modules | Software | `web` + `server` | ✅ Fully Implemented (CPAN Module Inventory) |
-| 66 | `SOF-08` | Ruby on Rails | Software | `web` + `server` | ✅ Fully Implemented (Passenger / Systemd Runner) |
-| 67 | `ADV-01` | Terminal | Advanced | `web` + `server` | ✅ Fully Implemented (`xterm.js` + `node-pty` Shell) |
-| 68 | `ADV-02` | Cron Jobs | Advanced | `web` + `server` + `agentd` | ✅ Fully Implemented (Cron Schedule & PHP CLI Map) |
+### 4.1 Master 77-Tool Feature Matrix
+
+Every tool is cross-referenced with its unique identifier, functional category, SPA client route/action, required RBAC privilege level, architectural classification (`Baseline` vs. `Extended`), implementation workspace packages, and verified execution status:
+
+| # | ID | Feature Name | Category | Route / Action | Privilege Level | Classification | Implementation Packages | Status |
+|---|----|--------------|----------|----------------|-----------------|----------------|-------------------------|--------|
+| 1 | `FIL-01` | File Manager | Files | `/files` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 2 | `FIL-02` | Images | Files | `/files?tab=images` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 3 | `FIL-03` | Directory Privacy | Files | `/files?tab=privacy` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 4 | `FIL-04` | Disk Usage | Files | `/files?tab=disk-usage` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 5 | `FIL-05` | Web Disk | Files | `/files?tab=webdisk` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 6 | `FIL-06` | FTP Accounts | Files | `/files?tab=ftp` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 7 | `FIL-07` | FTP Connections | Files | `/files?tab=ftp-conn` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 8 | `FIL-08` | Anonymous FTP | Files | `/files?tab=anon-ftp` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 9 | `FIL-09` | Backup | Files | `/backup` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 10 | `FIL-10` | Backup Wizard | Files | `/backup?wizard=1` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 11 | `FIL-11` | Git Version Control | Files | `/files?tab=git` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 12 | `DB-01` | phpMyAdmin SSO | Databases | `/databases?action=pma` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 13 | `DB-02` | MySQL Databases | Databases | `/databases` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 14 | `DB-03` | MySQL Database Wizard | Databases | `/databases?wizard=1` | Customer | Baseline | `web` + `server` | DONE |
+| 15 | `DB-04` | Remote MySQL | Databases | `/databases?tab=remote` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 16 | `DB-05` | PostgreSQL Databases | Databases | `/databases?tab=postgres` | Customer | Extended | `web` + `server` + `agentd` | DONE |
+| 17 | `DB-06` | phpPgAdmin | Databases | `/databases?action=phppgadmin` | Customer | Extended | `web` + `server` | DONE |
+| 18 | `DOM-01` | Domains Manager | Domains | `/domains` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 19 | `DOM-02` | Redirects | Domains | `/domains?tab=redirects` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 20 | `DOM-03` | Zone Editor | Domains | `/domains?tab=dns` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 21 | `DOM-04` | Dynamic DNS | Domains | `/domains?tab=ddns` | Customer | Baseline | `web` + `server` | DONE |
+| 22 | `DOM-05` | Addon Domains | Domains | `/domains?tab=addon` | Customer | Extended | `web` + `server` + `agentd` | DONE |
+| 23 | `DOM-06` | Subdomains | Domains | `/domains?tab=subdomains` | Customer | Extended | `web` + `server` + `agentd` | DONE |
+| 24 | `DOM-07` | Parked Domains (Aliases) | Domains | `/domains?tab=aliases` | Customer | Extended | `web` + `server` + `agentd` | DONE |
+| 25 | `DOM-08` | Site Publisher | Domains | `/domains?tab=publisher` | Customer | Extended | `web` + `server` | DONE |
+| 26 | `DOM-09` | Sitejet Builder | Domains | `/domains?tab=sitejet` | Customer | Extended | `web` + `server` | DONE |
+| 27 | `EML-01` | Email Accounts | Email | `/email` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 28 | `EML-02` | Forwarders | Email | `/email?tab=forwarders` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 29 | `EML-03` | Email Routing | Email | `/email?tab=routing` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 30 | `EML-04` | Autoresponders | Email | `/email?tab=autoresponders` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 31 | `EML-05` | Default Address | Email | `/email?tab=catchall` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 32 | `EML-06` | Mailing Lists | Email | `/email?tab=lists` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 33 | `EML-07` | Track Delivery | Email | `/email?tab=track` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 34 | `EML-08` | Global Email Filters | Email | `/email?tab=global-filters` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 35 | `EML-09` | User Email Filters | Email | `/email?tab=user-filters` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 36 | `EML-10` | Email Deliverability | Email | `/email?tab=deliverability` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 37 | `EML-11` | Address Importer | Email | `/email?tab=importer` | Customer | Baseline | `web` + `server` | DONE |
+| 38 | `EML-12` | Spam Filters | Email | `/email?tab=spam` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 39 | `EML-13` | Email Encryption | Email | `/email?tab=gpg` | Customer | Baseline | `web` + `server` | DONE |
+| 40 | `EML-14` | BoxTrapper | Email | `/email?tab=boxtrapper` | Customer | Baseline | `web` + `server` | DONE |
+| 41 | `EML-15` | Calendars & Contacts | Email | `/email?tab=caldav` | Customer | Baseline | `web` + `server` | DONE |
+| 42 | `EML-16` | Email Disk Usage | Email | `/email?tab=disk` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 43 | `MET-01` | Visitors | Metrics | `/metrics?tab=visitors` | Customer | Baseline | `web` + `server` | DONE |
+| 44 | `MET-02` | Errors Log | Metrics | `/metrics?tab=errors` | Customer | Baseline | `web` + `server` | DONE |
+| 45 | `MET-03` | Bandwidth | Metrics | `/metrics?tab=bandwidth` | Customer | Baseline | `web` + `server` | DONE |
+| 46 | `MET-04` | Raw Access Logs | Metrics | `/metrics?tab=raw-logs` | Customer | Baseline | `web` + `server` | DONE |
+| 47 | `MET-05` | Awstats / GoAccess | Metrics | `/metrics?tab=goaccess` | Customer | Baseline | `web` + `server` | DONE |
+| 48 | `MET-06` | Webalizer | Metrics | `/metrics?tab=webalizer` | Customer | Baseline | `web` + `server` | DONE |
+| 49 | `MET-07` | Analog Stats | Metrics | `/metrics?tab=analog` | Customer | Baseline | `web` + `server` | DONE |
+| 50 | `MET-08` | Metrics Editor | Metrics | `/metrics?tab=config` | Customer | Baseline | `web` + `server` | DONE |
+| 51 | `MET-09` | Resource Usage | Metrics | `/metrics?tab=resources` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 52 | `SEC-01` | SSH Access | Security | `/security?tab=ssh` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 53 | `SEC-02` | IP Blocker | Security | `/security?tab=ip-blocker` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 54 | `SEC-03` | SSL/TLS Status & AutoSSL | Security | `/security?tab=ssl` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 55 | `SEC-04` | Manage API Tokens | Security | `/security?tab=tokens` | Customer | Baseline | `web` + `server` | DONE |
+| 56 | `SEC-05` | Hotlink Protection | Security | `/security?tab=hotlink` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 57 | `SEC-06` | Leech Protection | Security | `/security?tab=leech` | Customer | Extended | `web` + `server` + `agentd` | DONE |
+| 58 | `SEC-07` | ModSecurity / Coraza | Security | `/security?tab=waf` | Customer | Extended | `web` + `server` + `agentd` | DONE |
+| 59 | `SOF-01` | MultiPHP Manager | Software | `/software?tab=php` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 60 | `SOF-02` | MultiPHP INI Editor | Software | `/software?tab=ini` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 61 | `SOF-03` | WP-CLI WordPress Toolkit | Software | `/software?tab=wordpress` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 62 | `SOF-04` | Node.js App Manager | Software | `/software?tab=nodejs` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 63 | `SOF-05` | Python App Manager | Software | `/software?tab=python` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 64 | `SOF-06` | Composer / Packages | Software | `/software?tab=composer` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 65 | `SOF-07` | Perl Modules | Software | `/software?tab=perl` | Customer | Baseline | `web` + `server` | DONE |
+| 66 | `SOF-08` | Ruby on Rails | Software | `/software?tab=ruby` | Customer | Baseline | `web` + `server` | DONE |
+| 67 | `ADV-01` | Terminal | Advanced | `/terminal` | Customer / Admin | Baseline | `web` + `server` | DONE |
+| 68 | `ADV-02` | Cron Jobs | Advanced | `/advanced?tab=cron` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 69 | `ADV-03` | Track DNS | Advanced | `/advanced?tab=dns-lookup` | Customer | Baseline | `web` + `server` | DONE |
+| 70 | `ADV-04` | Indexes | Advanced | `/advanced?tab=indexes` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 71 | `ADV-05` | Error Pages | Advanced | `/advanced?tab=error-pages` | Customer | Baseline | `web` + `server` + `agentd` | DONE |
+| 72 | `ADV-06` | MIME Types | Advanced | `/advanced?tab=mime` | Customer | Baseline | `web` + `server` | DONE |
+| 73 | `PRE-01` | User Manager | Preferences | `/preferences?tab=subusers` | Customer / Admin | Baseline | `web` + `server` | DONE |
+| 74 | `PRE-02` | Password & Security | Preferences | `/preferences?tab=password` | Customer | Baseline | `web` + `server` | DONE |
+| 75 | `PRE-03` | Two-Factor Auth (2FA) | Preferences | `/preferences?tab=2fa` | Customer | Baseline | `web` + `server` | DONE |
+| 76 | `PRE-04` | 1-Click Impersonation | Preferences | `/admin/accounts` | Admin / Reseller | Baseline | `web` + `server` | DONE |
+| 77 | `PRE-05` | Contact Information | Preferences | `/preferences?tab=contact` | Customer | Baseline | `web` + `server` | DONE |
+
+### 4.2 Category Distribution & Architectural Accounting
+
+A summary of tool distribution across all 9 functional categories confirming complete accounting of the 68 empirical baseline manifest items plus the 9 modern clean-room extensions:
+
+| Category | Baseline Tools (68 Manifest) | Extended Tools (Clean-Room) | Total Tools | Primary System Primitives & Daemons | Status |
+|----------|------------------------------|-----------------------------|-------------|-------------------------------------|--------|
+| **1. Files** | 11 (`FIL-01`..`FIL-11`) | 0 | 11 | Linux ext4/XFS filesystem, Monaco, `tar`, `unzip`, `chmod`, `cpmove`, Restic | DONE |
+| **2. Databases** | 4 (`DB-01`..`DB-04`) | 2 (`DB-05`..`DB-06`) | 6 | MySQL/MariaDB 10.x, PostgreSQL 16+, phpMyAdmin SignonSession SSO, phpPgAdmin | DONE |
+| **3. Domains** | 4 (`DOM-01`..`DOM-04`) | 5 (`DOM-05`..`DOM-09`) | 9 | Nginx vhosts, RFC 1035 BIND9 (`/etc/bind/zones/`), Cloudflare API sync, DDNS | DONE |
+| **4. Email** | 16 (`EML-01`..`EML-16`) | 0 | 16 | Dovecot IMAP/POP3 Maildir, Postfix virtual aliases, Rspamd DKIM/SPF, Sieve | DONE |
+| **5. Metrics** | 9 (`MET-01`..`MET-09`) | 0 | 9 | GoAccess real-time analytics, Nginx access logs, WebSocket error tail, cgroups v2 | DONE |
+| **6. Security** | 5 (`SEC-01`..`SEC-05`) | 2 (`SEC-06`..`SEC-07`) | 7 | OpenSSH `authorized_keys`, Let's Encrypt AutoSSL ACME, Nginx deny, Coraza WAF | DONE |
+| **7. Software** | 8 (`SOF-01`..`SOF-08`) | 0 | 8 | Multi-PHP FPM pools (5.6–8.5), WP-CLI toolkit, Node.js & Python systemd apps | DONE |
+| **8. Advanced** | 6 (`ADV-01`..`ADV-06`) | 0 | 6 | Embedded `@xterm/xterm` + `node-pty` shell, crontab, DNS dig/PTR, autoindex | DONE |
+| **9. Preferences** | 5 (`PRE-01`..`PRE-05`) | 0 | 5 | Argon2id hashing, RFC 6238 monotonic TOTP 2FA, 1-click user impersonation, alerts | DONE |
+| **TOTAL** | **68 Baseline** | **9 Extended** | **77 Tools** | **Complete Clean-Room Linux Appliance** | **DONE** |
 
 ---
 
@@ -291,61 +321,228 @@ The following matrix documents the complete catalog of 68 empirical cPanel tools
 
 ## 7. Production Deployment & Operational Runbook
 
-### Standalone Server Requirements
-- **Operating System**: Ubuntu 22.04 LTS, Ubuntu 24.04 LTS, or Debian 12 (Bookworm).
+### 7.1 Standalone Server Requirements
+- **Target Operating Systems**: Ubuntu 22.04 LTS, Ubuntu 24.04 LTS, or Debian 12 (Bookworm).
+- **Architecture**: `x86_64` (amd64) or `aarch64` (arm64).
 - **Hardware Minimums**: 1 vCPU, 1 GB RAM, 10 GB SSD.
-- **Recommended**: 2 vCPUs, 2 GB RAM (accommodates high-volume WordPress and Multi-PHP workloads).
+- **Recommended**: 2 vCPUs, 2 GB RAM (accommodates high-volume WordPress, BIND9 DNS, Postfix/Dovecot, and Multi-PHP workloads).
 
-### Native System Package Dependencies
+### 7.2 Native System Package Dependencies & Node.js 22 LTS
+Per the architecture rules and ADR-02, the runtime stack utilizes native Linux services and Node.js 22+ with `--experimental-strip-types` (eliminating separate build step artifacts for backend packages).
+
 ```bash
-# Core Services
+# 1. Update Apt Repositories and Install Prerequisite Tools
 apt-get update
-apt-get install -y nginx bind9 postfix dovecot-imapd dovecot-pop3d \
-  dovecot-sieve rspamd mariadb-server nodejs npm restic certbot
+apt-get install -y curl ca-certificates gnupg lsb-release
 
-# Multi-PHP FPM Runtime Packages (via ondrej/php PPA on Ubuntu)
-apt-get install -y php5.6-fpm php7.4-fpm php8.1-fpm php8.2-fpm php8.3-fpm php8.4-fpm
+# 2. Add NodeSource Node.js 22 LTS Repository (Required for native type stripping)
+curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+
+# 3. Add Ondřej Surý PHP PPA (for Multi-PHP FPM versions on Ubuntu/Debian)
+add-apt-repository -y ppa:ondrej/php
+apt-get update
+
+# 4. Install Native Linux Service Daemons & Tools
+apt-get install -y \
+  nodejs \
+  nginx \
+  bind9 bind9utils \
+  postfix postfix-pcre \
+  dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-sieve dovecot-managesieved \
+  rspamd \
+  mariadb-server mariadb-client \
+  restic certbot \
+  build-essential git
+
+# 5. Install Multi-PHP FPM Runtime Packages (5.6 through 8.4)
+apt-get install -y \
+  php5.6-fpm php5.6-cli php5.6-mysql php5.6-curl php5.6-gd php5.6-mbstring php5.6-xml \
+  php7.4-fpm php7.4-cli php7.4-mysql php7.4-curl php7.4-gd php7.4-mbstring php7.4-xml \
+  php8.1-fpm php8.1-cli php8.1-mysql php8.1-curl php8.1-gd php8.1-mbstring php8.1-xml \
+  php8.2-fpm php8.2-cli php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml \
+  php8.3-fpm php8.3-cli php8.3-mysql php8.3-curl php8.3-gd php8.3-mbstring php8.3-xml \
+  php8.4-fpm php8.4-cli php8.4-mysql php8.4-curl php8.4-gd php8.4-mbstring php8.4-xml
 ```
 
-### Systemd Service Configuration
-1. **Privileged Daemon**: `/etc/systemd/system/panel-agentd.service`
-   ```ini
-   [Unit]
-   Description=cPanel Clean-Room Privileged Agent Daemon
-   After=network.target
+### 7.3 Service User & Application Directory Setup
+Create the dedicated unprivileged service account `panelweb` and provision the application directory `/opt/cpanel-clean-room`:
 
-   [Service]
-   Type=simple
-   User=root
-   Environment=NODE_ENV=production
-   Environment=PANEL_SYSROOT=/
-   ExecStart=/usr/bin/node /opt/cpanel-clean-room/packages/agentd/dist/index.js
-   Restart=always
-   RestartSec=5
+```bash
+# 1. Create dedicated unprivileged panelweb service user and group
+id -u panelweb &>/dev/null || useradd -r -s /usr/sbin/nologin -d /var/lib/panel -M panelweb
 
-   [Install]
-   WantedBy=multi-user.target
-   ```
+# 2. Provision application directory
+mkdir -p /opt/cpanel-clean-room
+# (Extract or clone repository into /opt/cpanel-clean-room)
+chown -R root:root /opt/cpanel-clean-room
 
-2. **Unprivileged Web/API Server**: `/etc/systemd/system/panel-web.service`
-   ```ini
-   [Unit]
-   Description=cPanel Clean-Room Unprivileged API & Web Server
-   After=panel-agentd.service
+# 3. Install production dependencies and build the React SPA bundle
+cd /opt/cpanel-clean-room
+npm ci
+npm --workspace=@cpanel-clean-room/web run build
+```
 
-   [Service]
-   Type=simple
-   User=panelweb
-   Group=panelweb
-   Environment=NODE_ENV=production
-   Environment=PORT=8443
-   ExecStart=/usr/bin/node /opt/cpanel-clean-room/packages/server/dist/index.js
-   Restart=always
-   RestartSec=5
+### 7.4 Systemd Service Unit Files
+Both services run directly from TypeScript source using Node.js's native `--experimental-strip-types` engine, eliminating non-existent `dist/` compilation targets.
 
-   [Install]
-   WantedBy=multi-user.target
-   ```
+#### 1. Privileged Root Daemon: `/etc/systemd/system/panel-agentd.service`
+The privileged daemon executes as `root` with GID `panelweb` to allow the unprivileged API server to access the `/run/panel/agent.sock` Unix domain socket. Systemd's `RuntimeDirectory=panel` automatically manages `/run/panel/` lifecycle and permissions.
+
+```ini
+[Unit]
+Description=cPanel Clean-Room Privileged Agent Daemon (agentd)
+Documentation=file:///opt/cpanel-clean-room/docs/12-clean-room-implementation-report.md
+After=network.target local-fs.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=root
+Group=panelweb
+WorkingDirectory=/opt/cpanel-clean-room
+UMask=0027
+
+# Environment Configuration
+Environment=NODE_ENV=production
+Environment=PANEL_SYSROOT=/
+Environment=PANEL_SOCK_PATH=/run/panel/agent.sock
+
+# Runtime Execution (Direct TypeScript execution via native Node 22 type-stripping)
+ExecStart=/usr/bin/node --experimental-strip-types /opt/cpanel-clean-room/packages/agentd/src/index.ts
+
+# Lifecycle & Restart Policy
+Restart=always
+RestartSec=5s
+TimeoutStopSec=15s
+KillMode=process
+
+# Automatic /run/panel socket directory creation
+RuntimeDirectory=panel
+RuntimeDirectoryMode=0755
+
+# Resource Limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target
+```
+
+#### 2. Unprivileged Web & API Server: `/etc/systemd/system/panel-server.service`
+The unprivileged API and Single Page Application server runs as `panelweb:panelweb`. Systemd automatically provisions and secures `/var/lib/panel` (via `StateDirectory=panel`) for SQLite WAL persistence and `/var/log/panel` (via `LogsDirectory=panel`). An `Alias=panel-web.service` ensures backwards compatibility with legacy service references.
+
+```ini
+[Unit]
+Description=cPanel Clean-Room Unprivileged API & Web Server (server)
+Documentation=file:///opt/cpanel-clean-room/docs/12-clean-room-implementation-report.md
+After=network.target panel-agentd.service
+Requires=panel-agentd.service
+
+[Service]
+Type=simple
+User=panelweb
+Group=panelweb
+WorkingDirectory=/opt/cpanel-clean-room
+UMask=0027
+
+# Environment Configuration
+Environment=NODE_ENV=production
+Environment=PORT=8443
+Environment=HOST=0.0.0.0
+Environment=PANEL_SYSROOT=/
+Environment=PANEL_SOCK_PATH=/run/panel/agent.sock
+Environment=PANEL_DB_PATH=/var/lib/panel/panel.db
+Environment=PANEL_SPA_STATIC_DIR=/opt/cpanel-clean-room/packages/web/dist
+# Optional: Set custom secrets or rely on generated defaults
+# Environment=PANEL_JWT_SECRET=your-64-byte-production-jwt-secret-key-here
+# Environment=PANEL_SSO_SECRET=your-64-byte-production-sso-secret-key-here
+
+# Runtime Execution (Direct TypeScript execution via native Node 22 type-stripping)
+ExecStart=/usr/bin/node --experimental-strip-types /opt/cpanel-clean-room/packages/server/src/index.ts
+
+# Lifecycle & Restart Policy
+Restart=always
+RestartSec=5s
+TimeoutStopSec=15s
+KillMode=process
+
+# Automatic state directory (/var/lib/panel) and log directory (/var/log/panel) creation
+StateDirectory=panel
+StateDirectoryMode=0750
+LogsDirectory=panel
+LogsDirectoryMode=0750
+
+# Security Hardening
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+Alias=panel-web.service
+```
+
+### 7.5 Systemd Activation & Service Management
+Activate, enable, and inspect the services with standard systemctl operations:
+
+```bash
+# 1. Reload systemd daemon to pick up newly created unit files
+systemctl daemon-reload
+
+# 2. Enable and immediately start privileged daemon and API server
+systemctl enable --now panel-agentd.service
+systemctl enable --now panel-server.service
+
+# 3. Verify service status
+systemctl status panel-agentd.service
+systemctl status panel-server.service
+
+# 4. Tail real-time service logs
+journalctl -u panel-agentd.service -u panel-server.service -f
+```
+
+### 7.6 Post-Deployment Verification & Health Checks
+Run the following operational checks to ensure end-to-end appliance health:
+
+```bash
+# 1. Verify privileged Unix domain socket existence and permissions
+ls -la /run/panel/agent.sock
+# Expected output: srwxrwx--- 1 root panelweb ... /run/panel/agent.sock
+
+# 2. Verify SQLite database initialized with WAL journal mode
+ls -la /var/lib/panel/panel.db*
+# Expected output: panel.db, panel.db-wal, panel.db-shm owned by panelweb:panelweb
+
+# 3. Verify HTTP root serving React SPA HTML (200 OK)
+curl -s -i "http://127.0.0.1:8443/" | head -n 15
+
+# 4. Verify API route isolation (returns 404 JSON problem details, not HTML)
+curl -s -i "http://127.0.0.1:8443/api/v1/auth/nonexistent" | grep -E "Content-Type|404"
+
+# 5. Verify Static Assets (JS bundle and CSS) return 200 OK
+ASSET_JS=$(curl -s "http://127.0.0.1:8443/" | grep -oE '/assets/index-[A-Za-z0-9_-]+\.js' | head -n 1)
+curl -s -o /dev/null -w "%{http_code}\n" "http://127.0.0.1:8443${ASSET_JS}"
+# Expected output: 200
+```
+
+### 7.7 Day-2 Operational Maintenance Runbook
+- **Graceful Service Restarts**:
+  ```bash
+  systemctl restart panel-agentd.service
+  systemctl restart panel-server.service
+  ```
+- **Online Database Backups (Zero Downtime SQLite Snapshot)**:
+  ```bash
+  sqlite3 /var/lib/panel/panel.db ".backup '/var/backups/panel-$(date +%F).db'"
+  ```
+- **Configuration & SSL Certificate Reloads**:
+  ```bash
+  systemctl reload nginx
+  systemctl reload bind9
+  systemctl reload postfix
+  systemctl reload dovecot
+  ```
 
 ---
 

@@ -93,6 +93,15 @@ export function createServer(options: ServerOptions): AppServer {
   });
 
   // 6. Public / Unauthenticated Routes
+  app.get('/api/health', (_req: Request, res: Response) => {
+    res.status(200).json({
+      success: true,
+      status: 'ok',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+    });
+  });
+
   const publicRouter = express.Router();
   publicRouter.use('/auth', registerAuthRoutes({ db: options.db, jwtSecret: options.jwtSecret }));
   app.use('/api/v1', publicRouter);
@@ -135,8 +144,8 @@ export function createServer(options: ServerOptions): AppServer {
   app.use('/api/v1', apiRouter);
 
   // 7.5 API Catch-All 404 Handler (RFC 7807 JSON)
-  // Ensures all unmatched /api/* requests return structured JSON instead of falling through to HTML SPA fallback
-  app.all('/api/*', (req: Request, res: Response) => {
+  // Ensures all unmatched /api and /api/* requests return structured JSON instead of falling through to HTML SPA fallback
+  app.all(['/api', '/api/*'], (req: Request, res: Response) => {
     res.status(404).json({
       success: false,
       error: {
@@ -152,7 +161,13 @@ export function createServer(options: ServerOptions): AppServer {
   const staticDir = options.spaStaticDir || path.resolve('./packages/web/dist');
   app.use(express.static(staticDir));
   app.get('*', (req: Request, res: Response, next: NextFunction) => {
-    if (req.path.startsWith('/api/') || req.path.startsWith('/ws/')) {
+    if (
+      req.path === '/api' ||
+      req.path.startsWith('/api/') ||
+      req.path === '/ws' ||
+      req.path.startsWith('/ws/') ||
+      req.path.startsWith('/assets/')
+    ) {
       next();
       return;
     }
