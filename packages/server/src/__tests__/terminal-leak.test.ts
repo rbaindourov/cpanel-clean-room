@@ -41,15 +41,15 @@ test('Terminal WebSocket Child Process Cleanup & Leak Prevention', async (t) => 
 
   db.prepare(`
     INSERT INTO users (id, username, password_hash, role, email, quota_bytes, uid, gid, home_dir, status, created_at)
-    VALUES ('usr_vahag', 'vahag', 'hash', 'customer', 'vahag@architecturalnumbers.com', 10737418240, 1001, 1001, '/home/vahag', 'active', datetime('now'))
+    VALUES ('usr_acme', 'acme', 'hash', 'customer', 'acme@example-store.com', 10737418240, 1001, 1001, '/home/acme', 'active', datetime('now'))
   `).run();
 
   const jwtSecret = 'test-terminal-leak-secret-32-chars-long!';
   const jwt = new JwtService(jwtSecret);
   const { token } = jwt.signAccessToken({
-    id: 'usr_vahag',
-    username: 'vahag',
-    email: 'vahag@architecturalnumbers.com',
+    id: 'usr_acme',
+    username: 'acme',
+    email: 'acme@example-store.com',
     role: 'customer',
   });
 

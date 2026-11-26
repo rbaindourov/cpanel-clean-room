@@ -40,9 +40,9 @@ export function initSysroot() {
     'etc/cron.d',
     'var/lib/rspamd/dkim',
     'var/log',
-    'home/vahag/public_html',
-    'home/vahag/trace4less.com',
-    'home/vahag/mail',
+    'home/acme/public_html',
+    'home/acme/legacy-crm.org',
+    'home/acme/mail',
     'run/panel'
   ];
 

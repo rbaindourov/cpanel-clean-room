@@ -157,9 +157,9 @@ export const SYSTEM_PATHS = {
 
 export const DEFAULT_DNS_SETTINGS = {
   DEFAULT_TTL: 300,
-  DEFAULT_PRIMARY_NS: 'ns1.winwinhost.com.',
-  DEFAULT_ADMIN_EMAIL: 'hostmaster.winwinhost.com.',
-  DEFAULT_NAMESERVERS: ['ns1.winwinhost.com.', 'ns2.winwinhost.com.'],
+  DEFAULT_PRIMARY_NS: 'ns1.cleanpanel.local.',
+  DEFAULT_ADMIN_EMAIL: 'hostmaster.cleanpanel.local.',
+  DEFAULT_NAMESERVERS: ['ns1.cleanpanel.local.', 'ns2.cleanpanel.local.'],
   DEFAULT_SOA_REFRESH: 10800,                   // 3 hours
   DEFAULT_SOA_RETRY: 3600,                      // 1 hour
   DEFAULT_SOA_EXPIRE: 604800,                   // 7 days

@@ -1,6 +1,6 @@
 # HostGator cPanel Feature Inventory & Linux Primitive Mapping
 
-This document provides a comprehensive, categorized inventory of all 68 tools, sub-modules, and service components discovered on **HostGator cPanel** (`architecturalnumbers.com:2083`, Jupiter Theme).
+This document provides a comprehensive, categorized inventory of all 68 tools, sub-modules, and service components discovered on **HostGator cPanel** (`example-store.com:2083`, Jupiter Theme).
 
 For each feature, this document defines:
 1. **User-Facing Capability**: What the tool accomplishes from an administrative perspective.
@@ -27,7 +27,7 @@ For each feature, this document defines:
 
 ## 2. Category 01: Email, Routing & Deliverability
 
-Email is critical for Vahag's operations (`sales@westonletters.com` and customer order communications).
+Email is critical for Acme's operations (`sales@studio-letters.com` and customer order communications).
 
 | Tool / Screen | cPanel UAPI Module & Function | Native Linux System Primitives | Priority | Screenshot Reference |
 | :--- | :--- | :--- | :---: | :--- |
@@ -63,7 +63,7 @@ Email is critical for Vahag's operations (`sales@westonletters.com` and customer
 
 ## 4. Category 03: Databases & Schema Management
 
-Essential for Vahag's `vahag_architecturalnumbers` (SignBuilder 2.0 specs) and `vahag_trace4less` databases.
+Essential for Acme's `acme_store` (Example Store E-Commerce specs) and `acme_crm` databases.
 
 | Tool / Screen | cPanel UAPI Module & Function | Native Linux System Primitives | Priority | Screenshot Reference |
 | :--- | :--- | :--- | :---: | :--- |

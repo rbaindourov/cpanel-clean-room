@@ -2,11 +2,11 @@
 
 ## 1. Executive Context & Problem Statement
 
-Client **Vahag Kazanchyan** (`vahag`) operates a portfolio of fabrication, e-commerce, and architectural lettering properties:
-1. **`architecturalnumbers.com`**: Active custom metal & acrylic architectural sign-building storefront featuring **Three.js WebGL SignBuilder 2.0** and the **Unified Backend Studio** (`studio.php`), currently hosted on **HostGator Shared/Business cPanel** (`gator3274.hostgator.com:2083`, account `vahag`).
-2. **`trace4less.com` & `smooth-curves.com`**: Vectorization and artwork prep engines utilizing procedural PHP 5/7 with the drop-in `mysql_shim.php` compatibility bridge, hosted on an **InMotion Hosting VPS** (`server.trace4less.com` / `144.208.66.217`, account `trace45_vahag`).
-3. **`westonletters.com`**: Heritage dimensional letter fabrication brand (established 1965), historically anchored on **Site5** with business email continuity (`sales@westonletters.com` / `vahag_k@hotmail.com`).
-4. **`addressnumbersreviews.com`**: Review and social-proof auxiliary property connected to WinWinHost.
+Tenant **Acme Hosting Tenant** (`acme`) operates a portfolio of e-commerce, directory, and digital web properties:
+1. **`example-store.com`**: Active e-commerce storefront featuring **Three.js WebGL Example Store E-Commerce** and the **Unified Backend Studio** (`studio.php`), currently hosted on **HostGator Shared/Business cPanel** (`gator3274.hostgator.com:2083`, account `acme`).
+2. **`legacy-crm.org` & `design-agency.io`**: Legacy PHP applications utilizing procedural PHP 5/7 with the drop-in `mysql_shim.php` compatibility bridge, hosted on an **InMotion Hosting VPS** (`server.legacy-crm.org` / `198.51.100.217`, account `legacy_acme`).
+3. **`studio-letters.com`**: Heritage commercial brand (established 1965), historically anchored on **Site5** with business email continuity (`sales@studio-letters.com` / `admin@example-store.com`).
+4. **`directory-hub.net`**: Directory and social-proof auxiliary property connected to CleanPanel.
 
 ### The Problem: The Commercial Control Panel Trap
 
@@ -18,16 +18,16 @@ Over the past decade, cPanel & WHM (acquired by Oakley Capital / WebPros) transi
 
 ---
 
-## 2. Vahag's True Workload Requirements
+## 2. Acme's True Workload Requirements
 
-A deep audit of Vahag's production codebases, database schemas, and daily operations reveals that his businesses rely on a lean, well-defined set of commodity Linux services:
+A deep audit of Acme's production codebases, database schemas, and daily operations reveals that the tenant relies on a lean, well-defined set of commodity Linux services:
 
 | Workload Domain | Actual Technical Requirement | cPanel Bloat to Eliminate |
 | :--- | :--- | :--- |
-| **Web Runtime** | Multi-PHP support: `PHP 7.2` (via `mysql_shim.php` for `trace4less.com`) side-by-side with modern `PHP 8.4-FPM` (for `architecturalnumbers.com` SignBuilder 2.0 / `studio.php`). Static asset caching for Three.js 3D models and high-res video assets. | cPanel EasyApache 4 wrapper scripts, proprietary `.htaccess` passenger handlers, and mod_security upsells. |
-| **Databases** | MySQL 8.0 / MariaDB 10.6+ with standard InnoDB storage engine. Direct schema management for `vahag_architecturalnumbers` (`StyleSpecs`, `base_prices`, `characterset`, `orders`) and `vahag_trace4less`. Standard web GUI (`phpMyAdmin` or Adminer). | Proprietary cPanel MySQL Database Wizard wrappers and redundant phpMyAdmin SSO cookie shims. |
+| **Web Runtime** | Multi-PHP support: `PHP 7.2` (via `mysql_shim.php` for `legacy-crm.org`) side-by-side with modern `PHP 8.4-FPM` (for `example-store.com` Example Store E-Commerce / `studio.php`). Static asset caching for Three.js 3D models and high-res video assets. | cPanel EasyApache 4 wrapper scripts, proprietary `.htaccess` passenger handlers, and mod_security upsells. |
+| **Databases** | MySQL 8.0 / MariaDB 10.6+ with standard InnoDB storage engine. Direct schema management for `acme_store` (`StyleSpecs`, `base_prices`, `characterset`, `orders`) and `acme_crm`. Standard web GUI (`phpMyAdmin` or Adminer). | Proprietary cPanel MySQL Database Wizard wrappers and redundant phpMyAdmin SSO cookie shims. |
 | **DNS Management** | Standard RFC1035 zone files: `A`, `AAAA`, `CNAME`, `MX`, `TXT` (SPF, DKIM, DMARC verification). TTL control and zero-downtime cutovers. | Cluttered cPanel Zone Editor with misleading cPanel-specific record validation locks. |
-| **Email & Deliverability** | Business IMAP/POP3 mailboxes and authenticated SMTP submission (`sales@westonletters.com`). 100% deliverability with strict DKIM signing, SPF alignment, and DMARC enforcement. Webmail access (`Roundcube`). | Fragmented cPanel "Email Deliverability" wizard that hides raw DNS TXT keys and promotes third-party spam filtering subscriptions. |
+| **Email & Deliverability** | Business IMAP/POP3 mailboxes and authenticated SMTP submission (`sales@studio-letters.com`). 100% deliverability with strict DKIM signing, SPF alignment, and DMARC enforcement. Webmail access (`Roundcube`). | Fragmented cPanel "Email Deliverability" wizard that hides raw DNS TXT keys and promotes third-party spam filtering subscriptions. |
 | **Storage & Transfers** | Secure SFTP and rsync access, fast zip/tar extraction in browser, and daily incremental offsite backups. | Sluggish cPanel legacy File Manager and slow monolithic `.tar.gz` cPanel backup generation. |
 | **Automation** | Standard Linux cron jobs for nightly database backups, invoice reconciliations, and log rotation. | cPanel Cron Jobs wrapper UI. |
 
@@ -52,11 +52,11 @@ graph LR
         VPS --> VMIN
     end
 
-    subgraph TrackB["Track B: WinWinHost Clean-Room Control Plane (Strategic)"]
-        W32["Node .32 (Web/DNS/MySQL/Vault)"]
-        W24["Node .24 (Authoritative Mail/IMAP)"]
-        W25["Node .25 (Solidstate Automation/Backups)"]
-        UI["WinWinPanel (Clean-Room UI)"]
+    subgraph TrackB["Track B: CleanPanel Clean-Room Control Plane (Strategic)"]
+        W32["203.0.113.32 (Web/DB Node)"]
+        W24["203.0.113.24 (Mail Node)"]
+        W25["203.0.113.25 (Worker Node)"]
+        UI["CleanPanel (Clean-Room UI)"]
         UI --> W32
         UI --> W24
         UI --> W25
@@ -75,16 +75,16 @@ graph LR
   * **Multi-PHP Parity**: Effortlessly provisions multiple Ondřej Surý PHP-FPM packages (`7.2`, `8.1`, `8.2`, `8.3`, `8.4`).
   * **Zero Commercial Upcharges**: 100% open-source GPLv3.
 
-### Track B: WinWinHost Clean-Room Native Hosting ("WinWinPanel")
-* **Target Environment**: WinWinHost's existing multi-node private cluster infrastructure (`192.168.11.32` Web/DNS/DB/Vault, `192.168.11.24` Authoritative Mail, `192.168.11.25` Automation Worker).
+### Track B: CleanPanel Clean-Room Native Hosting ("CleanPanel")
+* **Target Environment**: Multi-node cluster infrastructure (`203.0.113.32` Web/DB Node, `203.0.113.24` Mail Node, `203.0.113.25` Worker Node).
 * **Architecture**: Direct tenant self-service portal integrated into `users_backend` (`:3030`) and `Native Secrets Vault` (`:8200`). Eliminates third-party control panel software entirely by leveraging native Linux system services already provisioned on the cluster.
-* **Benefits**: Maximum agency control, bespoke branding, zero third-party attack surface, and seamless integration with Vahag's existing user account (`vahag`) in `multipleDomainCMS`.
+* **Benefits**: Maximum operational control, bespoke branding, zero third-party attack surface, and seamless integration with Acme's existing user account (`acme`).
 
 ---
 
 ## 4. Key Milestones & Success Criteria
 
-1. **Complete Discovery & Clean-Room Manifest**: Extract and document 100% of the active cPanel features, configuration models, and UI screens from `architecturalnumbers.com:2083`.
-2. **Definitive Open-Source Evaluation**: Produce an objective architectural comparison of Virtualmin, ISPConfig 3, HestiaCP, and Froxlor against Vahag's operational requirements.
-3. **Turnkey Migration Playbook**: Provide an actionable, step-by-step runbook for migrating `architecturalnumbers.com` and `trace4less.com` from cPanel to Virtualmin GPL without email disruption or database data loss.
-4. **Clean-Room Specification**: Document the complete system design, API contracts, and Linux daemon commands required to deliver a native cPanel equivalent inside WinWinHost.
+1. **Complete Discovery & Clean-Room Manifest**: Extract and document 100% of the active cPanel features, configuration models, and UI screens from `example-store.com:2083`.
+2. **Definitive Open-Source Evaluation**: Produce an objective architectural comparison of Virtualmin, ISPConfig 3, HestiaCP, and Froxlor against Acme's operational requirements.
+3. **Turnkey Migration Playbook**: Provide an actionable, step-by-step runbook for migrating `example-store.com` and `legacy-crm.org` from cPanel to Virtualmin GPL without email disruption or database data loss.
+4. **Clean-Room Specification**: Document the complete system design, API contracts, and Linux daemon commands required to deliver a native cPanel equivalent inside CleanPanel.

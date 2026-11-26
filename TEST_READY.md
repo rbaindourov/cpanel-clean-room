@@ -26,7 +26,7 @@ node --test tests/e2e/*.test.mjs
 node --test tests/e2e/tier1_features.test.mjs
 node --test tests/e2e/tier2_boundaries.test.mjs
 node --test tests/e2e/tier3_interactions.test.mjs
-node --test tests/e2e/tier4_realworld_vahag.test.mjs
+node --test tests/e2e/tier4_realworld_tenant.test.mjs
 
 # Verify repository docs integrity & leak prevention gate
 npm run verify
@@ -46,7 +46,7 @@ npm run verify
 │ 0       │ 'Tier 1' │ 'Feature Coverage (68 Features across 9 Categories)'             │ 385   │ 385    │ 0      │ 'PASSED' │ '378ms' │
 │ 1       │ 'Tier 2' │ 'Boundary & Corner Cases (Adversarial Security & Stress)'        │ 30    │ 30     │ 0      │ 'PASSED' │ '97ms'  │
 │ 2       │ 'Tier 3' │ 'Cross-Feature Interactions (Pairwise Pipelines)'                │ 17    │ 17     │ 0      │ 'PASSED' │ '179ms' │
-│ 3       │ 'Tier 4' │ 'Real-World Scenarios (Vahag WP, Legacy PHP, cpmove Round-Trip)' │ 18    │ 18     │ 0      │ 'PASSED' │ '111ms' │
+│ 3       │ 'Tier 4' │ 'Real-World Scenarios (Acme WP, Legacy PHP, cpmove Round-Trip)' │ 18    │ 18     │ 0      │ 'PASSED' │ '111ms' │
 └─────────┴──────────┴──────────────────────────────────────────────────────────────────┴───────┴────────┴────────┴──────────┴─────────┘
 
 Aggregated Total: 450/450 Passed | 0 Failed | Overall Execution Time: ~766ms
@@ -86,11 +86,11 @@ Pairwise end-to-end integration flows across subsystem boundaries:
 - **Pipeline 5: Security Defense In Depth (1 test):** Multi-layer composition combining IP Blocker (`deny`), Directory Privacy (`auth_basic`), Hotlink Protection (`valid_referers`), and WordPress rewrites (`try_files`) in a single cohesive Nginx vhost.
 
 ### Tier 4: Real-World Application Scenarios (18 Tests / 5 Suites)
-Full-fidelity real-world scenarios reconstructed from client Vahag Kazanchyan's HostGator account:
-- **Scenario 1: WordPress Production (`architecturalnumbers.com` — 5 tests):** Multi-PHP 8.4 pool with `512M` memory limit, Nginx vhost with SSL SANs and WordPress rewrites, 4 client mailboxes (`production`, `sales`, `webmaster`, `amazon`) with quotas (3000M, 4000M, 1000M, 500M), 54.7 MB MySQL schema ingestion, RFC 1035 zone file with DKIM and SPF.
-- **Scenario 2: Legacy PHP Application (`trace4less.com` — 4 tests):** Dedicated legacy PHP 7.2 pool with mysql shim compatibility, automated `.htaccess` conversion stripping EasyApache handlers and mapping rewrites, addon domain Nginx vhost, `vahag_trace4less` database ingestion.
-- **Scenario 3: Full `cpmove-vahag.tar.gz` Round-Trip Migration (5 tests):** Programmatic authentic cpmove tree creation (`cp/vahag`, `userdata/`, `homedir/`, `mysql/`, `dnszones/`, `cron/`, `valiases/`), packaging into `.tar.gz`, extraction, full sysroot sandbox ingestion (`scratch/sysroot`), re-export into new `.tar.gz`, and verification of data round-trip parity.
-- **Scenario 4: Support Impersonation & Security Audit Trail (4 tests):** Admin 1-click impersonation token issuance into tenant `vahag`, IP blocker rule addition during impersonation, audit logging with `OPERATOR: admin IMPERSONATING: vahag`, strict tenant file isolation check, clean exit back to admin context.
+Full-fidelity real-world scenarios reconstructed from our reference HostGator account:
+- **Scenario 1: WordPress Production (`example-store.com` — 5 tests):** Multi-PHP 8.4 pool with `512M` memory limit, Nginx vhost with SSL SANs and WordPress rewrites, 4 client mailboxes (`production`, `sales`, `webmaster`, `amazon`) with quotas (3000M, 4000M, 1000M, 500M), 54.7 MB MySQL schema ingestion, RFC 1035 zone file with DKIM and SPF.
+- **Scenario 2: Legacy PHP Application (`legacy-crm.org` — 4 tests):** Dedicated legacy PHP 7.2 pool with mysql shim compatibility, automated `.htaccess` conversion stripping EasyApache handlers and mapping rewrites, addon domain Nginx vhost, `acme_crm` database ingestion.
+- **Scenario 3: Full `cpmove-acme.tar.gz` Round-Trip Migration (5 tests):** Programmatic authentic cpmove tree creation (`cp/acme`, `userdata/`, `homedir/`, `mysql/`, `dnszones/`, `cron/`, `valiases/`), packaging into `.tar.gz`, extraction, full sysroot sandbox ingestion (`scratch/sysroot`), re-export into new `.tar.gz`, and verification of data round-trip parity.
+- **Scenario 4: Support Impersonation & Security Audit Trail (4 tests):** Admin 1-click impersonation token issuance into tenant `acme`, IP blocker rule addition during impersonation, audit logging with `OPERATOR: admin IMPERSONATING: acme`, strict tenant file isolation check, clean exit back to admin context.
 
 ---
 

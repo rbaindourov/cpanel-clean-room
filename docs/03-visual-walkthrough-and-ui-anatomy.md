@@ -1,6 +1,6 @@
 # Visual Walkthrough & UI Anatomy: HostGator cPanel (Jupiter Theme)
 
-This visual guide breaks down the user experience, layout patterns, and interface mechanics of **HostGator cPanel** (`architecturalnumbers.com:2083`), using the high-resolution, redacted reference screenshots captured in `docs/screenshots/`.
+This visual guide breaks down the user experience, layout patterns, and interface mechanics of **HostGator cPanel** (`example-store.com:2083`), using the high-resolution, redacted reference screenshots captured in `docs/screenshots/`.
 
 ---
 
@@ -25,8 +25,8 @@ graph TD
 The Jupiter theme organizes administrative tasks into logical, color-coded functional sections. Key elements:
 * **Instant Filter (`/` shortcut)**: A persistent search bar at the top of the tools section allows quick fuzzy-filtering of all 68 tools without scanning page sections manually.
 * **Right Telemetry Rail**: Displays immediate resource consumption metrics:
-  * Primary Domain (`architecturalnumbers.com`)
-  * Home Directory (`/home4/vahag`)
+  * Primary Domain (`example-store.com`)
+  * Home Directory (`/home4/acme`)
   * Shared IP Address (Scrubbed to `198.57.xxx.xxx`)
   * Disk Space Usage (Pie/progress bar of total quota)
   * Monthly Bandwidth Usage
@@ -44,7 +44,7 @@ Provides a single-pane diagnostic report of the underlying host daemon versions,
 
 ### 2.1 Email, Routing & Deliverability
 
-Email is the primary communication pipeline for Vahag's fabrication business (`sales@westonletters.com`).
+Email is the primary communication pipeline for Acme's business (`sales@studio-letters.com`).
 
 | Screen | Redacted Visual Reference | Key UI Capabilities |
 | :--- | :--- | :--- |
@@ -73,7 +73,7 @@ Email is the primary communication pipeline for Vahag's fabrication business (`s
 
 | Screen | Redacted Visual Reference | Key UI Capabilities |
 | :--- | :--- | :--- |
-| **MySQL Databases** | ![MySQL Databases](screenshots/03-databases/01-mysql-databases.png) | List of active databases (`vahag_architecturalnumbers`, `vahag_trace4less`), size in MB, privileged users assigned, database creation input, database user creation, and user-to-database permission assignment table. |
+| **MySQL Databases** | ![MySQL Databases](screenshots/03-databases/01-mysql-databases.png) | List of active databases (`acme_store`, `acme_crm`), size in MB, privileged users assigned, database creation input, database user creation, and user-to-database permission assignment table. |
 | **MySQL Database Wizard** | ![MySQL Database Wizard](screenshots/03-databases/02-mysql-wizard.png) | 4-step guided wizard designed for non-technical users to create a database, create a user with auto-generated high-entropy password, assign all privileges, and show connection string details. |
 | **Remote MySQL** | ![Remote MySQL](screenshots/03-databases/03-remote-mysql.png) | IP access list for external MySQL client connections (Navicat, DBeaver, external microservices). |
 
@@ -93,7 +93,7 @@ Email is the primary communication pipeline for Vahag's fabrication business (`s
 
 | Screen | Redacted Visual Reference | Key UI Capabilities |
 | :--- | :--- | :--- |
-| **SSL/TLS Status** | ![SSL/TLS Status](screenshots/06-security/01-ssl-tls-status.png) | AutoSSL validation status across all domains and subdomains (`*.architecturalnumbers.com`, `mail.*`, `cpanel.*`). Displays certificate expiration date, issuer (cPanel / Let's Encrypt / Sectigo), and one-click "Run AutoSSL" force-renewal button. |
+| **SSL/TLS Status** | ![SSL/TLS Status](screenshots/06-security/01-ssl-tls-status.png) | AutoSSL validation status across all domains and subdomains (`*.example-store.com`, `mail.*`, `cpanel.*`). Displays certificate expiration date, issuer (cPanel / Let's Encrypt / Sectigo), and one-click "Run AutoSSL" force-renewal button. |
 | **IP Blocker** | ![IP Blocker](screenshots/06-security/02-ip-blocker.png) | CIDR block and single IP address blacklisting tool. Translates user inputs directly into web server deny rules. |
 | **SSH Access** | ![SSH Access](screenshots/06-security/03-ssh-access.png) | SSH key generation, public key upload, and private key download, managing `~/.ssh/authorized_keys`. |
 | **API Tokens** | ![API Tokens](screenshots/06-security/04-api-tokens.png) | Provisioning of scoped cPanel UAPI authentication tokens with fine-grained capability checkboxes. |

@@ -73,8 +73,8 @@ export class DnsBindHandler {
   public async upsertZone(params: DnsUpsertZoneParams): Promise<DnsUpsertZoneResult> {
     const {
       domain,
-      primaryNs = 'ns1.winwinhost.com.',
-      adminEmail = 'hostmaster.winwinhost.com.',
+      primaryNs = 'ns1.cleanpanel.local.',
+      adminEmail = 'hostmaster.cleanpanel.local.',
       ttl = 300,
       records = [],
       syncCloudflare = false,

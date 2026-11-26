@@ -11,7 +11,7 @@ Execute on a fresh Ubuntu 22.04 / 24.04 LTS VPS instance (e.g. Linode, Hetzner, 
 ```bash
 # 1. Update system packages and configure fully-qualified domain name (FQDN)
 sudo apt update && sudo apt upgrade -y
-sudo hostnamectl set-hostname panel.architecturalnumbers.com
+sudo hostnamectl set-hostname panel.example-store.com
 
 # 2. Download and verify official Virtualmin automated installer
 curl -O https://software.virtualmin.com/gpl/scripts/virtualmin-install.sh
@@ -37,9 +37,9 @@ sudo ufw enable
 
 ## 2. Multi-PHP Runtime Configuration (PHP 7.2 to PHP 8.4)
 
-Client workloads require disparate PHP engines:
-* **`trace4less.com`**: Requires **PHP 7.2** (running with the procedural `mysql_shim.php` compatibility bridge).
-* **`architecturalnumbers.com`**: Requires modern **PHP 8.4** (with OPcache, GD/Imagick, and high-memory limits for Three.js PBR WebGL pipelines and `studio.php`).
+Tenant workloads require disparate PHP engines:
+* **`legacy-crm.org`**: Requires **PHP 7.2** (running with the procedural `mysql_shim.php` compatibility bridge).
+* **`example-store.com`**: Requires modern **PHP 8.4** (with OPcache, GD/Imagick, and high-memory limits for Three.js PBR WebGL pipelines and `studio.php`).
 
 Add Ondřej Surý's official PHP repository and install the required engines:
 
@@ -67,11 +67,11 @@ sudo virtualmin check-config
 Virtualmin includes a native parser that reads cPanel `backup-*.tar.gz` archives and automatically reconstructs the virtual host, home directory files, MySQL databases, database users, mailbox accounts (with preserved password hashes), forwarders, and DNS records.
 
 ### Step 3.1: Generate cPanel Backup from HostGator
-In cPanel (`architecturalnumbers.com:2083`):
+In cPanel (`example-store.com:2083`):
 1. Navigate to **Backup** (`backup/index.html`).
 2. Click **Download a Full Account Backup**.
 3. Select **Home Directory** and enter your email address to receive notification upon completion.
-4. Download the generated archive: `backup-MM.DD.YYYY_HH-MM-SS_vahag.tar.gz`.
+4. Download the generated archive: `backup-MM.DD.YYYY_HH-MM-SS_acme.tar.gz`.
 
 ### Step 3.2: Execute Native Virtualmin Migration CLI
 Transfer the archive to the new VPS and execute:
@@ -79,10 +79,10 @@ Transfer the archive to the new VPS and execute:
 ```bash
 # Execute automated cPanel import
 sudo virtualmin migrate-domain \
-  --source /root/backup-vahag.tar.gz \
+  --source /root/backup-acme.tar.gz \
   --type cpanel \
-  --domain architecturalnumbers.com \
-  --user vahag \
+  --domain example-store.com \
+  --user acme \
   --pass-keep \
   --web \
   --mail \
@@ -95,26 +95,26 @@ sudo virtualmin list-domains --name-only
 
 ### Step 3.3: Set Custom PHP Version per Domain
 ```bash
-# Assign modern PHP 8.4 to architecturalnumbers.com
-sudo virtualmin set-php-version --domain architecturalnumbers.com --version 8.4
+# Assign modern PHP 8.4 to example-store.com
+sudo virtualmin set-php-version --domain example-store.com --version 8.4
 
-# Assign legacy PHP 7.2 to trace4less.com
-sudo virtualmin set-php-version --domain trace4less.com --version 7.2
+# Assign legacy PHP 7.2 to legacy-crm.org
+sudo virtualmin set-php-version --domain legacy-crm.org --version 7.2
 ```
 
 ---
 
 ## 4. White-Labeling & Client Experience Lockdown
 
-To ensure Vahag experiences a clean, modern interface without being overwhelmed by root Linux server administration options:
+To ensure Acme experiences a clean, modern interface without being overwhelmed by root Linux server administration options:
 
 ```mermaid
 graph TD
     ROOT["Root Administrator (Port 10000: Webmin Full Server Admin)"]
-    CLIENT["Client Role: Vahag (Port 10000: Virtualmin Scoped Tenant)"]
+    CLIENT["Tenant Role: Acme (Port 10000: Virtualmin Scoped Tenant)"]
     MAIL_USER["Mail Users (Port 20000: Usermin Webmail Only)"]
 
-    subgraph TenantView["Vahag's Clean Tenant View"]
+    subgraph TenantView["Acme's Clean Tenant View"]
         D1["Edit Virtual Server (Domain & SSL)"]
         D2["File Manager (Authentic Theme HTML5)"]
         D3["Edit Databases (MySQL / phpMyAdmin SSO)"]
@@ -126,10 +126,10 @@ graph TD
 ```
 
 ### Hardening Steps:
-1. **Restrict Webmin Modules**: Under **Webmin > Webmin Users > `vahag`**, disable all system-level modules (Network Configuration, Bootup and Shutdown, Software Package Updates) and restrict access exclusively to **Virtualmin Virtual Servers**.
+1. **Restrict Webmin Modules**: Under **Webmin > Webmin Users > `acme`**, disable all system-level modules (Network Configuration, Bootup and Shutdown, Software Package Updates) and restrict access exclusively to **Virtualmin Virtual Servers**.
 2. **Authentic Theme Customization**:
    * Navigate to **Webmin > Webmin Configuration > Authentic Theme Configuration**.
-   * Set custom branding logo (`Architectural Numbers` / `WinWinHost`).
+   * Set custom branding logo (`Example Store E-Commerce` / `CleanPanel`).
    * Enable dark mode token palette.
 3. **Two-Factor Authentication (2FA)**:
    * Enforce TOTP under **Webmin > Webmin Configuration > Two-Factor Authentication**.
@@ -146,8 +146,8 @@ graph TD
 1. **Pre-Sync Maildirs**:
    Use `imapsync` to mirror historical email from HostGator to the new VPS prior to DNS cutover:
    ```bash
-   imapsync --host1 architecturalnumbers.com --user1 sales@architecturalnumbers.com --pass1 "..." \
-            --host2 panel.architecturalnumbers.com --user2 sales@architecturalnumbers.com --pass2 "..."
+   imapsync --host1 example-store.com --user1 sales@example-store.com --pass1 "..." \
+            --host2 panel.example-store.com --user2 sales@example-store.com --pass2 "..."
    ```
 2. **Lower DNS TTLs**:
    In HostGator cPanel **Zone Editor**, reduce TTL on `A` and `MX` records from `14400` (4 hours) to `300` (5 minutes) at least 24 hours prior to cutover.
@@ -156,9 +156,9 @@ graph TD
    * Run `mysqldump` on HostGator and import into new VPS.
    * Run final delta `imapsync`.
 4. **Update Nameservers / Apex DNS**:
-   * Point `A` record for `architecturalnumbers.com` to new VPS IP.
-   * Point `MX` record to `panel.architecturalnumbers.com`.
+   * Point `A` record for `example-store.com` to new VPS IP.
+   * Point `MX` record to `panel.example-store.com`.
 5. **Issue Live Let's Encrypt Certificate**:
    ```bash
-   sudo virtualmin generate-cert --domain architecturalnumbers.com --letsencrypt
+   sudo virtualmin generate-cert --domain example-store.com --letsencrypt
    ```

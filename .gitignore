@@ -5,6 +5,7 @@
 
 # Scratch and session artifacts
 scratch/
+**/scratch/
 .agents/
 *.cookies.json
 raw_*.json

@@ -1,6 +1,7 @@
 {
   "name": "@cpanel-clean-room/agentd",
   "version": "1.0.0",
+  "license": "MIT",
   "description": "Privileged root daemon for cPanel clean-room appliance",
   "type": "module",
   "main": "./src/index.ts",

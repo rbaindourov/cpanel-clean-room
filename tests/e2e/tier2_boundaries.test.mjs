@@ -39,14 +39,14 @@ describe('Tier 2: Boundary & Corner Cases (Adversarial Security & Stress)', () =
     }
 
     it('T2-PATH.1: rejects raw ../../etc/shadow path traversal', () => {
-      const base = resolveSysroot('home/vahag/public_html');
+      const base = resolveSysroot('home/acme/public_html');
       assert.throws(() => {
         sanitizeTenantPath(base, '../../etc/shadow');
       }, /E_PATH_TRAVERSAL_DETECTED/);
     });
 
     it('T2-PATH.2: rejects nested parent directory escape ../../..', () => {
-      const base = resolveSysroot('home/vahag/public_html');
+      const base = resolveSysroot('home/acme/public_html');
       assert.throws(() => {
         sanitizeTenantPath(base, 'subfolder/../../../../etc/passwd');
       }, /E_PATH_TRAVERSAL_DETECTED/);
@@ -60,14 +60,14 @@ describe('Tier 2: Boundary & Corner Cases (Adversarial Security & Stress)', () =
     });
 
     it('T2-PATH.4: verifies symlink target confinement within tenant homedir', () => {
-      const base = resolveSysroot('home/vahag');
+      const base = resolveSysroot('home/acme');
       const outsideTarget = '/etc/passwd';
       const isConfined = path.resolve(base, outsideTarget).startsWith(base);
       assert.equal(isConfined, false);
     });
 
     it('T2-PATH.5: accepts valid nested file path inside document root', () => {
-      const base = resolveSysroot('home/vahag/public_html');
+      const base = resolveSysroot('home/acme/public_html');
       const valid = sanitizeTenantPath(base, 'wp-content/uploads/2026/11/photo.jpg');
       assert.ok(valid.startsWith(base));
     });
@@ -104,13 +104,13 @@ describe('Tier 2: Boundary & Corner Cases (Adversarial Security & Stress)', () =
     });
 
     it('T2-INJ.4: sanitizes SQL database identifiers with strict backtick escaping', () => {
-      const rawDb = 'vahag_test`db';
+      const rawDb = 'acme_test`db';
       const escaped = rawDb.replace(/`/g, '``');
-      assert.equal(escaped, 'vahag_test``db');
+      assert.equal(escaped, 'acme_test``db');
     });
 
     it('T2-INJ.5: rejects database user names with SQL comment payloads', () => {
-      const user = "vahag_k'--";
+      const user = "acme_k'--";
       assert.throws(() => {
         if (!/^[a-zA-Z0-9_]{1,32}$/.test(user)) throw new Error('E_INVALID_DB_USER');
       }, /E_INVALID_DB_USER/);
@@ -122,7 +122,7 @@ describe('Tier 2: Boundary & Corner Cases (Adversarial Security & Stress)', () =
   // =========================================================================
   describe('Resource & Quota Boundary Limits', () => {
     it('T2-QUOTA.1: handles zero-byte file without corruption', () => {
-      const p = writeSysrootFile('home/vahag/public_html/empty.txt', '');
+      const p = writeSysrootFile('home/acme/public_html/empty.txt', '');
       const stat = fs.statSync(p);
       assert.equal(stat.size, 0);
     });
@@ -213,15 +213,15 @@ describe('Tier 2: Boundary & Corner Cases (Adversarial Security & Stress)', () =
     });
 
     it('T2-UNI.4: formats BIND9 TXT record containing escaped semicolons', () => {
-      const rawTxt = 'v=DMARC1; p=reject; rua=mailto:dmarc@architecturalnumbers.com';
+      const rawTxt = 'v=DMARC1; p=reject; rua=mailto:dmarc@example-store.com';
       const escaped = `"${rawTxt.replace(/"/g, '\\"')}"`;
-      assert.equal(escaped, '"v=DMARC1; p=reject; rua=mailto:dmarc@architecturalnumbers.com"');
+      assert.equal(escaped, '"v=DMARC1; p=reject; rua=mailto:dmarc@example-store.com"');
     });
 
     it('T2-UNI.5: parses quoted-string local part in email address', () => {
-      const email = '"vahag special"@architecturalnumbers.com';
+      const email = '"acme special"@example-store.com';
       assert.ok(email.startsWith('"'));
-      assert.ok(email.includes('@architecturalnumbers.com'));
+      assert.ok(email.includes('@example-store.com'));
     });
   });
 
@@ -230,7 +230,7 @@ describe('Tier 2: Boundary & Corner Cases (Adversarial Security & Stress)', () =
   // =========================================================================
   describe('Concurrency & Atomic Writes', () => {
     it('T2-CONC.1: executes atomic file write with temporary file replacement', () => {
-      const target = resolveSysroot('home/vahag/public_html/atomic.conf');
+      const target = resolveSysroot('home/acme/public_html/atomic.conf');
       const temp = `${target}.tmp.${Date.now()}`;
       fs.writeFileSync(temp, 'atomic content', 'utf8');
       fs.renameSync(temp, target);
@@ -239,7 +239,7 @@ describe('Tier 2: Boundary & Corner Cases (Adversarial Security & Stress)', () =
     });
 
     it('T2-CONC.2: verifies token expiration at exact boundary second', () => {
-      const sso = generatePhpMyAdminSSO({ user: 'vahag', dbUser: 'vahag_k', validSeconds: 1 });
+      const sso = generatePhpMyAdminSSO({ user: 'acme', dbUser: 'acme_k', validSeconds: 1 });
       const validImmediately = verifyPhpMyAdminSSO(sso.token, sso.signature);
       assert.equal(validImmediately.valid, true);
     });
@@ -259,7 +259,7 @@ describe('Tier 2: Boundary & Corner Cases (Adversarial Security & Stress)', () =
     });
 
     it('T2-CONC.5: guarantees zero partial config reads during atomic rewrite', () => {
-      const p = resolveSysroot('home/vahag/public_html/atomic.conf');
+      const p = resolveSysroot('home/acme/public_html/atomic.conf');
       const content = fs.readFileSync(p, 'utf8');
       assert.equal(content, 'atomic content');
     });

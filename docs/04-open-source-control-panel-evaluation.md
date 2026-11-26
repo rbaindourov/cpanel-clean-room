@@ -1,6 +1,6 @@
 # Open-Source Control Panel Architectural Evaluation
 
-This document evaluates the leading open-source control panels capable of replacing HostGator cPanel for client **Vahag Kazanchyan** (`architecturalnumbers.com`, `trace4less.com`, `westonletters.com`).
+This document evaluates the leading open-source control panels capable of replacing HostGator cPanel for tenant **Acme Hosting Tenant** (`example-store.com`, `legacy-crm.org`, `studio-letters.com`).
 
 Per the **Native Installations over Docker** invariant, this evaluation strictly considers control panels that run directly on bare-metal Linux / unmanaged VPS environments as native system services (APT/systemd), directly managing standard Linux daemons (`Nginx`/`Apache`, `PHP-FPM`, `MySQL`/`MariaDB`, `BIND9`, `Postfix`, `Dovecot`, `SpamAssassin`).
 
@@ -14,17 +14,17 @@ Per the **Native Installations over Docker** invariant, this evaluation strictly
 * **Mail & DNS Stack**: Direct configuration of native `Postfix`, `Dovecot` (Maildir), `SpamAssassin`, `ClamAV`, `OpenDKIM`, and `BIND9`.
 * **Automated cPanel Migration Engine**: **Unrivaled.** Virtualmin includes a dedicated, battle-tested `cpmove` importer (`virtualmin migrate-domain --type cpanel`) capable of extracting a standard cPanel backup archive and recreating virtual hosts, docroots, MySQL databases, database users, mailbox accounts with preserved password hashes, forwarders, and DNS records automatically.
 * **Separation of Concerns (Usermin)**: Virtualmin provides **Usermin** (port 20000), a dedicated unprivileged webmail and user portal that allows mailbox owners to manage passwords, spam filters, and autoresponders without granting access to the Webmin administrative panel.
-* **Verdict**: **The #1 recommended turnkey migration target for Vahag.**
+* **Verdict**: **The #1 recommended turnkey migration target for Acme.**
 
 ---
 
 ### Candidate 2: ISPConfig 3 (BSD License)
 * **Underlying Architecture**: PHP-based master-agent architecture designed specifically for multi-server hosting networks. 
-* **Multi-Server Clustering**: Uniquely architected for distributed clusters. Can operate a central management master while managing separate physical nodes for Web/PHP (`192.168.11.32`), Mail/IMAP (`192.168.11.24`), and DNS/Database.
+* **Multi-Server Clustering**: Uniquely architected for distributed clusters. Can operate a central management master while managing separate physical nodes for Web/PHP (`203.0.113.32`), Mail/IMAP (`203.0.113.24`), and DNS/Database.
 * **Web & Multi-PHP Stack**: Manages Apache, Nginx, PureFTPd, and multi-PHP-FPM versions per web domain.
 * **Mail & DNS Stack**: Highly mature Postfix + Dovecot + BIND9/PowerDNS management with DKIM, SPF, and Rspamd / SpamAssassin integration.
 * **cPanel Migration**: Features an active migration toolkit (`ispconfig_cpanel_migration`), though less automated than Virtualmin's native CLI command.
-* **Verdict**: **The strongest open-source panel for multi-server cluster topologies** (ideal for WinWinHost's internal infrastructure).
+* **Verdict**: **The strongest open-source panel for multi-server cluster topologies** (ideal for CleanPanel's multi-node infrastructure).
 
 ---
 
@@ -34,7 +34,7 @@ Per the **Native Installations over Docker** invariant, this evaluation strictly
 * **Mail & DNS Stack**: Exim4 + Dovecot + Roundcube Webmail + BIND9. Includes automated Let's Encrypt certificates for mail, web, and the control panel.
 * **User Experience**: The cleanest, most modern, and responsive user interface among open-source panels. Easiest for non-technical clients to navigate.
 * **Limitation**: Mail is hardcoded to Exim4 rather than Postfix, and installation requires a clean, dedicated server OS instance.
-* **Verdict**: **The best single-server UX replacement** if Vahag desires an interface that feels modern and lightweight.
+* **Verdict**: **The best single-server UX replacement** if Acme desires an interface that feels modern and lightweight.
 
 ---
 
@@ -88,5 +88,5 @@ Scoring candidate open-source control panels against the core requirements ident
 
 ## 4. Final Recommendation & Strategic Guidance
 
-1. **For Vahag's Consolidated VPS (Short-Term)**: Deploy **Virtualmin GPL** on a clean Ubuntu 22.04 / 24.04 LTS VPS. It delivers 100% operational parity with cPanel, automates the migration of `architecturalnumbers.com` and `trace4less.com` via `virtualmin migrate-domain`, natively accommodates PHP 7.2 through 8.4, and completely eliminates the $35–$60/month cPanel licensing overhead.
-2. **For WinWinHost Multi-Server Infrastructure (Long-Term)**: Adopt the architectural principles of **HestiaCP's privileged CLI script wrapper model** (`v-*` scripts) and **ISPConfig's multi-server master/agent model** to drive the clean-room "WinWinPanel" specification detailed in Document 06.
+1. **For Acme's Consolidated VPS (Short-Term)**: Deploy **Virtualmin GPL** on a clean Ubuntu 22.04 / 24.04 LTS VPS. It delivers 100% operational parity with cPanel, automates the migration of `example-store.com` and `legacy-crm.org` via `virtualmin migrate-domain`, natively accommodates PHP 7.2 through 8.4, and completely eliminates the $35–$60/month cPanel licensing overhead.
+2. **For CleanPanel Multi-Server Infrastructure (Long-Term)**: Adopt the architectural principles of **HestiaCP's privileged CLI script wrapper model** (`v-*` scripts) and **ISPConfig's multi-server master/agent model** to drive the clean-room "CleanPanel" specification detailed in [Document 06](06-clean-room-control-panel-architecture.md).

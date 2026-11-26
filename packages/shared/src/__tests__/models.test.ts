@@ -14,8 +14,8 @@ describe('models.ts Entity Contracts', () => {
   test('Account entity conforms to multi-tenant schema with plan limits', () => {
     const account: Account = {
       id: 'a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d',
-      username: 'vahag',
-      email: 'vahag@architecturalnumbers.com',
+      username: 'acme',
+      email: 'acme@example-store.com',
       role: 'customer',
       packageName: 'HostGator_Legacy_Gold',
       planLimits: {
@@ -32,7 +32,7 @@ describe('models.ts Entity Contracts', () => {
       },
       uid: 1005,
       gid: 1005,
-      homeDir: '/home/vahag',
+      homeDir: '/home/acme',
       shell: '/bin/bash',
       suspended: false,
       twoFactorEnabled: false,
@@ -40,7 +40,7 @@ describe('models.ts Entity Contracts', () => {
       updatedAt: '2026-11-12T00:00:00.000Z',
     };
 
-    assert.equal(account.username, 'vahag');
+    assert.equal(account.username, 'acme');
     assert.equal(account.role, 'customer');
     assert.equal(account.planLimits.cpuQuotaPercent, 200);
   });
@@ -48,35 +48,35 @@ describe('models.ts Entity Contracts', () => {
   test('Domain entity represents primary and addon domains with Multi-PHP versions', () => {
     const primaryDomain: Domain = {
       id: 'dom-001',
-      accountId: 'acc-vahag',
-      domainName: 'architecturalnumbers.com',
+      accountId: 'acc-acme',
+      domainName: 'example-store.com',
       type: 'primary',
-      documentRoot: '/home/vahag/public_html',
+      documentRoot: '/home/acme/public_html',
       phpVersion: '8.3',
       useApacheBackend: false,
       sslStatus: 'active',
       sslProvider: 'letsencrypt',
       sslExpiresAt: '2027-02-10T00:00:00.000Z',
       forceHttps: true,
-      ipAddress: '192.168.11.32',
-      aliases: ['www.architecturalnumbers.com'],
+      ipAddress: '203.0.113.32',
+      aliases: ['www.example-store.com'],
       createdAt: '2026-11-12T00:00:00.000Z',
       updatedAt: '2026-11-12T00:00:00.000Z',
     };
 
     const addonDomain: Domain = {
       id: 'dom-002',
-      accountId: 'acc-vahag',
-      domainName: 'trace4less.com',
+      accountId: 'acc-acme',
+      domainName: 'legacy-crm.org',
       type: 'addon',
-      documentRoot: '/home/vahag/trace4less.com',
+      documentRoot: '/home/acme/legacy-crm.org',
       phpVersion: '7.4',
       useApacheBackend: false,
       sslStatus: 'active',
       sslProvider: 'letsencrypt',
       forceHttps: true,
-      ipAddress: '192.168.11.32',
-      aliases: ['www.trace4less.com'],
+      ipAddress: '203.0.113.32',
+      aliases: ['www.legacy-crm.org'],
       createdAt: '2026-11-12T00:00:00.000Z',
       updatedAt: '2026-11-12T00:00:00.000Z',
     };
@@ -87,14 +87,14 @@ describe('models.ts Entity Contracts', () => {
     assert.equal(addonDomain.type, 'addon');
   });
 
-  test('Mailbox entity models authentic Vahag mailboxes and Dovecot hashes', () => {
+  test('Mailbox entity models authentic Acme mailboxes and Dovecot hashes', () => {
     const mailbox: Mailbox = {
       id: 'mbx-001',
-      accountId: 'acc-vahag',
+      accountId: 'acc-acme',
       domainId: 'dom-001',
-      email: 'production@architecturalnumbers.com',
+      email: 'production@example-store.com',
       localPart: 'production',
-      domain: 'architecturalnumbers.com',
+      domain: 'example-store.com',
       passwordHash: '{ARGON2ID}$argon2id$v=19$m=65536,t=3,p=4$mockHashProduction',
       quotaBytes: 3145728000, // 3000 MB
       usedBytes: 2567430291,
@@ -104,7 +104,7 @@ describe('models.ts Entity Contracts', () => {
       updatedAt: '2026-11-12T00:00:00.000Z',
     };
 
-    assert.equal(mailbox.email, 'production@architecturalnumbers.com');
+    assert.equal(mailbox.email, 'production@example-store.com');
     assert.ok(mailbox.usedBytes < mailbox.quotaBytes);
     assert.equal(mailbox.suspendedLogin, false);
   });
@@ -112,13 +112,13 @@ describe('models.ts Entity Contracts', () => {
   test('Database entity models authentic prefixed DBs and user grants', () => {
     const database: Database = {
       id: 'db-001',
-      accountId: 'acc-vahag',
-      databaseName: 'vahag_architecturalnumbers',
+      accountId: 'acc-acme',
+      databaseName: 'acme_store',
       charset: 'utf8mb4',
       collation: 'utf8mb4_unicode_ci',
       users: [
         {
-          username: 'vahag_k',
+          username: 'acme_wp1',
           remoteHost: 'localhost',
           privileges: ['ALL PRIVILEGES'],
         },
@@ -128,8 +128,8 @@ describe('models.ts Entity Contracts', () => {
       updatedAt: '2026-11-12T00:00:00.000Z',
     };
 
-    assert.equal(database.databaseName, 'vahag_architecturalnumbers');
-    assert.equal(database.users[0]?.username, 'vahag_k');
+    assert.equal(database.databaseName, 'acme_store');
+    assert.equal(database.users[0]?.username, 'acme_wp1');
     assert.equal(database.sizeBytes, 54759734);
   });
 
@@ -137,9 +137,9 @@ describe('models.ts Entity Contracts', () => {
     const zone: DnsZone = {
       id: 'zone-001',
       domainId: 'dom-001',
-      domainName: 'architecturalnumbers.com',
-      primaryNs: 'ns1.winwinhost.com.',
-      adminEmail: 'hostmaster.winwinhost.com.',
+      domainName: 'example-store.com',
+      primaryNs: 'ns1.cleanpanel.local.',
+      adminEmail: 'hostmaster.cleanpanel.local.',
       serial: 2026111201,
       refresh: 10800,
       retry: 3600,
@@ -151,7 +151,7 @@ describe('models.ts Entity Contracts', () => {
           domainId: 'dom-001',
           name: '@',
           type: 'A',
-          value: '192.168.11.32',
+          value: '203.0.113.32',
           ttl: 300,
         },
         {
@@ -159,7 +159,7 @@ describe('models.ts Entity Contracts', () => {
           domainId: 'dom-001',
           name: '@',
           type: 'MX',
-          value: 'mail.architecturalnumbers.com.',
+          value: 'mail.example-store.com.',
           ttl: 300,
           priority: 10,
         },
@@ -178,11 +178,11 @@ describe('models.ts Entity Contracts', () => {
   test('Backup entity models cpmove and restic snapshots', () => {
     const backup: Backup = {
       id: 'bk-001',
-      accountId: 'acc-vahag',
+      accountId: 'acc-acme',
       type: 'cpmove',
       status: 'completed',
-      fileName: 'cpmove-vahag.tar.gz',
-      filePath: '/home/vahag/backups/cpmove-vahag.tar.gz',
+      fileName: 'cpmove-acme.tar.gz',
+      filePath: '/home/acme/backups/cpmove-acme.tar.gz',
       sizeBytes: 154829104,
       destination: 'local',
       progressPercent: 100,
@@ -197,7 +197,7 @@ describe('models.ts Entity Contracts', () => {
 
   test('SystemStats entity models appliance health and service states', () => {
     const stats: SystemStats = {
-      hostname: 'cleanroom.winwinhost.com',
+      hostname: 'cleanroom.cleanpanel.local',
       os: 'Debian GNU/Linux 12 (bookworm)',
       kernel: '6.1.0-28-amd64',
       uptimeSeconds: 864000,

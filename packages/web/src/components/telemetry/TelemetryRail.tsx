@@ -15,9 +15,9 @@ export const TelemetryRail: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { effectiveUser } = useAuth();
   const [telemetry, setTelemetry] = useState<any>({
-    primaryDomain: 'architecturalnumbers.com',
-    homeDir: '/home/vahag/public_html',
-    primaryIp: '192.168.11.32',
+    primaryDomain: 'example-store.com',
+    homeDir: '/home/acme/public_html',
+    primaryIp: '203.0.113.32',
     sharedIp: '198.57.247.185',
     phpVersion: '8.3',
     diskUsedBytes: 2576980377, // ~2.4 GB
@@ -91,7 +91,7 @@ export const TelemetryRail: React.FC = () => {
       <div className="py-3 space-y-2.5 text-xs border-b border-[#343B52]">
         <div>
           <div className="text-[11px] text-slate-400">Current User</div>
-          <div className="font-semibold text-slate-200">{effectiveUser?.username || 'vahag'}</div>
+          <div className="font-semibold text-slate-200">{effectiveUser?.username || 'acme'}</div>
         </div>
         <div>
           <div className="text-[11px] text-slate-400">Primary Domain</div>

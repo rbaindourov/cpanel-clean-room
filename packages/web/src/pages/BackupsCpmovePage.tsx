@@ -61,7 +61,7 @@ export const BackupsCpmovePage: React.FC = () => {
     try {
       const res = await api.post<{ success: boolean; archivePath: string }>('/backup/cpmove/export', {});
       setCpmoveResult({
-        archivePath: res.archivePath || '/home/vahag/cpmove-vahag.tar.gz',
+        archivePath: res.archivePath || '/home/acme/cpmove-acme.tar.gz',
         time: new Date().toLocaleTimeString(),
       });
       setNotice({ type: 'success', message: 'Full cpmove archive generated successfully' });
@@ -250,7 +250,7 @@ export const BackupsCpmovePage: React.FC = () => {
                     <td className="px-6 py-3 font-mono font-bold text-rose-400">{s.id.slice(0, 8)}</td>
                     <td className="px-6 py-3 font-mono text-slate-300">{new Date(s.time).toLocaleString()}</td>
                     <td className="px-6 py-3 text-slate-400">{s.hostname || 'appliance'}</td>
-                    <td className="px-6 py-3 font-mono text-2xs text-slate-400">{s.paths?.join(', ') || '/home/vahag'}</td>
+                    <td className="px-6 py-3 font-mono text-2xs text-slate-400">{s.paths?.join(', ') || '/home/acme'}</td>
                     <td className="px-6 py-3 text-right">
                       <button
                         onClick={() => handleRestoreResticSnapshot(s.id)}

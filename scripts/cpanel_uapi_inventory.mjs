@@ -2,7 +2,7 @@
 /**
  * scripts/cpanel_uapi_inventory.mjs
  * ──────────────────────────────────────────────────────────────────────────────
- * Authenticates to HostGator cPanel for architecturalnumbers.com and extracts
+ * Authenticates to HostGator cPanel for example-store.com and extracts
  * an exhaustive inventory of all installed UI modules, categories, features,
  * server environment specs, and data models via cPanel UAPI and DynamicUI.
  *
@@ -185,7 +185,7 @@ async function runInventory() {
   const sanitizedJson = rawJson
     .replace(new RegExp(env.CPANEL_PASS, 'g'), '[REDACTED_PASSWORD]')
     .replace(/cpsess\d+/g, 'cpsess[REDACTED]')
-    .replace(/vahag_k@hotmail\.com/gi, 'client@example.com')
+    .replace(/acme_k@hotmail\.com/gi, 'client@example.com')
     .replace(/198\.57\.247\.238/g, '198.57.xxx.xxx');
 
   const outPath = path.resolve('/home/robert/projects/cpanel-clean-room/docs/data/cpanel_feature_manifest.json');

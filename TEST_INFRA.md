@@ -2,7 +2,7 @@
 
 > **Clean-Room Control Panel Appliance — Comprehensive E2E Test Suite Specification**  
 > **Repository:** `/home/robert/projects/cpanel-clean-room`  
-> **Authoritative Baseline:** `docs/data/cpanel_feature_manifest.json` (68 Features from Vahag Kazanchyan's HostGator Account) & `docs/11-architecture-decision-records-and-mvp-spec.md` (`ADR-01` to `ADR-11`)
+> **Authoritative Baseline:** `docs/data/cpanel_feature_manifest.json` (68 Features from Reference HostGator Account) & `docs/11-architecture-decision-records-and-mvp-spec.md` (`ADR-01` to `ADR-11`)
 
 ---
 
@@ -13,7 +13,7 @@ The E2E Testing Track is established to guarantee strict functional parity, zero
 ### 1.1 Core Principles
 1. **Opaque-Box Requirement-Driven Testing:**
    - Tests evaluate external behaviors, file system outputs, HTTP contracts, and RPC protocols rather than internal code implementation details.
-   - Every expectation is derived authoritatively from the empirical HostGator feature manifest (`docs/data/cpanel_feature_manifest.json`), client Vahag Kazanchyan's production data (`architecturalnumbers.com`, `trace4less.com`), and ADR specifications.
+   - Every expectation is derived authoritatively from the empirical HostGator feature manifest (`docs/data/cpanel_feature_manifest.json`), reference tenant `acme` production data (`example-store.com`, `legacy-crm.org`), and ADR specifications.
 2. **Deterministic Dual-Mode Sysroot Containment (`PANEL_SYSROOT`):**
    - In sandbox/test mode (`PANEL_SYSROOT=./scratch/sysroot`), tests execute without requiring `root` privileges.
    - All system writes target isolated sandbox paths (`scratch/sysroot/etc/...`, `scratch/sysroot/home/...`).
@@ -34,9 +34,9 @@ The testing track structures all test scenarios into four distinct verification 
 ```
 +-------------------------------------------------------------------------+
 |                  TIER 4: Real-World Application Scenarios               |
-|    - WordPress Production (architecturalnumbers.com, Multi-PHP 8.4)     |
-|    - Legacy PHP App (trace4less.com, PHP 7.2/5.6, .htaccess rewrites)   |
-|    - Full cpmove-vahag.tar.gz Round-Trip Import & Export Equivalence    |
+|    - WordPress Production (example-store.com, Multi-PHP 8.4)            |
+|    - Legacy PHP App (legacy-crm.org, PHP 7.2/5.6, .htaccess rewrites)   |
+|    - Full cpmove-acme.tar.gz Round-Trip Import & Export Equivalence     |
 |    - 1-Click Support Impersonation & Security Audit Trail               |
 +-------------------------------------------------------------------------+
                                     ^
@@ -147,8 +147,8 @@ Tier 1 covers all 68 features across the 9 cPanel functional categories. Each fe
   4. Reject forged or tampered HMAC signature.
   5. Verify redirect URL generation pointing to `/phpmyadmin/index.php`.
 - **`DB-02` (MySQL Databases):**
-  1. Create database with mandated user prefix (`vahag_db1`) and `utf8mb4`.
-  2. Create database user with user prefix (`vahag_user1`) and secure password.
+  1. Create database with mandated user prefix (`acme_db1`) and `utf8mb4`.
+  2. Create database user with user prefix (`acme_user1`) and secure password.
   3. Assign granular grants (`SELECT, INSERT, UPDATE, DELETE`) to user on database.
   4. Rotate database user password without interrupting other users.
   5. Drop database and revoke corresponding user grants.
@@ -179,7 +179,7 @@ Tier 1 covers all 68 features across the 9 cPanel functional categories. Each fe
 
 ### Category 3: Domains (`DOM-01` to `DOM-09` — 9 Features)
 - **`DOM-01` (Domains Manager):**
-  1. Create primary domain with docroot `/home/vahag/public_html`.
+  1. Create primary domain with docroot `/home/acme/public_html`.
   2. Generate production Nginx vhost config in `scratch/sysroot/etc/nginx/sites-available/`.
   3. Verify Nginx `sites-enabled/` symlink creation.
   4. Update domain document root path.
@@ -203,19 +203,19 @@ Tier 1 covers all 68 features across the 9 cPanel functional categories. Each fe
   4. Reject DDNS update with invalid or revoked bearer token.
   5. Rate-limit excessive DDNS update requests.
 - **`DOM-05` (Addon Domains):**
-  1. Create addon domain `trace4less.com` pointing to `/home/vahag/trace4less.com`.
+  1. Create addon domain `legacy-crm.org` pointing to `/home/acme/legacy-crm.org`.
   2. Provision dedicated Nginx server block isolated from primary domain.
   3. Automatically provision DNS zone for addon domain.
   4. Assign distinct PHP-FPM pool for addon domain.
   5. Remove addon domain without deleting parent tenant account.
 - **`DOM-06` (Subdomains):**
-  1. Create subdomain `store.architecturalnumbers.com` with docroot `/home/vahag/store`.
+  1. Create subdomain `store.example-store.com` with docroot `/home/acme/store`.
   2. Add A record in parent BIND9 zone file.
   3. Generate Nginx vhost block for subdomain.
   4. Enforce SSL certificate SAN expansion for subdomain.
   5. Delete subdomain and clean up DNS and web configs.
 - **`DOM-07` (Parked Domains / Aliases):**
-  1. Add domain alias `architecturalnumbers.net` sharing primary document root.
+  1. Add domain alias `example-store.net` sharing primary document root.
   2. Update Nginx `server_name` directive to include alias.
   3. Add DNS zone with CNAME/A records pointing to server IP.
   4. Request SSL certificate including alias domain SAN.
@@ -235,13 +235,13 @@ Tier 1 covers all 68 features across the 9 cPanel functional categories. Each fe
 
 ### Category 4: Email (`EML-01` to `EML-16` — 16 Features)
 - **`EML-01` (Email Accounts):**
-  1. Create mailbox `production@architecturalnumbers.com` with 3,000 MB quota.
+  1. Create mailbox `production@example-store.com` with 3,000 MB quota.
   2. Hash mailbox password with `SHA512-CRYPT` into `/etc/dovecot/passwd`.
   3. Provision standard Maildir structure (`cur/`, `new/`, `tmp/`) with tenant ownership.
   4. Update mailbox storage quota limit.
   5. Delete mailbox and archive existing Maildir.
 - **`EML-02` (Forwarders):**
-  1. Create email forwarder from `info@architecturalnumbers.com` to `sales@architecturalnumbers.com`.
+  1. Create email forwarder from `info@example-store.com` to `sales@example-store.com`.
   2. Create domain-level email forwarding rule (`@old.com` -> `@new.com`).
   3. Verify Postfix `/etc/postfix/virtual` table syntax.
   4. Verify `postmap` compilation logged to mock execution log.
@@ -259,9 +259,9 @@ Tier 1 covers all 68 features across the 9 cPanel functional categories. Each fe
   4. Verify `sievec` script compilation.
   5. Disable autoresponder and verify Sieve script removal.
 - **`EML-05` (Default Address / Catch-All):**
-  1. Configure catch-all address forwarding to `admin@architecturalnumbers.com`.
+  1. Configure catch-all address forwarding to `admin@example-store.com`.
   2. Configure catch-all to reject with standard bounce message (`:fail:`).
-  3. Verify Postfix wildcard entry `@architecturalnumbers.com`.
+  3. Verify Postfix wildcard entry `@example-store.com`.
   4. Handle pipe to external program (`|/path/to/script`).
   5. Disable catch-all and verify unhandled addresses bounce.
 - **`EML-06` (Mailing Lists):**
@@ -436,7 +436,7 @@ Tier 1 covers all 68 features across the 9 cPanel functional categories. Each fe
   1. List installed Multi-PHP versions (`5.6`, `7.2`, `8.1`, `8.2`, `8.3`, `8.4`, `8.5`).
   2. Switch domain PHP version from `8.3` to `8.4`.
   3. Move PHP-FPM pool config from `/etc/php/8.3/fpm/pool.d/` to `/etc/php/8.4/fpm/pool.d/`.
-  4. Update Nginx vhost `fastcgi_pass unix:/run/php/php8.4-fpm-vahag.sock`.
+  4. Update Nginx vhost `fastcgi_pass unix:/run/php/php8.4-fpm-acme.sock`.
   5. Verify both FPM pools and Nginx reload logged to mock execution log.
 - **`SOF-02` (MultiPHP INI Editor):**
   1. Update `memory_limit` directive for domain pool (e.g. `512M`).
@@ -539,8 +539,8 @@ Tier 1 covers all 68 features across the 9 cPanel functional categories. Each fe
   4. Require valid TOTP token on subsequent login attempts.
   5. Disable 2FA after verifying current password and emergency code.
 - **`PRE-04` (1-Click Impersonation):**
-  1. Allow Admin / Reseller to generate ephemeral impersonation token for tenant `vahag`.
-  2. Inject `X-Impersonate-User: vahag` header into authenticated API requests.
+  1. Allow Admin / Reseller to generate ephemeral impersonation token for tenant `acme`.
+  2. Inject `X-Impersonate-User: acme` header into authenticated API requests.
   3. Enforce tenant-level data isolation during impersonated session.
   4. Record all impersonated actions into audit log with operator admin ID.
   5. Terminate impersonation session and return cleanly to admin context.
@@ -589,66 +589,66 @@ Tier 2 executes adversarial, stress, and corner-case tests designed to identify 
 Tier 3 tests end-to-end multi-feature workflows connecting across system boundaries:
 
 ### Pipeline 1: Full Web & DNS Provisioning
-1. User creates domain `architecturalnumbers.com` (`DOM-01`).
-2. Local RFC 1035 BIND9 zone file `/etc/bind/zones/architecturalnumbers.com.db` is compiled with SOA, NS, A, MX records (`DOM-03`).
-3. Multi-PHP FPM 8.4 pool configuration `/etc/php/8.4/fpm/pool.d/vahag-architecturalnumbers.com.conf` is written with isolated socket (`SOF-01`).
-4. Nginx vhost `/etc/nginx/sites-available/architecturalnumbers.com.conf` is generated with `fastcgi_pass`, WordPress `try_files`, and SSL placeholders (`DOM-01`, `ADR-04`).
+1. User creates domain `example-store.com` (`DOM-01`).
+2. Local RFC 1035 BIND9 zone file `/etc/bind/zones/example-store.com.db` is compiled with SOA, NS, A, MX records (`DOM-03`).
+3. Multi-PHP FPM 8.4 pool configuration `/etc/php/8.4/fpm/pool.d/acme-example-store.com.conf` is written with isolated socket (`SOF-01`).
+4. Nginx vhost `/etc/nginx/sites-available/example-store.com.conf` is generated with `fastcgi_pass`, WordPress `try_files`, and SSL placeholders (`DOM-01`, `ADR-04`).
 5. Let's Encrypt AutoSSL certificate is requested and deployed (`SEC-03`).
 6. HTTPS redirection rule is added to Nginx vhost (`DOM-02`).
 7. BIND9 and Nginx reload commands are executed in sequence (`ADR-05`).
 
 ### Pipeline 2: Full Email & Deliverability Stack
-1. User registers email domain `architecturalnumbers.com` (`EML-01`).
-2. 2048-bit RSA DKIM private key is generated at `/var/lib/rspamd/dkim/architecturalnumbers.com.dkim.key` (`EML-10`, `ADR-06`).
-3. Corresponding DKIM `default._domainkey.architecturalnumbers.com` TXT record and SPF record are inserted into BIND9 zone file (`DOM-03`).
-4. Mailbox `sales@architecturalnumbers.com` is provisioned with 4,000 MB quota and Maildir directory tree (`EML-01`).
+1. User registers email domain `example-store.com` (`EML-01`).
+2. 2048-bit RSA DKIM private key is generated at `/var/lib/rspamd/dkim/example-store.com.dkim.key` (`EML-10`, `ADR-06`).
+3. Corresponding DKIM `default._domainkey.example-store.com` TXT record and SPF record are inserted into BIND9 zone file (`DOM-03`).
+4. Mailbox `sales@example-store.com` is provisioned with 4,000 MB quota and Maildir directory tree (`EML-01`).
 5. Postfix `/etc/postfix/virtual` is updated with forwarder `info@...` -> `sales@...` and `postmap` is executed (`EML-02`).
 6. Dovecot Sieve vacation autoresponder is installed and compiled with `sievec` (`EML-04`).
 
 ### Pipeline 3: Database & phpMyAdmin SSO Stack
-1. User creates database `vahag_architecturalnumbers` (`DB-02`).
-2. User creates database user `vahag_k` with password (`DB-02`).
-3. Privileges granted: `GRANT ALL ON vahag_architecturalnumbers.* TO 'vahag_k'@'localhost'` (`DB-02`).
+1. User creates database `acme_store` (`DB-02`).
+2. User creates database user `acme_wp1` with password (`DB-02`).
+3. Privileges granted: `GRANT ALL ON acme_store.* TO 'acme_wp1'@'localhost'` (`DB-02`).
 4. User clicks phpMyAdmin SSO button in React panel (`DB-01`).
 5. Server mints 60-second HMAC `SignonSession` token (`ADR-08`).
 6. Verification script validates token payload, signature, and expiration.
 
 ### Pipeline 4: Tenant Creation & cgroups v2 Quota Stack
-1. Admin creates tenant account `vahag` with 10 GB disk quota and 512 MB memory limit (`PRE-01`).
-2. System user and group `vahag` are created with home directory `/home/vahag` (`ADR-02`).
+1. Admin creates tenant account `acme` with 10 GB disk quota and 512 MB memory limit (`PRE-01`).
+2. System user and group `acme` are created with home directory `/home/acme` (`ADR-02`).
 3. `systemd` `cgroups v2` slice `/etc/systemd/system/user-1001.slice` is written with `MemoryMax=512M` and `CPUQuota=200%` (`MET-09`).
-4. Cron job is scheduled in `/etc/cron.d/tenant-vahag` with cPanel PHP CLI path translated to `/usr/bin/php8.4` (`ADV-02`).
+4. Cron job is scheduled in `/etc/cron.d/tenant-acme` with cPanel PHP CLI path translated to `/usr/bin/php8.4` (`ADV-02`).
 
 ---
 
 ## 6. Tier 4: Real-World Application Scenarios
 
-Tier 4 tests authentic, multi-domain production scenarios reconstructed from Vahag Kazanchyan's HostGator cPanel account:
+Tier 4 tests authentic, multi-domain production scenarios reconstructed from our reference HostGator cPanel account:
 
-### Scenario 1: Vahag Kazanchyan's WordPress Production (`architecturalnumbers.com`)
-- **Domain:** `architecturalnumbers.com` (Apex)
-- **Document Root:** `/home/vahag/public_html`
+### Scenario 1: Reference WordPress Production (`example-store.com`)
+- **Domain:** `example-store.com` (Apex)
+- **Document Root:** `/home/acme/public_html`
 - **Application:** WordPress 6.x CMS
 - **Runtime:** Multi-PHP FPM 8.4 (`memory_limit = 512M`, `upload_max_filesize = 512M`, `max_execution_time = 90`)
 - **Web Server:** Nginx with WordPress rewrite preset (`try_files $uri $uri/ /index.php?$args`)
-- **Database:** `vahag_architecturalnumbers` (54.7 MB dump, user `vahag_k`)
+- **Database:** `acme_store` (54.7 MB dump, user `acme_wp1`)
 - **Mailboxes (4):**
-  - `production@architecturalnumbers.com` (Quota: 3,000 MB, Usage: 2,567 MB)
-  - `sales@architecturalnumbers.com` (Quota: 4,000 MB, Usage: 2,469 MB)
-  - `webmaster@architecturalnumbers.com` (Quota: 1,000 MB, Usage: 731 MB)
-  - `amazon@architecturalnumbers.com` (Quota: 500 MB, Usage: 13 MB)
-- **SSL / TLS:** Let's Encrypt Wildcard RSA 2048-bit with 10 SANs (`architecturalnumbers.com`, `www.*`, `mail.*`, `cpanel.*`, `webmail.*`, etc.)
+  - `production@example-store.com` (Quota: 3,000 MB, Usage: 2,567 MB)
+  - `sales@example-store.com` (Quota: 4,000 MB, Usage: 2,469 MB)
+  - `webmaster@example-store.com` (Quota: 1,000 MB, Usage: 731 MB)
+  - `amazon@example-store.com` (Quota: 500 MB, Usage: 13 MB)
+- **SSL / TLS:** Let's Encrypt Wildcard RSA 2048-bit with 10 SANs (`example-store.com`, `www.*`, `mail.*`, `cpanel.*`, `webmail.*`, etc.)
 - **DNS Zone:** BIND9 RFC 1035 zone file with A, NS, MX, SPF, and 2048-bit RSA DKIM records.
 - **Verification Assertions:**
   - Verify all configs written into `scratch/sysroot/etc/nginx/`, `scratch/sysroot/etc/php/8.4/fpm/`, `scratch/sysroot/etc/bind/zones/`, `scratch/sysroot/etc/dovecot/`.
   - Assert syntax validity of generated configuration files.
 
-### Scenario 2: Legacy PHP Application (`trace4less.com`)
-- **Domain:** `trace4less.com` (Addon Domain)
-- **Document Root:** `/home/vahag/trace4less.com`
+### Scenario 2: Legacy PHP Application (`legacy-crm.org`)
+- **Domain:** `legacy-crm.org` (Addon Domain)
+- **Document Root:** `/home/acme/legacy-crm.org`
 - **Application:** Custom legacy PHP procedural application with `.htaccess` rewrites
 - **Runtime:** Multi-PHP FPM 7.2 (with fallback compatibility shim)
-- **Database:** `vahag_trace4less` (4.1 KB dump, user `vahag_k`)
+- **Database:** `acme_crm` (4.1 KB dump, user `acme_store`)
 - **Web Server:** Nginx with deterministic `.htaccess` translation:
   - Strips `AddHandler application/x-httpd-ea-php72`
   - Converts `RewriteCond %{REQUEST_FILENAME} !-f` -> `try_files $uri $uri/ /index.php?$args`
@@ -657,32 +657,32 @@ Tier 4 tests authentic, multi-domain production scenarios reconstructed from Vah
   - Verify separate FPM pool in `scratch/sysroot/etc/php/7.2/fpm/pool.d/`.
   - Verify converted Nginx rewrite rules execute without syntax errors.
 
-### Scenario 3: Full `cpmove-vahag.tar.gz` Round-Trip Migration
+### Scenario 3: Full `cpmove-acme.tar.gz` Round-Trip Migration
 - **Import Stage:**
-  1. Construct authentic `cpmove-vahag.tar.gz` containing:
-     - `cp/vahag`: Account metadata (`DNS=architecturalnumbers.com`, `PLAN=unlimited`, `CONTACTEMAIL=vahag@example.com`)
-     - `userdata/main` and `userdata/architecturalnumbers.com`: Docroots, PHP versions
+  1. Construct authentic `cpmove-acme.tar.gz` containing:
+     - `cp/acme`: Account metadata (`DNS=example-store.com`, `PLAN=unlimited`, `CONTACTEMAIL=acme@example.com`)
+     - `userdata/main` and `userdata/example-store.com`: Docroots, PHP versions
      - `homedir/public_html/`: WordPress site files and `.htaccess`
-     - `mysql/vahag_architecturalnumbers.sql`: Schema and data dump
+     - `mysql/acme_store.sql`: Schema and data dump
      - `mysql.sql`: User grants and password hashes
-     - `dnszones/architecturalnumbers.com.db`: RFC 1035 zone file
-     - `cron/vahag`: Crontab entries
-     - `apache_tls/architecturalnumbers.com`: Certificate and private key
-     - `valiases/architecturalnumbers.com`: Forwarder map
+     - `dnszones/example-store.com.db`: RFC 1035 zone file
+     - `cron/acme`: Crontab entries
+     - `apache_tls/example-store.com`: Certificate and private key
+     - `valiases/example-store.com`: Forwarder map
   2. Execute migration import engine.
   3. Assert all databases, domains, DNS zones, mailboxes, and cron jobs ingested into SQLite state and written to `scratch/sysroot`.
 - **Export Stage:**
-  1. Trigger streaming `cpmove` export for user `vahag`.
+  1. Trigger streaming `cpmove` export for user `acme`.
   2. Collect exported `.tar.gz` archive.
   3. Decompress and verify full structural parity and checksum equivalence of restored data.
 
 ### Scenario 4: Support Impersonation & Security Audit Trail
 - **Workflow:**
   1. Admin logs into control panel.
-  2. Admin triggers 1-click impersonation into tenant `vahag`.
-  3. System issues ephemeral JWT with `impersonator: "admin"` and `user: "vahag"`.
+  2. Admin triggers 1-click impersonation into tenant `acme`.
+  3. System issues ephemeral JWT with `impersonator: "admin"` and `user: "acme"`.
   4. Impersonated session adds IP blocker rule for `203.0.113.50`.
-  5. Audit log records: `timestamp`, `action: "ip_blocker.add"`, `tenant: "vahag"`, `operator: "admin"`.
+  5. Audit log records: `timestamp`, `action: "ip_blocker.add"`, `tenant: "acme"`, `operator: "admin"`.
   6. Verify tenant data isolation (cannot access other tenants' files).
   7. Admin ends impersonation and returns to primary session.
 
@@ -702,7 +702,7 @@ The test harness provides automated sandbox lifecycle management in `tests/e2e/h
     - `etc/cron.d/`
     - `var/lib/rspamd/dkim/`
     - `var/log/mock_executions.log`
-    - `home/vahag/public_html/` and `home/vahag/trace4less.com/`
+    - `home/acme/public_html/` and `home/acme/legacy-crm.org/`
   - Implements `resolveSysroot(targetPath)` resolving paths safely into sandbox.
   - Intercepts system commands and logs to `mock_executions.log`.
 - **`cpmove-fixture.mjs`**:
@@ -727,7 +727,7 @@ node --test tests/e2e/**/*.test.mjs
 node --test tests/e2e/tier1_features.test.mjs
 node --test tests/e2e/tier2_boundaries.test.mjs
 node --test tests/e2e/tier3_interactions.test.mjs
-node --test tests/e2e/tier4_realworld_vahag.test.mjs
+node --test tests/e2e/tier4_realworld_tenant.test.mjs
 
 # Run repository integrity verification
 npm run verify
@@ -742,5 +742,5 @@ Before declaring `TEST_READY.md`:
 2. All 68 features in Tier 1 must have at least 5 passing assertions each.
 3. Tier 2 boundary cases must cover security boundaries (path traversal, injection, extreme sizes).
 4. Tier 3 interaction pipelines must pass across web, mail, database, and tenant subsystems.
-5. Tier 4 scenarios must successfully simulate Vahag Kazanchyan's authentic HostGator data (`architecturalnumbers.com`, `trace4less.com`) and complete the `cpmove` round-trip.
+5. Tier 4 scenarios must successfully simulate reference HostGator data (`example-store.com`, `legacy-crm.org`) and complete the `cpmove` round-trip.
 6. `npm run verify` must report 0 leaks and 0 policy errors.

@@ -26,11 +26,11 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       const handler = new MysqlHandler(sysroot);
 
       await handler.upsertUserGrant({
-        username: 'vahag',
+        username: 'acme',
         dbUserSuffix: 'app',
-        password: "hacked_pass'; DROP DATABASE vahag_production; -- ",
+        password: "hacked_pass'; DROP DATABASE acme_production; -- ",
         host: "%' OR '1'='1",
-        databaseName: 'vahag_testdb',
+        databaseName: 'acme_testdb',
         privileges: ['ALL PRIVILEGES; DROP TABLE users; --'],
       });
 
@@ -40,12 +40,12 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       const sqlArg = last.args[1];
 
       // Verify passwords and hosts are properly escaped with doubled single quotes
-      assert.ok(sqlArg.includes("IDENTIFIED BY 'hacked_pass''; DROP DATABASE vahag_production; -- ';"));
+      assert.ok(sqlArg.includes("IDENTIFIED BY 'hacked_pass''; DROP DATABASE acme_production; -- ';"));
       assert.ok(sqlArg.includes("@'%'' OR ''1''=''1'"));
 
       // Verify privileges are whitelisted and malicious tokens dropped
       assert.ok(!sqlArg.includes('DROP TABLE users'));
-      assert.ok(sqlArg.includes('GRANT ALL PRIVILEGES ON `vahag_testdb`.*'));
+      assert.ok(sqlArg.includes('GRANT ALL PRIVILEGES ON `acme_testdb`.*'));
     });
 
     it('Supports dynamic HMAC secret via constructor injection and environment variable', async () => {
@@ -54,8 +54,8 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       const handlerInjected = new MysqlHandler(sysroot, injectedSecret);
 
       const res1 = await handlerInjected.createSignonSession({
-        username: 'vahag',
-        databaseUser: 'vahag_k',
+        username: 'acme',
+        databaseUser: 'acme_wp1',
         databasePassword: 'testPassword123',
       });
 
@@ -70,8 +70,8 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
         const handlerEnv = new MysqlHandler(sysroot);
 
         const res2 = await handlerEnv.createSignonSession({
-          username: 'vahag',
-          databaseUser: 'vahag_k',
+          username: 'acme',
+          databaseUser: 'acme_wp1',
           databasePassword: 'testPassword123',
         });
 
@@ -99,15 +99,15 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       await assert.rejects(
         () =>
           handler.run({
-            username: 'vahag',
+            username: 'acme',
             mode: 'cpmove_import',
-            archivePath: '/home/vahag/backups/non_existent.tar.gz',
+            archivePath: '/home/acme/backups/non_existent.tar.gz',
           }),
         /NOT_FOUND/
       );
 
       // 2. Corrupt archive (random bytes)
-      const corruptRel = '/home/vahag/backups/corrupted.tar.gz';
+      const corruptRel = '/home/acme/backups/corrupted.tar.gz';
       const corruptAbs = sysroot.resolve(corruptRel);
       sysroot.ensureDir(path.dirname(corruptAbs));
       fs.writeFileSync(corruptAbs, Buffer.from('NOT_A_VALID_GZIP_OR_TAR_DATA_1234567890'));
@@ -115,7 +115,7 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       await assert.rejects(
         () =>
           handler.run({
-            username: 'vahag',
+            username: 'acme',
             mode: 'cpmove_import',
             archivePath: corruptRel,
           }),
@@ -123,14 +123,14 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       );
 
       // 3. Empty archive (0 bytes)
-      const emptyRel = '/home/vahag/backups/empty.tar.gz';
+      const emptyRel = '/home/acme/backups/empty.tar.gz';
       const emptyAbs = sysroot.resolve(emptyRel);
       fs.writeFileSync(emptyAbs, Buffer.alloc(0));
 
       await assert.rejects(
         () =>
           handler.run({
-            username: 'vahag',
+            username: 'acme',
             mode: 'cpmove_import',
             archivePath: emptyRel,
           }),
@@ -142,21 +142,21 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       const handler = new CpmoveHandler(sysroot);
 
       // Create a valid mock archive
-      const mockArchiveRel = '/home/vahag/backups/cpmove-vahag.tar.gz';
+      const mockArchiveRel = '/home/acme/backups/cpmove-acme.tar.gz';
       const mockArchiveAbs = sysroot.resolve(mockArchiveRel);
       sysroot.ensureDir(path.dirname(mockArchiveAbs));
-      fs.writeFileSync(mockArchiveAbs, Buffer.from('MOCK_CPMOVE_ARCHIVE_FOR_vahag\n'));
+      fs.writeFileSync(mockArchiveAbs, Buffer.from('MOCK_CPMOVE_ARCHIVE_FOR_acme\n'));
 
       const res = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         mode: 'cpmove_import',
         archivePath: mockArchiveRel,
       });
 
       assert.strictEqual(res.success, true);
-      const homeDir = sysroot.resolve('/home/vahag');
+      const homeDir = sysroot.resolve('/home/acme');
       const userIndex = path.join(homeDir, 'public_html', 'index.html');
-      assert.ok(fs.existsSync(userIndex), 'Restored site index.html must exist in /home/vahag');
+      assert.ok(fs.existsSync(userIndex), 'Restored site index.html must exist in /home/acme');
 
       // Test .htaccess EasyApache handler stripping
       const htaccess = path.join(homeDir, 'public_html', '.htaccess');
@@ -168,7 +168,7 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
 
       // Re-run import
       await handler.run({
-        username: 'vahag',
+        username: 'acme',
         mode: 'cpmove_import',
         archivePath: mockArchiveRel,
       });
@@ -181,21 +181,21 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
     it('Safely cleans up temporary directories in /tmp on completion or error', async () => {
       const handler = new CpmoveHandler(sysroot);
 
-      const mockArchiveRel = '/home/vahag/backups/cpmove-vahag.tar.gz';
+      const mockArchiveRel = '/home/acme/backups/cpmove-acme.tar.gz';
       const mockArchiveAbs = sysroot.resolve(mockArchiveRel);
       sysroot.ensureDir(path.dirname(mockArchiveAbs));
-      fs.writeFileSync(mockArchiveAbs, Buffer.from('MOCK_CPMOVE_ARCHIVE_FOR_vahag\n'));
+      fs.writeFileSync(mockArchiveAbs, Buffer.from('MOCK_CPMOVE_ARCHIVE_FOR_acme\n'));
 
       const tmpDir = sysroot.resolve('/tmp');
-      const beforeEntries = fs.readdirSync(tmpDir).filter((f) => f.startsWith('cpmove_unpack_vahag_'));
+      const beforeEntries = fs.readdirSync(tmpDir).filter((f) => f.startsWith('cpmove_unpack_acme_'));
 
       await handler.run({
-        username: 'vahag',
+        username: 'acme',
         mode: 'cpmove_import',
         archivePath: mockArchiveRel,
       });
 
-      const afterEntries = fs.readdirSync(tmpDir).filter((f) => f.startsWith('cpmove_unpack_vahag_'));
+      const afterEntries = fs.readdirSync(tmpDir).filter((f) => f.startsWith('cpmove_unpack_acme_'));
       assert.strictEqual(afterEntries.length, beforeEntries.length, 'No leaked unpack directories in /tmp');
     });
 
@@ -205,10 +205,10 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       // Seed a mock BIND9 zone
       const bindDir = sysroot.resolve('/etc/bind/zones');
       sysroot.ensureDir(bindDir);
-      fs.writeFileSync(path.join(bindDir, 'architecturalnumbers.com.db'), '; zone file', 'utf8');
+      fs.writeFileSync(path.join(bindDir, 'example-store.com.db'), '; zone file', 'utf8');
 
       const res = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         mode: 'cpmove_export',
       });
 
@@ -255,11 +255,11 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
         'n1o2p3q4r5s6t7u8v9w0x1y2z3A4B5C6D7E8F9G0==';
 
       await handler.upsertZone({
-        domain: 'architecturalnumbers.com',
+        domain: 'example-store.com',
         records: [{ name: 'default._domainkey', type: 'TXT', value: dkimValue }],
       });
 
-      const zoneContent = sysroot.readFile('/etc/bind/zones/architecturalnumbers.com.db');
+      const zoneContent = sysroot.readFile('/etc/bind/zones/example-store.com.db');
       const parsed = handler.parseZone(zoneContent);
       const parsedDkim = parsed.records.find((r) => r.name === 'default._domainkey');
 
@@ -271,25 +271,25 @@ describe('Round 2 Remediation Verification Test Suite (remediation_m1_r2.test.ts
       const handler = new DnsBindHandler(sysroot);
 
       await handler.upsertZone({
-        domain: 'architecturalnumbers.com',
+        domain: 'example-store.com',
         records: [
           {
             name: '_sip._tcp',
             type: 'SRV',
             priority: 10,
-            value: '20 5060 sip.architecturalnumbers.com.',
+            value: '20 5060 sip.example-store.com.',
           },
         ],
       });
 
-      const zoneContent = sysroot.readFile('/etc/bind/zones/architecturalnumbers.com.db');
-      assert.ok(zoneContent.includes('_sip._tcp IN SRV 10 20 5060 sip.architecturalnumbers.com.'));
+      const zoneContent = sysroot.readFile('/etc/bind/zones/example-store.com.db');
+      assert.ok(zoneContent.includes('_sip._tcp IN SRV 10 20 5060 sip.example-store.com.'));
 
       const parsed = handler.parseZone(zoneContent);
       const srvRec = parsed.records.find((r) => r.name === '_sip._tcp');
       assert.ok(srvRec);
       assert.strictEqual(srvRec.priority, 10);
-      assert.strictEqual(srvRec.value, '20 5060 sip.architecturalnumbers.com.');
+      assert.strictEqual(srvRec.value, '20 5060 sip.example-store.com.');
     });
 
     it('Guarantees monotonic serial progression per RFC 1982', () => {
@@ -330,8 +330,8 @@ zone "sub-domain.example.com" { type master; file "/etc/bind/zones/sub-domain.ex
 
     it('Allows quotaBytes: 0 for unlimited mailbox quotas in schema', () => {
       const params = {
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         localPart: 'unlimited',
         passwordHash: '$argon2id$v=19$mockhash',
         quotaBytes: 0,
@@ -345,8 +345,8 @@ zone "sub-domain.example.com" { type master; file "/etc/bind/zones/sub-domain.ex
       const handler = new MailRspamdHandler(sysroot);
 
       const res = await handler.upsertMailbox({
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         localPart: 'ceo',
         passwordHash: '$argon2id$v=19$mockhash',
         quotaBytes: 0,
@@ -373,8 +373,8 @@ zone "sub-domain.example.com" { type master; file "/etc/bind/zones/sub-domain.ex
       await assert.rejects(
         () =>
           handler.upsertSieve({
-            username: 'vahag',
-            domain: 'architecturalnumbers.com',
+            username: 'acme',
+            domain: 'example-store.com',
             localPart: 'ceo',
             sieveScript: malformedSieve,
           }),
@@ -386,9 +386,9 @@ zone "sub-domain.example.com" { type master; file "/etc/bind/zones/sub-domain.ex
       const handler = new MailRspamdHandler(sysroot);
 
       await handler.upsertForwarder({
-        domain: 'architecturalnumbers.com',
-        source: 'info@architecturalnumbers.com',
-        destinations: ['sales@architecturalnumbers.com'],
+        domain: 'example-store.com',
+        source: 'info@example-store.com',
+        destinations: ['sales@example-store.com'],
       });
 
       const executions = sysroot.getMockExecutions();
@@ -402,7 +402,7 @@ zone "sub-domain.example.com" { type master; file "/etc/bind/zones/sub-domain.ex
       const handler = new MailRspamdHandler(sysroot);
 
       const res = await handler.upsertDomain({
-        domain: 'architecturalnumbers.com',
+        domain: 'example-store.com',
         dkimSelector: 'default',
         keyType: 'rsa2048',
       });

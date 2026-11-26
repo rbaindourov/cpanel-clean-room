@@ -14,7 +14,7 @@ const testSuites = [
   { tier: 'Tier 1', name: 'Feature Coverage (68 Features across 9 Categories)', file: 'tests/e2e/tier1_features.test.mjs' },
   { tier: 'Tier 2', name: 'Boundary & Corner Cases (Adversarial Security & Stress)', file: 'tests/e2e/tier2_boundaries.test.mjs' },
   { tier: 'Tier 3', name: 'Cross-Feature Interactions (Pairwise Pipelines)', file: 'tests/e2e/tier3_interactions.test.mjs' },
-  { tier: 'Tier 4', name: 'Real-World Scenarios (Vahag WP, Legacy PHP, cpmove Round-Trip)', file: 'tests/e2e/tier4_realworld_vahag.test.mjs' }
+  { tier: 'Tier 4', name: 'Real-World Scenarios (Acme WP, Legacy PHP, cpmove Round-Trip)', file: 'tests/e2e/tier4_realworld_tenant.test.mjs' }
 ];
 
 let totalTests = 0;

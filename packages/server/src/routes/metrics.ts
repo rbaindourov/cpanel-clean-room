@@ -23,7 +23,7 @@ export function registerMetricsRoutes(options: MetricsRouteOptions): Router {
 
   // MET-01: Visitors
   router.get('/visitors', (req: Request, res: Response) => {
-    const domain = (req.query.domain as string) || 'architecturalnumbers.com';
+    const domain = (req.query.domain as string) || 'example-store.com';
     res.json({
       success: true,
       domain,
@@ -36,7 +36,7 @@ export function registerMetricsRoutes(options: MetricsRouteOptions): Router {
 
   // MET-02: Errors
   router.get('/errors', async (req: Request, res: Response) => {
-    const domain = (req.query.domain as string) || 'architecturalnumbers.com';
+    const domain = (req.query.domain as string) || 'example-store.com';
     const logPath = path.resolve(basePath, `var/log/nginx/${domain}.error.log`);
 
     const errorLines: string[] = [];

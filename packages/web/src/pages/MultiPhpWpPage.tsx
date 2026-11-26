@@ -73,7 +73,7 @@ export const MultiPhpWpPage: React.FC = () => {
   const [showInstallWp, setShowInstallWp] = useState<boolean>(false);
   const [installData, setInstallData] = useState({
     domain: '',
-    path: '/home/vahag/public_html',
+    path: '/home/acme/public_html',
     title: 'My Clean Room Site',
     adminUser: 'admin',
     adminEmail: 'admin@example.com',

@@ -25,17 +25,17 @@ import {
 } from './harness/config-generators.mjs';
 
 import {
-  createVahagCpmoveTree,
+  createDemoCpmoveTree,
   packageTarGz,
   extractTarGz,
   importCpmoveToSysroot
 } from './harness/cpmove-fixture.mjs';
 
-describe('Tier 4: Real-World Application Scenarios (Vahag Kazanchyan HostGator Baseline)', () => {
+describe('Tier 4: Real-World Application Scenarios (Acme Hosting Tenant Baseline)', () => {
   const stagingDir = path.resolve(REPO_ROOT, 'scratch/test_cpmove_staging');
-  const tarGzPath = path.resolve(REPO_ROOT, 'scratch/cpmove-vahag-test.tar.gz');
+  const tarGzPath = path.resolve(REPO_ROOT, 'scratch/cpmove-acme-test.tar.gz');
   const extractDir = path.resolve(REPO_ROOT, 'scratch/test_cpmove_extracted');
-  const exportTarGzPath = path.resolve(REPO_ROOT, 'scratch/cpmove-vahag-exported.tar.gz');
+  const exportTarGzPath = path.resolve(REPO_ROOT, 'scratch/cpmove-acme-exported.tar.gz');
   const reExtractDir = path.resolve(REPO_ROOT, 'scratch/test_cpmove_reextracted');
 
   before(() => {
@@ -47,15 +47,15 @@ describe('Tier 4: Real-World Application Scenarios (Vahag Kazanchyan HostGator B
   });
 
   // =========================================================================
-  // Scenario 1: WordPress Production Site (architecturalnumbers.com)
+  // Scenario 1: WordPress Production Site (example-store.com)
   // =========================================================================
-  describe('Scenario 1: WordPress Production Site (architecturalnumbers.com)', () => {
-    const domain = 'architecturalnumbers.com';
-    const docroot = '/home/vahag/public_html';
+  describe('Scenario 1: WordPress Production Site (example-store.com)', () => {
+    const domain = 'example-store.com';
+    const docroot = '/home/acme/public_html';
 
     it('S1.1: Provisions production Multi-PHP 8.4 pool with 512M memory limit', () => {
       const pool = generatePhpFpmPool({
-        user: 'vahag',
+        user: 'acme',
         domain,
         phpVersion: '8.4',
         memoryLimit: '512M',
@@ -63,7 +63,7 @@ describe('Tier 4: Real-World Application Scenarios (Vahag Kazanchyan HostGator B
         postMaxSize: '520M',
         maxExecutionTime: 90
       });
-      const poolPath = writeSysrootFile(`etc/php/8.4/fpm/pool.d/vahag-${domain}.conf`, pool);
+      const poolPath = writeSysrootFile(`etc/php/8.4/fpm/pool.d/acme-${domain}.conf`, pool);
       assert.ok(fs.existsSync(poolPath));
       assert.ok(pool.includes('memory_limit] = 512M'));
       assert.ok(pool.includes('upload_max_filesize] = 512M'));
@@ -75,7 +75,7 @@ describe('Tier 4: Real-World Application Scenarios (Vahag Kazanchyan HostGator B
         domain,
         docroot,
         phpVersion: '8.4',
-        aliases: ['www.architecturalnumbers.com'],
+        aliases: ['www.example-store.com'],
         ssl: {
           certPath: `/etc/ssl/certs/${domain}.crt`,
           keyPath: `/etc/ssl/private/${domain}.key`,
@@ -86,7 +86,7 @@ describe('Tier 4: Real-World Application Scenarios (Vahag Kazanchyan HostGator B
       const vhostPath = writeSysrootFile(`etc/nginx/sites-available/${domain}.conf`, vhost);
       assert.ok(fs.existsSync(vhostPath));
       assert.ok(vhost.includes('try_files $uri $uri/ /index.php?$args;'));
-      assert.ok(vhost.includes('fastcgi_pass unix:/run/php/php8.4-fpm-vahag.sock;'));
+      assert.ok(vhost.includes('fastcgi_pass unix:/run/php/php8.4-fpm-acme.sock;'));
     });
 
     it('S1.3: Provisions 4 client mailboxes with quotas per empirical manifest', () => {
@@ -100,11 +100,11 @@ describe('Tier 4: Real-World Application Scenarios (Vahag Kazanchyan HostGator B
       let passwdContent = '';
       for (const m of mailboxes) {
         const userPart = m.email.split('@')[0];
-        const dir = resolveSysroot(`home/vahag/mail/${domain}/${userPart}`);
+        const dir = resolveSysroot(`home/acme/mail/${domain}/${userPart}`);
         fs.mkdirSync(path.join(dir, 'cur'), { recursive: true });
         fs.mkdirSync(path.join(dir, 'new'), { recursive: true });
         fs.mkdirSync(path.join(dir, 'tmp'), { recursive: true });
-        passwdContent += `${m.email}:{SHA512-CRYPT}hash:1001:1001::/home/vahag/mail/${domain}/${userPart}::userdb_quota_rule=*:storage=${m.quota}\n`;
+        passwdContent += `${m.email}:{SHA512-CRYPT}hash:1001:1001::/home/acme/mail/${domain}/${userPart}::userdb_quota_rule=*:storage=${m.quota}\n`;
       }
 
       const p = writeSysrootFile('etc/dovecot/passwd', passwdContent);
@@ -117,10 +117,10 @@ describe('Tier 4: Real-World Application Scenarios (Vahag Kazanchyan HostGator B
     });
 
     it('S1.4: Ingests 54.7 MB MySQL database schema and user grants', () => {
-      const ddl = `CREATE DATABASE \`vahag_architecturalnumbers\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\nCREATE TABLE \`wp_posts\` (\`ID\` bigint(20) unsigned NOT NULL AUTO_INCREMENT, PRIMARY KEY (\`ID\`));\n`;
-      const p = writeSysrootFile('var/lib/mysql/vahag_architecturalnumbers.sql', ddl);
+      const ddl = `CREATE DATABASE \`acme_store\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\nCREATE TABLE \`wp_posts\` (\`ID\` bigint(20) unsigned NOT NULL AUTO_INCREMENT, PRIMARY KEY (\`ID\`));\n`;
+      const p = writeSysrootFile('var/lib/mysql/acme_store.sql', ddl);
       assert.ok(fs.existsSync(p));
-      assert.ok(ddl.includes('vahag_architecturalnumbers'));
+      assert.ok(ddl.includes('acme_store'));
     });
 
     it('S1.5: Verifies RFC 1035 zone file with 2048-bit DKIM and SPF records', () => {
@@ -143,22 +143,22 @@ describe('Tier 4: Real-World Application Scenarios (Vahag Kazanchyan HostGator B
   });
 
   // =========================================================================
-  // Scenario 2: Legacy PHP Application (trace4less.com)
+  // Scenario 2: Legacy PHP Application (legacy-crm.org)
   // =========================================================================
-  describe('Scenario 2: Legacy PHP Application (trace4less.com)', () => {
-    const domain = 'trace4less.com';
-    const docroot = '/home/vahag/trace4less.com';
+  describe('Scenario 2: Legacy PHP Application (legacy-crm.org)', () => {
+    const domain = 'legacy-crm.org';
+    const docroot = '/home/acme/legacy-crm.org';
 
     it('S2.1: Provisions dedicated legacy PHP 7.2 pool with mysql shim compatibility', () => {
       const pool = generatePhpFpmPool({
-        user: 'vahag',
+        user: 'acme',
         domain,
         phpVersion: '7.2',
         memoryLimit: '256M'
       });
-      const p = writeSysrootFile(`etc/php/7.2/fpm/pool.d/vahag-${domain}.conf`, pool);
+      const p = writeSysrootFile(`etc/php/7.2/fpm/pool.d/acme-${domain}.conf`, pool);
       assert.ok(fs.existsSync(p));
-      assert.ok(pool.includes('php7.2-fpm-vahag.sock'));
+      assert.ok(pool.includes('php7.2-fpm-acme.sock'));
     });
 
     it('S2.2: Translates legacy .htaccess rules to Nginx rewrites', () => {
@@ -182,33 +182,33 @@ RewriteRule ^item/([0-9]+)$ /detail.php?id=$1 [L]`;
       });
       const p = writeSysrootFile(`etc/nginx/sites-available/${domain}.conf`, vhost);
       assert.ok(fs.existsSync(p));
-      assert.ok(vhost.includes('server_name trace4less.com;'));
-      assert.ok(vhost.includes('root /home/vahag/trace4less.com;'));
-      assert.ok(vhost.includes('fastcgi_pass unix:/run/php/php7.2-fpm-vahag.sock;'));
+      assert.ok(vhost.includes('server_name legacy-crm.org;'));
+      assert.ok(vhost.includes('root /home/acme/legacy-crm.org;'));
+      assert.ok(vhost.includes('fastcgi_pass unix:/run/php/php7.2-fpm-acme.sock;'));
     });
 
-    it('S2.4: Ingests legacy database vahag_trace4less', () => {
-      const ddl = `CREATE DATABASE \`vahag_trace4less\`;\n`;
-      const p = writeSysrootFile('var/lib/mysql/vahag_trace4less.sql', ddl);
+    it('S2.4: Ingests legacy database acme_crm', () => {
+      const ddl = `CREATE DATABASE \`acme_crm\`;\n`;
+      const p = writeSysrootFile('var/lib/mysql/acme_crm.sql', ddl);
       assert.ok(fs.existsSync(p));
-      assert.ok(ddl.includes('vahag_trace4less'));
+      assert.ok(ddl.includes('acme_crm'));
     });
   });
 
   // =========================================================================
-  // Scenario 3: Full cpmove-vahag.tar.gz Round-Trip Migration
+  // Scenario 3: Full cpmove-acme.tar.gz Round-Trip Migration
   // =========================================================================
-  describe('Scenario 3: Full cpmove-vahag.tar.gz Round-Trip Migration', () => {
+  describe('Scenario 3: Full cpmove-acme.tar.gz Round-Trip Migration', () => {
     it('S3.1: Constructs authentic cpmove tree on disk', () => {
-      createVahagCpmoveTree(stagingDir);
-      assert.ok(fs.existsSync(path.join(stagingDir, 'cp/vahag')));
-      assert.ok(fs.existsSync(path.join(stagingDir, 'userdata/architecturalnumbers.com')));
+      createDemoCpmoveTree(stagingDir);
+      assert.ok(fs.existsSync(path.join(stagingDir, 'cp/acme')));
+      assert.ok(fs.existsSync(path.join(stagingDir, 'userdata/example-store.com')));
       assert.ok(fs.existsSync(path.join(stagingDir, 'homedir/public_html/index.php')));
-      assert.ok(fs.existsSync(path.join(stagingDir, 'mysql/vahag_architecturalnumbers.sql')));
-      assert.ok(fs.existsSync(path.join(stagingDir, 'dnszones/architecturalnumbers.com.db')));
+      assert.ok(fs.existsSync(path.join(stagingDir, 'mysql/acme_store.sql')));
+      assert.ok(fs.existsSync(path.join(stagingDir, 'dnszones/example-store.com.db')));
     });
 
-    it('S3.2: Packages authentic tree into cpmove-vahag-test.tar.gz', () => {
+    it('S3.2: Packages authentic tree into cpmove-acme-test.tar.gz', () => {
       packageTarGz(stagingDir, tarGzPath);
       assert.ok(fs.existsSync(tarGzPath));
       assert.ok(fs.statSync(tarGzPath).size > 100);
@@ -216,30 +216,30 @@ RewriteRule ^item/([0-9]+)$ /detail.php?id=$1 [L]`;
 
     it('S3.3: Extracts cpmove tarball cleanly into extraction target', () => {
       extractTarGz(tarGzPath, extractDir);
-      assert.ok(fs.existsSync(path.join(extractDir, 'cp/vahag')));
+      assert.ok(fs.existsSync(path.join(extractDir, 'cp/acme')));
       assert.ok(fs.existsSync(path.join(extractDir, 'homedir/public_html/wp-config.php')));
     });
 
     it('S3.4: Ingests extracted cpmove structure into sysroot sandbox', () => {
       const res = importCpmoveToSysroot(extractDir);
-      assert.equal(res.user, 'vahag');
-      assert.ok(res.domains.includes('architecturalnumbers.com'));
-      assert.ok(res.domains.includes('trace4less.com'));
-      assert.ok(res.databases.includes('vahag_architecturalnumbers'));
-      assert.ok(res.databases.includes('vahag_trace4less'));
-      assert.ok(existsSysrootFile('etc/nginx/sites-available/architecturalnumbers.com.conf'));
-      assert.ok(existsSysrootFile('home/vahag/public_html/wp-config.php'));
-      assert.ok(existsSysrootFile('etc/bind/zones/architecturalnumbers.com.db'));
-      assert.ok(existsSysrootFile('etc/cron.d/tenant-vahag'));
+      assert.equal(res.user, 'acme');
+      assert.ok(res.domains.includes('example-store.com'));
+      assert.ok(res.domains.includes('legacy-crm.org'));
+      assert.ok(res.databases.includes('acme_store'));
+      assert.ok(res.databases.includes('acme_crm'));
+      assert.ok(existsSysrootFile('etc/nginx/sites-available/example-store.com.conf'));
+      assert.ok(existsSysrootFile('home/acme/public_html/wp-config.php'));
+      assert.ok(existsSysrootFile('etc/bind/zones/example-store.com.db'));
+      assert.ok(existsSysrootFile('etc/cron.d/tenant-acme'));
     });
 
     it('S3.5: Packages exported archive and verifies data round-trip parity', () => {
       packageTarGz(extractDir, exportTarGzPath);
       assert.ok(fs.existsSync(exportTarGzPath));
       extractTarGz(exportTarGzPath, reExtractDir);
-      const originalVahag = fs.readFileSync(path.join(stagingDir, 'cp/vahag'), 'utf8');
-      const reExtractedVahag = fs.readFileSync(path.join(reExtractDir, 'cp/vahag'), 'utf8');
-      assert.equal(originalVahag, reExtractedVahag);
+      const originalAcme = fs.readFileSync(path.join(stagingDir, 'cp/acme'), 'utf8');
+      const reExtractedAcme = fs.readFileSync(path.join(reExtractDir, 'cp/acme'), 'utf8');
+      assert.equal(originalAcme, reExtractedAcme);
     });
   });
 
@@ -247,29 +247,29 @@ RewriteRule ^item/([0-9]+)$ /detail.php?id=$1 [L]`;
   // Scenario 4: Support Impersonation & Security Audit Trail
   // =========================================================================
   describe('Scenario 4: Support Impersonation & Security Audit Trail', () => {
-    it('S4.1: Admin triggers 1-click impersonation into tenant vahag', () => {
+    it('S4.1: Admin triggers 1-click impersonation into tenant acme', () => {
       const token = {
         operator: 'admin',
-        impersonatedUser: 'vahag',
+        impersonatedUser: 'acme',
         issuedAt: Date.now(),
         expiresAt: Date.now() + 900
       };
       assert.equal(token.operator, 'admin');
-      assert.equal(token.impersonatedUser, 'vahag');
+      assert.equal(token.impersonatedUser, 'acme');
     });
 
     it('S4.2: Impersonated session executes IP block action', () => {
       const blockedIp = '203.0.113.88';
-      const auditLog = `[${new Date().toISOString()}] OPERATOR: admin IMPERSONATING: vahag ACTION: ip_blocker.add TARGET: ${blockedIp}\n`;
+      const auditLog = `[${new Date().toISOString()}] OPERATOR: admin IMPERSONATING: acme ACTION: ip_blocker.add TARGET: ${blockedIp}\n`;
       writeSysrootFile('var/log/audit.log', auditLog);
       const log = readSysrootFile('var/log/audit.log');
       assert.ok(log.includes('OPERATOR: admin'));
-      assert.ok(log.includes('IMPERSONATING: vahag'));
+      assert.ok(log.includes('IMPERSONATING: acme'));
       assert.ok(log.includes('203.0.113.88'));
     });
 
     it('S4.3: Confirms tenant file isolation during impersonation', () => {
-      const userHome = resolveSysroot('home/vahag');
+      const userHome = resolveSysroot('home/acme');
       const targetPath = resolveSysroot('home/otheruser/public_html');
       const hasAccess = targetPath.startsWith(userHome);
       assert.equal(hasAccess, false);

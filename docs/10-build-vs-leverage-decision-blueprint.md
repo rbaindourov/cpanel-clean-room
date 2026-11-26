@@ -44,9 +44,9 @@ When engineers estimate building a cPanel competitor from scratch (`Strategy 4` 
 | **Subtotal for Commodity Subsystems** | **`30.0 weeks`** | **6 Battle-Tested Upstream Projects** | **100% Commercial SaaS Safe** | **`2.5 weeks`** |
 
 That leaves only **~5.5 person-weeks** of high-value, first-party engineering for our core intellectual property:
-1. **`winwin-agentd` (~3,500 LOC Go):** The privileged single-binary daemon running on each target Linux server.
-2. **The `cpmove` Archive Importer (~900 LOC Go):** Native 1-click migration from any cPanel host (`HostGator`, `Bluehost`, `GoDaddy`, `SiteGround`).
-3. **`WinWinHost Control Plane` (~4,500 LOC TypeScript/React):** The multi-server SaaS portal with `SuperAdmin → Agency/Reseller → End-Client` RBAC and one-click SSO into the embedded subsystems.
+1. **`panel-agentd` (~3,500 LOC Go/TS):** The privileged daemon running on each target Linux server.
+2. **The `cpmove` Archive Importer (~900 LOC):** Native 1-click migration from any cPanel host (`HostGator`, `Bluehost`, `GoDaddy`, `SiteGround`).
+3. **`CleanPanel Control Plane` (~4,500 LOC TypeScript/React):** The multi-tenant portal with `SuperAdmin → Agency/Reseller → End-Client` RBAC and one-click SSO into the embedded subsystems.
 
 ---
 
@@ -62,18 +62,18 @@ flowchart TB
     end
 
     subgraph NODE["Customer / Agency Linux Server (Ubuntu 22.04 / 24.04 or Debian 12 — Zero Docker Required)"]
-        AGENT["winwin-agentd (Single Static Go Binary)\nTyped Schema Validation • Zero Shell Interpolation"]
+        AGENT["panel-agentd (Privileged Host Daemon)\nTyped Schema Validation • Zero Shell Interpolation"]
 
-        subgraph ISOLATION["Per-Tenant Linux Isolation (e.g., uid=1005 vahag + systemd user-1005.slice)"]
-            FPM["PHP-FPM Pool (/run/php/vahag-php83.sock)\nMulti-PHP 5.6 to 8.5"]
-            FB_PROC["FileBrowser (Apache-2.0)\nRuns as uid=1005, rooted at /home/vahag\n--disable-exec --auth.method=proxy"]
-            TTYD_PROC["ttyd Web Terminal (MIT)\nRuns as uid=1005 on Unix Socket"]
+        subgraph ISOLATION["Per-Tenant Linux Isolation (e.g., uid=1001 acme + systemd user-1001.slice)"]
+            FPM["PHP-FPM Pool (/run/php/acme-php83.sock)\nMulti-PHP 5.6 to 8.5"]
+            FB_PROC["FileBrowser (Apache-2.0)\nRuns as uid=1001, rooted at /home/acme\n--disable-exec --auth.method=proxy"]
+            TTYD_PROC["ttyd Web Terminal (MIT)\nRuns as uid=1001 on Unix Socket"]
             GOACC_PROC["GoAccess (MIT)\nBatch JSON/HTML5 Stats Generator"]
         end
 
         subgraph DAEMONS["Native System Services (Managed via Atomic Config + systemd)"]
             NGX["Nginx Edge Proxy + ACME TLS (lego)"]
-            MDB["MariaDB 10.11 (vahag_* Databases)"]
+            MDB["MariaDB 10.11 (acme_* Databases)"]
             MAIL["Postfix + Dovecot + Rspamd (Maildir + DKIM/SPF)"]
             DNS["PowerDNS Authoritative / Cloudflare API Sync"]
             EXT_UI["Isolated External Web Apps:\n• Roundcube Webmail + ManageSieve\n• phpMyAdmin (SignonSession)"]
@@ -94,11 +94,11 @@ flowchart TB
 
 ---
 
-## 4. Clean-Room Specification: The 22 Atomic Host Agent Operations (`winwin-agentd`)
+## 4. Clean-Room Specification: The 22 Atomic Host Agent Operations (`panel-agentd`)
 
-Rather than HestiaCP's **526 Bash scripts** (`65,725 LOC` of shell string concatenation that produced 26 security advisories), `winwin-agentd` exposes **22 strongly-typed, schema-validated Go RPC handlers** that use `os/exec.Command` with explicit argument arrays (never `sh -c`) and atomic temp-file renames:
+Rather than HestiaCP's **526 Bash scripts** (`65,725 LOC` of shell string concatenation that produced 26 security advisories), `panel-agentd` exposes **22 strongly-typed, schema-validated RPC handlers** that use `execFile` with explicit argument arrays (never `sh -c`) and atomic temp-file renames:
 
-| Domain | RPC Method | Native Linux Action Performed by `winwin-agentd` |
+| Domain | RPC Method | Native Linux Action Performed by `panel-agentd` |
 | :--- | :--- | :--- |
 | **1. Tenant Lifecycle** | `tenant.create` | Creates Linux group/user (`useradd -m -d /home/<u > -s /bin/bash`), writes `/etc/systemd/system/user-<uid>.slice` (`CPUQuota`, `MemoryMax`, `TasksMax`), sets `setquota` on `/` or `/home`. |
 | | `tenant.updateLimits` | Updates `user-<uid>.slice` drop-in and filesystem block/inode quotas live via `systemctl daemon-reload`. |
@@ -107,7 +107,7 @@ Rather than HestiaCP's **526 Bash scripts** (`65,725 LOC` of shell string concat
 | | `site.setPhpVersion` | Atomically moves pool config between `/etc/php/{5.6..8.5}/fpm/pool.d/` and reloads target FPM daemons (`SOF-05`). |
 | | `site.updatePhpIni` | Updates `php_admin_value` / `php_admin_flag` directives in the tenant's FPM pool (`SOF-06`). |
 | | `site.issueSsl` | Uses embedded Go `lego` ACME library (`HTTP-01` or `DNS-01`) to issue/renew Let's Encrypt certs (`SEC-03`, `SEC-07`). |
-| **3. Databases** | `mysql.createDb` / `dropDb` | Connects to local `/run/mysqld/mysqld.sock` via Go `go-sql-driver/mysql` using parameterized DDL (`CREATE DATABASE \`vahag_app\``). |
+| **3. Databases** | `mysql.createDb` / `dropDb` | Connects to local `/run/mysqld/mysqld.sock` via Go `go-sql-driver/mysql` using parameterized DDL (`CREATE DATABASE \`acme_app\``). |
 | | `mysql.upsertUserGrant` | Creates `<user>_<dbuser>@localhost` (or remote IP for `DB-04`) and applies scoped `GRANT` privileges. |
 | | `mysql.createPmaSession` | Mints a 60-second encrypted `SignonSession` cookie payload for 1-click phpMyAdmin SSO (`DB-01`). |
 | **4. Mail & Deliverability** | `mail.upsertDomain` | Registers domain in `/etc/postfix/vhosts` and generates 2048-bit RSA + Ed25519 DKIM keys in `/var/lib/rspamd/dkim/` (`EML-10`). |
@@ -129,12 +129,12 @@ Rather than HestiaCP's **526 Bash scripts** (`65,725 LOC` of shell string concat
 
 Our empirical audit of `Virtualmin GPL` (`scratch/competitor-repos/virtualmin-gpl/migration-cpanel.pl`, `1,702 LOC`) confirmed that a cPanel full backup archive (`backup-MM.DD.YYYY_HH-MM-SS_<user>.tar.gz` or `cpmove-<user>.tar.gz`) follows a deterministic directory layout that our Go agent can unpack and hydrate in **~900 lines of clean-room Go**:
 
-| Path Inside `cpmove-<user>.tar.gz` | Contents | `winwin-agentd` Clean-Room Restoration Action |
+| Path Inside `cpmove-<user>.tar.gz` | Contents | `panel-agentd` Clean-Room Restoration Action |
 | :--- | :--- | :--- |
-| `cp/<user>` | Key-value account metadata (`DNS=architecturalnumbers.com`, `PLAN=...`, `MAXFTP=...`) | Parses primary domain, contact email, and quota limits. |
-| `userdata/main` & `userdata/<domain>` | YAML/JSON mapping of Addon Domains (`addon_domains`), Subdomains (`sub_domains`), Parked Aliases, and `documentroot` paths + PHP version | Calls `site.upsert` for primary domain (`public_html`) and every addon domain (`trace4less.com`, `armenianlistings.com`, etc.) with its matching PHP-FPM version (`5.6`–`8.5`). |
+| `cp/<user>` | Key-value account metadata (`DNS=example-store.com`, `PLAN=...`, `MAXFTP=...`) | Parses primary domain, contact email, and quota limits. |
+| `userdata/main` & `userdata/<domain>` | YAML/JSON mapping of Addon Domains (`addon_domains`), Subdomains (`sub_domains`), Parked Aliases, and `documentroot` paths + PHP version | Calls `site.upsert` for primary domain (`public_html`) and every addon domain (`legacy-crm.org`, `directory-hub.net`, etc.) with its matching PHP-FPM version (`5.6`–`8.5`). |
 | `homedir/` or `homedir.tar` | Complete `/home/<user>/` filesystem including `public_html/`, `mail/`, and `etc/` | Extracts into `/home/<user>/`, normalizes ownership (`chown -R <uid>:<gid>`), and strips legacy HostGator EasyApache `.htaccess` `AddHandler application/x-httpd-ea-php*` lines that conflict with Nginx/PHP-FPM. |
-| `mysql/<dbname>.sql` & `mysql.sql` | Full `mysqldump` schema + data for every `<user>_*` database (`vahag_architecturalnumbers.sql`, `vahag_trace4less.sql`) + `GRANT` statements | Creates databases and users in MariaDB, imports `.sql` dumps via streaming pipe, and preserves existing database passwords from `mysql.sql` `IDENTIFIED BY PASSWORD` hashes so `wp-config.php` works with **zero edits**. |
+| `mysql/<dbname>.sql` & `mysql.sql` | Full `mysqldump` schema + data for every `<user>_*` database (`acme_store.sql`, `acme_crm.sql`) + `GRANT` statements | Creates databases and users in MariaDB, imports `.sql` dumps via streaming pipe, and preserves existing database passwords from `mysql.sql` `IDENTIFIED BY PASSWORD` hashes so `wp-config.php` works with **zero edits**. |
 | `homedir/etc/<domain>/passwd` & `shadow` | Dovecot-compatible `CRAM-MD5` / `SHA512-CRYPT` (`$6$...`) password hashes and byte quotas for every mailbox | Imports password hashes directly into `/etc/dovecot/passwd` so existing IMAP/SMTP clients (`Outlook`, `Apple Mail`, `Thunderbird`) stay connected **without resetting user passwords**. |
 | `homedir/mail/<domain>/<user>/` | Standard `Maildir/` hierarchy (`cur/`, `new/`, `tmp/`, `.Sent/`, `.Trash/`) | Preserves in place under `/home/<user>/mail/<domain>/<user>/` and runs `doveadm index` to rebuild Dovecot indexes. |
 | `valiases/<domain>` | Forwarder & catch-all mappings | Populates `/etc/postfix/virtual` forwarders (`EML-02`, `EML-05`). |
@@ -147,7 +147,7 @@ Our empirical audit of `Virtualmin GPL` (`scratch/competitor-repos/virtualmin-gp
 
 | Phase | Timeline | Deliverables | Verification Milestone |
 | :--- | :---: | :--- | :--- |
-| **Phase 1: Core Host Agent (`winwin-agentd`) & Linux Isolation** | **Weeks 1–2** | • Go mTLS daemon (`winwin-agentd`)<br>• Tenant UID + `systemd` `user-<uid>.slice` + quota provisioning<br>• Nginx + Multi-PHP FPM (`5.6`–`8.5`) + `lego` AutoSSL<br>• MariaDB database/user manager | Provision `architecturalnumbers.com` & `trace4less.com` on a staging Ubuntu 24.04 VPS with isolated PHP 8.2 / 7.4 FPM pools and Let's Encrypt TLS. |
+| **Phase 1: Core Host Agent (`panel-agentd`) & Linux Isolation** | **Weeks 1–2** | • Privileged daemon (`panel-agentd`)<br>• Tenant UID + `systemd` `user-<uid>.slice` + quota provisioning<br>• Nginx + Multi-PHP FPM (`5.6`–`8.5`) + `lego` AutoSSL<br>• MariaDB database/user manager | Provision `example-store.com` & `legacy-crm.org` on a staging Ubuntu 24.04 VPS with isolated PHP 8.2 / 7.4 FPM pools and Let's Encrypt TLS. |
 | **Phase 2: Composable OSS Subsystem Integration & SSO** | **Weeks 3–4** | • Embed `FileBrowser` (`Apache-2.0`, `--disable-exec`, `--auth.method=proxy`)<br>• Embed `ttyd` (`MIT`) & `GoAccess` (`MIT`)<br>• Configure `phpMyAdmin` `SignonSession` & `Roundcube` HMAC SSO | Verify 1-click passwordless launch of File Manager, Web Terminal, phpMyAdmin, and Visitor Analytics from a single test token. |
 | **Phase 3: Native Mail Stack & Authoritative DNS** | **Weeks 5–6** | • Postfix + Dovecot + Rspamd + ManageSieve integration<br>• Automated DKIM (`Ed25519`/`RSA`), SPF, and DMARC provisioning<br>• PowerDNS + Cloudflare API Zone Editor (`DOM-03`) | Send and receive external email with `10/10` `mail-tester.com` DKIM/SPF/DMARC score; verify Sieve vacation autoresponders. |
-| **Phase 4: `cpmove` Importer & Multi-Tenant SaaS UI (Dogfood #1: `vahag`)** | **Weeks 7–8** | • Clean-room Go `cpmove` archive importer<br>• React/TypeScript Control Plane matching our Jupiter UI blueprints ([`docs/06`](file:///home/robert/projects/cpanel-clean-room/docs/06-clean-room-winwinhost-control-panel-architecture.md))<br>• Full dry-run migration of Vahag's HostGator `backup-*.tar.gz` | Upload Vahag's HostGator `cpmove` backup; verify all domains, MySQL DBs (`vahag_architecturalnumbers`, `vahag_trace4less`), mailboxes, and files restore and pass HTTP/visual verification in < 5 minutes. |
+| **Phase 4: `cpmove` Importer & Multi-Tenant UI (Dogfood #1: `acme`)** | **Weeks 7–8** | • Clean-room `cpmove` archive importer<br>• React/TypeScript Control Plane matching our Jupiter UI blueprints ([`docs/06`](file:///home/robert/projects/cpanel-clean-room/docs/06-clean-room-control-panel-architecture.md))<br>• Full dry-run migration of reference HostGator `backup-*.tar.gz` | Upload reference HostGator `cpmove` backup; verify all domains, MySQL DBs (`acme_store`, `acme_crm`), mailboxes, and files restore and pass HTTP/visual verification in < 5 minutes. |

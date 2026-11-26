@@ -77,7 +77,7 @@ export function registerDomainsRoutes(options: DomainsRouteOptions): Router {
       const zoneId = crypto.randomUUID();
       db.prepare(`
         INSERT OR IGNORE INTO dns_zones (id, domain_id, domain_name, primary_ns, admin_email, serial)
-        VALUES (?, ?, ?, 'ns1.winwinhost.com.', 'hostmaster.winwinhost.com.', 2026111201)
+        VALUES (?, ?, ?, 'ns1.cleanpanel.local.', 'hostmaster.cleanpanel.local.', 2026111201)
       `).run(zoneId, domainId, domainName);
 
       res.json({

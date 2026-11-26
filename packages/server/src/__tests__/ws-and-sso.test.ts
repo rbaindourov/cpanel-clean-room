@@ -16,10 +16,10 @@ import { JwtService } from '../auth/jwt.ts';
 test('SSO Bridges & WebSockets Dispatcher Suite', async (t) => {
   await t.test('phpMyAdmin SignonSession creates authenticated session token', () => {
     const res = createPmaSignonSession({
-      username: 'vahag',
-      databaseUser: 'vahag_wpuser',
+      username: 'acme',
+      databaseUser: 'acme_wpuser',
       databasePassword: 'SecretPassword123!',
-      targetDatabase: 'vahag_wp1',
+      targetDatabase: 'acme_wp1',
       ssoSecret: 'test-pma-sso-secret-key-32bytes!',
       sysrootPath: './scratch/test_sso_sysroot',
     });
@@ -33,21 +33,21 @@ test('SSO Bridges & WebSockets Dispatcher Suite', async (t) => {
   await t.test('Roundcube SSO creates and cryptographically validates tokens', () => {
     const secret = 'test-roundcube-sso-secret-32bytes!';
     const sso = createRoundcubeSignonToken({
-      email: 'vahag@architecturalnumbers.com',
-      username: 'vahag',
+      email: 'acme@example-store.com',
+      username: 'acme',
       ssoSecret: secret,
       validityWindowSeconds: 300,
     });
 
     assert.ok(sso.ssoToken.includes('.'));
-    assert.strictEqual(sso.email, 'vahag@architecturalnumbers.com');
+    assert.strictEqual(sso.email, 'acme@example-store.com');
     assert.ok(sso.redirectUrl.includes('_autologin=1'));
 
     // Valid token passes
     const check = verifyRoundcubeSignonToken(sso.ssoToken, secret);
     assert.strictEqual(check.valid, true);
-    assert.strictEqual(check.payload?.email, 'vahag@architecturalnumbers.com');
-    assert.strictEqual(check.payload?.username, 'vahag');
+    assert.strictEqual(check.payload?.email, 'acme@example-store.com');
+    assert.strictEqual(check.payload?.username, 'acme');
 
     // Tampered token fails
     const tampered = sso.ssoToken.slice(0, -4) + 'abcd';
@@ -66,20 +66,20 @@ test('SSO Bridges & WebSockets Dispatcher Suite', async (t) => {
     // Insert user and domain
     db.prepare(`
       INSERT INTO users (id, username, password_hash, role, email, plan_name, quota_bytes, created_at)
-      VALUES ('usr_vahag', 'vahag', 'hash', 'customer', 'vahag@architecturalnumbers.com', 'Standard', 10737418240, datetime('now'))
+      VALUES ('usr_acme', 'acme', 'hash', 'customer', 'acme@example-store.com', 'Standard', 10737418240, datetime('now'))
     `).run();
 
     db.prepare(`
       INSERT INTO domains (id, user_id, domain_name, type, docroot, php_version, created_at)
-      VALUES ('dom_1', 'usr_vahag', 'architecturalnumbers.com', 'primary', '/home/vahag/public_html', '8.2', datetime('now'))
+      VALUES ('dom_1', 'usr_acme', 'example-store.com', 'primary', '/home/acme/public_html', '8.2', datetime('now'))
     `).run();
 
     const jwtSecret = 'ws-test-jwt-secret-32-chars-long!';
     const jwt = new JwtService(jwtSecret);
     const { token: validToken } = jwt.signAccessToken({
-      id: 'usr_vahag',
-      username: 'vahag',
-      email: 'vahag@architecturalnumbers.com',
+      id: 'usr_acme',
+      username: 'acme',
+      email: 'acme@example-store.com',
       role: 'customer',
     });
 

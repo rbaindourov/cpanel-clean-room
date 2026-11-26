@@ -702,7 +702,7 @@ export const EmailSuitePage: React.FC = () => {
                   Authorizes this appliance mail server to dispatch email for your domain.
                 </p>
                 <div className="bg-[#1B1E2B] p-2.5 rounded border border-[#343B52] font-mono text-[10px] text-slate-300 break-all">
-                  {deliverability.spf?.record || 'v=spf1 +a +mx +ip4:192.168.11.32 ~all'}
+                  {deliverability.spf?.record || 'v=spf1 +a +mx +ip4:203.0.113.32 ~all'}
                 </div>
               </div>
 

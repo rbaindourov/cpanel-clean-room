@@ -119,8 +119,8 @@ Instead of adopting a monolithic control panel, **Strategy 3** embeds three spec
   - Our GHSA audit found `30` published advisories in `FileBrowser`, almost all concentrated in three optional features: (a) the **Command Runner** (`Perm.Execute` shell command feature), (b) **Public Share Links**, and (c) **Builtin User Auth/Scope Modification**.
   - **Our Clean-Room Embedding Rules:**
     1. **Disable Command Runner (`--disable-exec`):** Never allow FileBrowser to execute shell commands.
-    2. **OS-Level Process & Filesystem Containment:** Spawn FileBrowser on demand (or per tenant socket) running strictly as the **tenant's unprivileged Linux UID/GID** (`uid=1005(vahag)`), rooted at `/home/<user>` with Linux `MountNamespace` / `ProtectSystem=strict` so OS-level kernel permissions enforce tenant isolation regardless of application logic.
-    3. **Reverse-Proxy Header Auth (`--auth.method=proxy`):** Authenticate solely via signed short-lived reverse-proxy headers injected by `winwin-agentd` over a local Unix domain socket.
+    2. **OS-Level Process & Filesystem Containment:** Spawn FileBrowser on demand (or per tenant socket) running strictly as the **tenant's unprivileged Linux UID/GID** (`uid=1001(acme)`), rooted at `/home/<user>` with Linux `MountNamespace` / `ProtectSystem=strict` so OS-level kernel permissions enforce tenant isolation regardless of application logic.
+    3. **Reverse-Proxy Header Auth (`--auth.method=proxy`):** Authenticate solely via signed short-lived reverse-proxy headers injected by `panel-agentd` over a local Unix domain socket.
 
 ### 3.2 `ttyd` (`19,441 LOC` C + xterm.js — `MIT`)
 - **What It Solves:** Provides a rock-solid, zero-dependency C binary (`libwebsockets` + `xterm.js`) for browser-based SSH/Terminal access (`ADV-01` / `SEC-01`).

@@ -1,8 +1,8 @@
 {
   "target": {
-    "domain": "architecturalnumbers.com",
+    "domain": "example-store.com",
     "port": 2083,
-    "cpanelUser": "vahag",
+    "cpanelUser": "acme",
     "inspectedAt": "2026-11-12T01:08:12.145Z"
   },
   "serverInfo": {
@@ -218,28 +218,28 @@
     },
     "vhosts": [
       {
-        "homedir": "/home4/vahag",
+        "homedir": "/home4/acme",
         "phpversion_source": {
-          "domain": "architecturalnumbers.com"
+          "domain": "example-store.com"
         },
         "main_domain": 1,
         "version": "alt-php56",
         "account_owner": "root",
-        "documentroot": "/home4/vahag/public_html",
+        "documentroot": "/home4/acme/public_html",
         "php_fpm": 0,
-        "account": "vahag",
-        "vhost": "architecturalnumbers.com",
+        "account": "acme",
+        "vhost": "example-store.com",
         "php_fpm_pool_parms": {}
       },
       {
-        "account": "vahag",
-        "vhost": "trace4less.com",
+        "account": "acme",
+        "vhost": "legacy-crm.org",
         "php_fpm": 0,
-        "documentroot": "/home4/vahag/trace4less.com",
+        "documentroot": "/home4/acme/legacy-crm.org",
         "phpversion_source": {
           "system_default": 1
         },
-        "homedir": "/home4/vahag",
+        "homedir": "/home4/acme",
         "version": "ea-php83",
         "main_domain": 0,
         "account_owner": "root",
@@ -251,24 +251,24 @@
     "databases": [
       {
         "users": [
-          "vahag_k"
+          "acme_k"
         ],
         "disk_usage": 54759734,
-        "database": "vahag_architecturalnumbers"
+        "database": "acme_store"
       },
       {
         "users": [
-          "vahag_k"
+          "acme_k"
         ],
         "disk_usage": 4157,
-        "database": "vahag_trace4less"
+        "database": "acme_crm"
       }
     ]
   },
   "emailStats": {
     "accounts": [
       {
-        "email": "production@architecturalnumbers.com",
+        "email": "production@example-store.com",
         "diskusedpercent20": 80,
         "suspended_login": 0,
         "diskusedpercent_float": 81.6164109230041,
@@ -276,13 +276,13 @@
         "humandiskused": "2.39 GB",
         "diskquota": "3000.00",
         "user": "production",
-        "login": "production@architecturalnumbers.com",
+        "login": "production@example-store.com",
         "humandiskquota": "2.93 GB",
         "diskused": "2448.49",
         "txtdiskquota": "3000.00",
         "_diskused": "2567430291",
         "mtime": 1794420850,
-        "domain": "architecturalnumbers.com",
+        "domain": "example-store.com",
         "suspended_incoming": 0,
         "diskusedpercent": 81
       },
@@ -292,13 +292,13 @@
         "diskusedpercent_float": 58.8879832267761,
         "humandiskused": "2.3 GB",
         "diskquota": "4000.00",
-        "email": "sales@architecturalnumbers.com",
+        "email": "sales@example-store.com",
         "diskusedpercent20": 60,
         "user": "sales",
-        "login": "sales@architecturalnumbers.com",
+        "login": "sales@example-store.com",
         "humandiskquota": "3.91 GB",
         "suspended_incoming": 0,
-        "domain": "architecturalnumbers.com",
+        "domain": "example-store.com",
         "diskusedpercent": 58,
         "diskused": "2355.52",
         "txtdiskquota": "4000.00",
@@ -306,7 +306,7 @@
         "_diskused": "2469941036"
       },
       {
-        "email": "webmaster@architecturalnumbers.com",
+        "email": "webmaster@example-store.com",
         "diskusedpercent20": 60,
         "humandiskused": "697.28 MB",
         "diskquota": "1000.00",
@@ -315,18 +315,18 @@
         "diskusedpercent_float": 69.7280074119568,
         "user": "webmaster",
         "humandiskquota": "1,000 MB",
-        "login": "webmaster@architecturalnumbers.com",
+        "login": "webmaster@example-store.com",
         "diskused": "697.28",
         "txtdiskquota": "1000.00",
         "_diskused": "731151151",
         "mtime": 1794416403,
         "diskusedpercent": 69,
         "suspended_incoming": 0,
-        "domain": "architecturalnumbers.com"
+        "domain": "example-store.com"
       },
       {
         "user": "amazon",
-        "email": "amazon@architecturalnumbers.com",
+        "email": "amazon@example-store.com",
         "diskusedpercent20": 0,
         "humandiskused": "12.73 MB",
         "diskquota": "500.00",
@@ -339,38 +339,38 @@
         "mtime": 1794417958,
         "diskusedpercent": 2,
         "suspended_incoming": 0,
-        "domain": "architecturalnumbers.com",
+        "domain": "example-store.com",
         "humandiskquota": "500 MB",
-        "login": "amazon@architecturalnumbers.com"
+        "login": "amazon@example-store.com"
       }
     ]
   },
   "sslStatus": {
     "hosts": [
       {
-        "docroot": "/home4/vahag/public_html",
-        "servername": "architecturalnumbers.com",
+        "docroot": "/home4/acme/public_html",
+        "servername": "example-store.com",
         "domains": [
-          "architecturalnumbers.com"
+          "example-store.com"
         ],
         "needs_sni": 1,
         "ip": "192.254.236.224",
-        "certificate_text": "-----BEGIN CERTIFICATE-----\nMIIFKDCCBBCgAwIBAgISBt+wdSb9e6VKcIqiQIQCiL0YMA0GCSqGSIb3DQEBCwUA\nMDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQD\nEwNZUjEwHhcNMjYwOTI1MDEzNTQ2WhcNMjYxMjI0MDEzNTQ1WjAlMSMwIQYDVQQD\nDBoqLmFyY2hpdGVjdHVyYWxudW1iZXJzLmNvbTCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBANc+9pDnOB1J0bqYs0ieGIcAx8yZPytiIyEM/nc8lEvY0jye\nmru8vM5xaXuwNO3U36cYMQOHHjVEK0JJS/uknuXPmEY5BcVooLrH0zdpOtLcck/U\nwWHr+OE3NyHN9LQGYIztgvHyfdV72XZ5pi945DtpaNw22yPvxw7cn5JO9tCxzTNP\ngCkEZEQFzDJvi6PrMHu4iQ+2vYVxtvcir52dVvkW5bHOIcvh252HdwZtCMo9h30S\nXmB6nJgwAJ5HbVklaExdJHeFz/HWwvunRwxbzqqJu3tCXUvm+h7jLS6zG78f1A5I\necFrmDB4/EuJiAYlVMgR+ZEKlr19u4g0NJ/AS+8CAwEAAaOCAkIwggI+MA4GA1Ud\nDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAAMB0G\nA1UdDgQWBBSDt5EKmDffoPoxWWbWehehVn5c7TAfBgNVHSMEGDAWgBQfLzW+RhSC\nzUCxrnksVXj699Ro+zAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUHMAKGF2h0dHA6\nLy95cjEuaS5sZW5jci5vcmcvMD8GA1UdEQQ4MDaCGiouYXJjaGl0ZWN0dXJhbG51\nbWJlcnMuY29tghhhcmNoaXRlY3R1cmFsbnVtYmVycy5jb20wEwYDVR0gBAwwCjAI\nBgZngQwBAgEwLgYDVR0fBCcwJTAjoCGgH4YdaHR0cDovL3lyMS5jLmxlbmNyLm9y\nZy8yNS5jcmwwggEMBgorBgEEAdZ5AgQCBIH9BIH6APgAdgDXbX0Q0af1d8LH6V/X\nAL/5gskzWmXh0LMBcxfAyMVpdwAAAaDWadmSAAAEAwBHMEUCIFc03cA4gQUT4G4Q\nyMhVA2e96Mxx+kA0SwbIkIlkuR/aAiEAg51h3ytFdsjI2vS5TK8szR8K22SwPyti\nwJAhrxPkHywAfgBGr4Y9Oz7ln6V33qgkXTaw2e0ioiP0YXdBIpRS7pVQXwAAAaDW\nadpYAAgAAAUANUBnAwQDAEcwRQIgc2Aw2kjAwNQTRuqZzcb38RMwUg+3fV9N41So\nYp7US9sCIQCSXUkI2n7zGxEXSwcI8kDxPfHPZombwf52khNiyaYpXTANBgkqhkiG\n9w0BAQsFAAOCAQEAVTzkSElMOcA4BEKOz+6zILFQhr/GgMpQ0u9N7+P/rUvQy+jI\nTVlI8A/eRyqaNkEob+3tOhnTL234Gu6tspwLFEDc6Jd5xHUKu2pwyQPMz0mJNT3N\nIwfs4VVTiEv7Cc6vJpQCqPgZ3HCKSkkl+sZieFvNjYwlcG3nGca5KocV926V2gSx\nhlZ8urAZa93Z6gUgj3oQ15UJGudMxv+9YcMN7SzBTHat1dRPVw2XiuL3eCx32fw5\nzRMKja/J+Q9QTuOrSqRZdYxl5hefYrYGD40tnpyMyOIq1pWphT0pjhjVtpmxlozC\n5grbsvnfpuMXR0lhuBcLLIi3sNo3pF9RfA8cLA==\n-----END CERTIFICATE-----",
+        "certificate_text": "-----BEGIN CERTIFICATE-----\n[REDACTED_DEMO_CERTIFICATE_PEM]\n-----END CERTIFICATE-----",
         "certificate": {
           "auto_ssl_provider_display_name": "Let’s Encrypt™",
           "issuer.organizationName": "Let's Encrypt",
-          "subject.commonName": "*.architecturalnumbers.com",
+          "subject.commonName": "*.example-store.com",
           "modulus_length": 2048,
           "is_self_signed": 0,
           "signature_algorithm": "sha256WithRSAEncryption",
           "validation_type": "dv",
           "domains": [
-            "*.architecturalnumbers.com",
-            "architecturalnumbers.com"
+            "*.example-store.com",
+            "example-store.com"
           ],
           "issuer_text": "countryName\nUS\norganizationName\nLet's Encrypt\ncommonName\nYR1",
-          "subject_text": "commonName\n*.architecturalnumbers.com",
-          "id": "_wildcard__architecturalnumbers_com_d73ef_04bef_1798076145_d57f66fbcffd42e77092c69dd4335d82",
+          "subject_text": "commonName\n*.example-store.com",
+          "id": "_wildcard__example_store_com_d73ef_04bef_1798076145_d57f66fbcffd42e77092c69dd4335d82",
           "is_autossl": 1,
           "modulus": "d73ef690e7381d49d1ba98b3489e188700c7cc993f2b6223210cfe773c944bd8d23c9e9abbbcbcce71697bb034edd4dfa7183103871e35442b42494bfba49ee5cf98463905c568a0bac7d337693ad2dc724fd4c161ebf8e1373721cdf4b406608ced82f1f27dd57bd97679a62f78e43b6968dc36db23efc70edc9f924ef6d0b1cd334f802904644405cc326f8ba3eb307bb8890fb6bd8571b6f722af9d9d56f916e5b1ce21cbe1db9d8777066d08ca3d877d125e607a9c9830009e476d5925684c5d247785cff1d6c2fba7470c5bceaa89bb7b425d4be6fa1ee32d2eb31bbf1fd40e4879c16b983078fc4b8988062554c811f9910a96bd7dbb8834349fc04bef",
           "not_after": 1798076145,
@@ -381,32 +381,32 @@
         "mail_sni_status": 1,
         "is_primary_on_ip": 0,
         "fqdns": [
-          "architecturalnumbers.com",
-          "autoconfig.architecturalnumbers.com",
-          "autodiscover.architecturalnumbers.com",
-          "cpanel.architecturalnumbers.com",
-          "cpcalendars.architecturalnumbers.com",
-          "cpcontacts.architecturalnumbers.com",
-          "mail.architecturalnumbers.com",
-          "webdisk.architecturalnumbers.com",
-          "webmail.architecturalnumbers.com",
-          "www.architecturalnumbers.com"
+          "example-store.com",
+          "autoconfig.example-store.com",
+          "autodiscover.example-store.com",
+          "cpanel.example-store.com",
+          "cpcalendars.example-store.com",
+          "cpcontacts.example-store.com",
+          "mail.example-store.com",
+          "webdisk.example-store.com",
+          "webmail.example-store.com",
+          "www.example-store.com"
         ]
       },
       {
-        "docroot": "/home4/vahag/trace4less.com",
+        "docroot": "/home4/acme/legacy-crm.org",
         "domains": [
-          "trace4less.architecturalnumbers.com",
-          "trace4less.com"
+          "legacy-crm.example-store.com",
+          "legacy-crm.org"
         ],
-        "servername": "trace4less.architecturalnumbers.com",
+        "servername": "legacy-crm.example-store.com",
         "needs_sni": 1,
         "ip": "192.254.236.224",
-        "certificate_text": "-----BEGIN CERTIFICATE-----\nMIIFSjCCBDKgAwIBAgISBV63KnS8ffqo0yh6QzAbPqrnMA0GCSqGSIb3DQEBCwUA\nMDMxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQwwCgYDVQQD\nEwNZUjEwHhcNMjYwOTIyMDA1OTI2WhcNMjYxMjIxMDA1OTI1WjAuMSwwKgYDVQQD\nEyN0cmFjZTRsZXNzLmFyY2hpdGVjdHVyYWxudW1iZXJzLmNvbTCCASIwDQYJKoZI\nhvcNAQEBBQADggEPADCCAQoCggEBAJ843Rm8r8Zfr5eE7ZpORdoPGhNAuT2aoIXT\n4JuN5MPtDtmRPpk3/fGNDjecnk21DXsJGPlyLbQgUYESf/vZ3NCJgtSbN+c/Xpks\nwpHXQYd/kE6G3gDBx2IcQVksMnMuZeCDvK1HzGLU9mGqAKygynvrdoVmfOSbKWLJ\nX3hQO6m1CBb0WrahczzT66p03wIeJZsiP/yJZh85BFMYvz0qw14/gUaRSL1gaA2a\n+1KKZo+gigXxt3rNvUJviokn4FZYi8Nr/LdQoGCReC2vC4gzj5jB6olJ68RqysBW\nnmzcFCNxx7M/g6vUEhl8EoMwzu+8wiLlr5Esuo3oTNTuzprctHcCAwEAAaOCAlsw\nggJXMA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMB\nAf8EAjAAMB0GA1UdDgQWBBQQJrNi/TUHlOinsBwA/THD0I+imjAfBgNVHSMEGDAW\ngBQfLzW+RhSCzUCxrnksVXj699Ro+zAzBggrBgEFBQcBAQQnMCUwIwYIKwYBBQUH\nMAKGF2h0dHA6Ly95cjEuaS5sZW5jci5vcmcvMFcGA1UdEQRQME6CI3RyYWNlNGxl\nc3MuYXJjaGl0ZWN0dXJhbG51bWJlcnMuY29tgid3d3cudHJhY2U0bGVzcy5hcmNo\naXRlY3R1cmFsbnVtYmVycy5jb20wEwYDVR0gBAwwCjAIBgZngQwBAgEwLwYDVR0f\nBCgwJjAkoCKgIIYeaHR0cDovL3lyMS5jLmxlbmNyLm9yZy8xMDQuY3JsMIIBDAYK\nKwYBBAHWeQIEAgSB/QSB+gD4AH4ARq+GPTs+5Z+ld96oJF02sNntIqIj9GF3QSKU\nUu6VUF8AAAGgxtWCtwAIAAAFADN0EQwEAwBHMEUCIQC57w89xenBEVmiuU3lWzzB\neAIX6er2XTlH6Tuco/JerAIgSOBxmj3zMQVfFjFmLCrplRHTY+rWCUEeoPDc+KlO\nY+EAdgCUTkOH+uzB74HzGSQmqBhlAcfTXzgCAT9yZ31VNy4Z2AAAAaDG1ZnhAAAE\nAwBHMEUCIQCKkBUeFD4H04LrCt4pEL29MleHufI6wI1sywR/fUNrfAIgXeGQ+mkl\n8d+qbx80YnA3MoTJLgCbAIJR6Z6uCBqRJbIwDQYJKoZIhvcNAQELBQADggEBAGmd\nhLXlezX+frR8Ulc69paPaImknimRwT+ScG5s0I9fNUQdgSeUizV3/rKDRJvO0S5T\ngCTDyuUnLj4hL9jYi71X9wSsuQxXNvE3SKt03iKaaxWBZl3d/7/t+wuMasmosDzD\nPaW7XC/wpKOWVx2Unti3hrhXvK6dHdQ9rJGAJiQbWKhB9NmVZSdpSQNoWIRNTKYF\nLsjPVxtNdPoeC5KLTBAEuQjcyOVXSNokD0+wItJi2qAT6/U/vSUim95RFbez5IRb\n3/Pw1MR5akle8LnVWyBkCZb/PHpfQfqVs7ENSYsYe93oA6nepkSDCIgKz3R7Sc22\nAmp9EAL5AmRDV3fejIU=\n-----END CERTIFICATE-----",
+        "certificate_text": "-----BEGIN CERTIFICATE-----\n[REDACTED_DEMO_CERTIFICATE_PEM]\n-----END CERTIFICATE-----",
         "certificate": {
           "domains": [
-            "trace4less.architecturalnumbers.com",
-            "www.trace4less.architecturalnumbers.com"
+            "legacy-crm.example-store.com",
+            "www.legacy-crm.example-store.com"
           ],
           "modulus_length": 2048,
           "is_self_signed": 0,
@@ -414,13 +414,13 @@
           "validation_type": "dv",
           "auto_ssl_provider_display_name": "Let’s Encrypt™",
           "issuer.organizationName": "Let's Encrypt",
-          "subject.commonName": "trace4less.architecturalnumbers.com",
+          "subject.commonName": "legacy-crm.example-store.com",
           "not_before": 1790038766,
           "issuer.commonName": "YR1",
           "auto_ssl_provider": "LetsEncrypt",
           "issuer_text": "countryName\nUS\norganizationName\nLet's Encrypt\ncommonName\nYR1",
-          "id": "trace4less_architecturalnumbers_com_9f38d_cb477_1797814765_ad0079c4a922126e8cc9d22fc845ae4f",
-          "subject_text": "commonName\ntrace4less.architecturalnumbers.com",
+          "id": "legacy_crm_example_store_com_9f38d_cb477_1797814765_ad0079c4a922126e8cc9d22fc845ae4f",
+          "subject_text": "commonName\nlegacy-crm.example-store.com",
           "is_autossl": 1,
           "not_after": 1797814765,
           "modulus": "9f38dd19bcafc65faf9784ed9a4e45da0f1a1340b93d9aa085d3e09b8de4c3ed0ed9913e9937fdf18d0e379c9e4db50d7b0918f9722db4205181127ffbd9dcd08982d49b37e73f5e992cc291d741877f904e86de00c1c7621c41592c32732e65e083bcad47cc62d4f661aa00aca0ca7beb7685667ce49b2962c95f78503ba9b50816f45ab6a1733cd3ebaa74df021e259b223ffc89661f39045318bf3d2ac35e3f81469148bd60680d9afb528a668fa08a05f1b77acdbd426f8a8927e056588bc36bfcb750a06091782daf0b88338f98c1ea8949ebc46acac0569e6cdc142371c7b33f83abd412197c128330ceefbcc222e5af912cba8de84cd4eece9adcb477"
@@ -428,18 +428,18 @@
         "mail_sni_status": 1,
         "is_primary_on_ip": 0,
         "fqdns": [
-          "autoconfig.trace4less.com",
-          "autodiscover.trace4less.com",
-          "cpanel.trace4less.com",
-          "cpcalendars.trace4less.com",
-          "cpcontacts.trace4less.com",
-          "mail.trace4less.com",
-          "trace4less.architecturalnumbers.com",
-          "trace4less.com",
-          "webdisk.trace4less.com",
-          "webmail.trace4less.com",
-          "www.trace4less.architecturalnumbers.com",
-          "www.trace4less.com"
+          "autoconfig.legacy-crm.org",
+          "autodiscover.legacy-crm.org",
+          "cpanel.legacy-crm.org",
+          "cpcalendars.legacy-crm.org",
+          "cpcontacts.legacy-crm.org",
+          "mail.legacy-crm.org",
+          "legacy-crm.example-store.com",
+          "legacy-crm.org",
+          "webdisk.legacy-crm.org",
+          "webmail.legacy-crm.org",
+          "www.legacy-crm.example-store.com",
+          "www.legacy-crm.org"
         ]
       }
     ]

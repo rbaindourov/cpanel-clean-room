@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import net from 'node:net';
 import { SQLiteAdapter } from '../db/sqlite-adapter.ts';
 import { createStandardMigrationRunner } from '../db/migrations.ts';
-import { seedVahagData } from '../seed-vahag.ts';
+import { seedDemoData } from '../seed-demo.ts';
 import { createServer } from '../server.ts';
 import { JwtService } from '../auth/jwt.ts';
 import { AgentdClient } from '../agentd-client.ts';
@@ -36,22 +36,22 @@ class MockAgentdClient extends AgentdClient {
 test('Comprehensive REST API Routes Suite', async (t) => {
   const db = new SQLiteAdapter(':memory:');
   createStandardMigrationRunner(db).runPendingMigrations();
-  seedVahagData({ db, sysrootPath: './scratch/test_routes_sysroot' });
+  seedDemoData({ db, sysrootPath: './scratch/test_routes_sysroot' });
 
   const jwtSecret = 'test-routes-jwt-secret-key-32bytes!';
   const jwt = new JwtService(jwtSecret);
 
-  const vahagToken = jwt.signAccessToken({
-    id: db.prepare<any>('SELECT id FROM users WHERE username = ?').get('vahag').id,
-    username: 'vahag',
-    email: 'vahag@architecturalnumbers.com',
+  const acmeToken = jwt.signAccessToken({
+    id: db.prepare<any>('SELECT id FROM users WHERE username = ?').get('acme').id,
+    username: 'acme',
+    email: 'acme@example-store.com',
     role: 'customer',
   }).token;
 
   const adminToken = jwt.signAccessToken({
     id: db.prepare<any>('SELECT id FROM users WHERE username = ?').get('admin').id,
     username: 'admin',
-    email: 'admin@winwinhost.com',
+    email: 'admin@cleanpanel.local',
     role: 'admin',
   }).token;
 
@@ -79,19 +79,19 @@ test('Comprehensive REST API Routes Suite', async (t) => {
   // 1. Auth & Profile
   await t.test('GET /auth/me returns authenticated user identity', async () => {
     const res = await fetch(`${baseUrl}/auth/me`, {
-      headers: { Authorization: `Bearer ${vahagToken}` },
+      headers: { Authorization: `Bearer ${acmeToken}` },
     });
     assert.strictEqual(res.status, 200);
     const body: any = await res.json();
     assert.strictEqual(body.success, true);
-    assert.strictEqual(body.user.username, 'vahag');
+    assert.strictEqual(body.user.username, 'acme');
     assert.strictEqual(body.user.role, 'customer');
   });
 
   // 2. Metrics & System Stats
   await t.test('GET /metrics/system returns CPU, RAM, and load metrics', async () => {
     const res = await fetch(`${baseUrl}/metrics/system`, {
-      headers: { Authorization: `Bearer ${vahagToken}` },
+      headers: { Authorization: `Bearer ${acmeToken}` },
     });
     assert.strictEqual(res.status, 200);
     const body: any = await res.json();
@@ -101,39 +101,39 @@ test('Comprehensive REST API Routes Suite', async (t) => {
   });
 
   // 3. Domains
-  await t.test('GET /domains lists tenant domains including architecturalnumbers.com', async () => {
+  await t.test('GET /domains lists tenant domains including example-store.com', async () => {
     const res = await fetch(`${baseUrl}/domains`, {
-      headers: { Authorization: `Bearer ${vahagToken}` },
+      headers: { Authorization: `Bearer ${acmeToken}` },
     });
     assert.strictEqual(res.status, 200);
     const body: any = await res.json();
     assert.strictEqual(body.success, true);
     assert.ok(Array.isArray(body.domains));
-    assert.ok(body.domains.some((d: any) => d.domain_name === 'architecturalnumbers.com'));
+    assert.ok(body.domains.some((d: any) => d.domain_name === 'example-store.com'));
   });
 
   // 4. Databases
   await t.test('GET /databases/mysql/databases lists seeded MySQL databases', async () => {
     const res = await fetch(`${baseUrl}/databases/mysql/databases`, {
-      headers: { Authorization: `Bearer ${vahagToken}` },
+      headers: { Authorization: `Bearer ${acmeToken}` },
     });
     assert.strictEqual(res.status, 200);
     const body: any = await res.json();
     assert.strictEqual(body.success, true);
     assert.ok(Array.isArray(body.databases));
-    assert.ok(body.databases.some((d: any) => d.db_name === 'vahag_architecturalnumbers'));
+    assert.ok(body.databases.some((d: any) => d.db_name === 'acme_store'));
   });
 
   // 5. Email
   await t.test('GET /email/mailboxes lists seeded mailboxes', async () => {
     const res = await fetch(`${baseUrl}/email/mailboxes`, {
-      headers: { Authorization: `Bearer ${vahagToken}` },
+      headers: { Authorization: `Bearer ${acmeToken}` },
     });
     assert.strictEqual(res.status, 200);
     const body: any = await res.json();
     assert.strictEqual(body.success, true);
     assert.ok(Array.isArray(body.mailboxes));
-    assert.ok(body.mailboxes.some((m: any) => m.email === 'vahag@architecturalnumbers.com'));
+    assert.ok(body.mailboxes.some((m: any) => m.email === 'acme@example-store.com'));
   });
 
   // 6. Security (API Tokens)
@@ -141,7 +141,7 @@ test('Comprehensive REST API Routes Suite', async (t) => {
     const res = await fetch(`${baseUrl}/security/tokens`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${vahagToken}`,
+        Authorization: `Bearer ${acmeToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -159,7 +159,7 @@ test('Comprehensive REST API Routes Suite', async (t) => {
   // 7. Software (PHP Multi-Version)
   await t.test('GET /software/php/versions returns supported PHP runtimes', async () => {
     const res = await fetch(`${baseUrl}/software/php/versions`, {
-      headers: { Authorization: `Bearer ${vahagToken}` },
+      headers: { Authorization: `Bearer ${acmeToken}` },
     });
     assert.strictEqual(res.status, 200);
     const body: any = await res.json();
@@ -172,7 +172,7 @@ test('Comprehensive REST API Routes Suite', async (t) => {
   // 8. Advanced (Terminal Info)
   await t.test('GET /advanced/terminal/info returns shell and websocket endpoint metadata', async () => {
     const res = await fetch(`${baseUrl}/advanced/terminal/info`, {
-      headers: { Authorization: `Bearer ${vahagToken}` },
+      headers: { Authorization: `Bearer ${acmeToken}` },
     });
     assert.strictEqual(res.status, 200);
     const body: any = await res.json();
@@ -186,7 +186,7 @@ test('Comprehensive REST API Routes Suite', async (t) => {
     const res = await fetch(`${baseUrl}/preferences/theme`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${vahagToken}`,
+        Authorization: `Bearer ${acmeToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ theme: 'dark' }),
@@ -207,16 +207,16 @@ test('Comprehensive REST API Routes Suite', async (t) => {
     assert.strictEqual(adminBody.success, true);
     assert.ok(Array.isArray(adminBody.tenants));
 
-    // Admin impersonating customer vahag via X-Impersonate-User
+    // Admin impersonating customer acme via X-Impersonate-User
     const impersonateRes = await fetch(`${baseUrl}/auth/me`, {
       headers: {
         Authorization: `Bearer ${adminToken}`,
-        'X-Impersonate-User': 'vahag',
+        'X-Impersonate-User': 'acme',
       },
     });
     assert.strictEqual(impersonateRes.status, 200);
     const impBody: any = await impersonateRes.json();
-    assert.strictEqual(impBody.effectiveUser.username, 'vahag');
+    assert.strictEqual(impBody.effectiveUser.username, 'acme');
     assert.strictEqual(impBody.isImpersonating, true);
     assert.strictEqual(impBody.user.username, 'admin');
   });

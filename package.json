@@ -1,14 +1,19 @@
 {
   "name": "cpanel-clean-room",
   "version": "1.0.0",
-  "description": "Clean-room functional specification, visual feature audit, open-source control panel evaluation, and native Linux hosting architecture for cPanel parity.",
+  "description": "Clean-room open-source Linux web hosting control panel appliance (TypeScript, React, SQLite WAL, Unix-socket root daemon) with 77-tool cPanel Jupiter parity and 1-click cpmove migration.",
   "type": "module",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rbaindourov/cpanel-clean-room.git"
+  },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
+    "start": "node --experimental-strip-types packages/server/src/index.ts",
     "build": "tsc --noEmit",
+    "build:web": "npm --workspace=@cpanel-clean-room/web run build",
     "test": "node --experimental-strip-types --test packages/*/src/**/*.test.ts",
     "test:e2e": "node tests/e2e/run_all_e2e.mjs",
     "test:all": "node --experimental-strip-types --test packages/*/src/**/*.test.ts && node tests/e2e/run_all_e2e.mjs",
@@ -21,15 +26,19 @@
   },
   "keywords": [
     "cpanel",
-    "webmin",
-    "virtualmin",
-    "hestiacp",
-    "ispconfig",
-    "froxlor",
-    "clean-room",
-    "hosting",
-    "linux"
+    "control-panel",
+    "web-hosting",
+    "linux",
+    "nginx",
+    "php-fpm",
+    "bind9",
+    "postfix",
+    "dovecot",
+    "rspamd",
+    "typescript",
+    "react",
+    "clean-room"
   ],
-  "author": "agents@darter",
-  "license": "UNLICENSED"
+  "author": "cPanel Clean-Room Contributors",
+  "license": "MIT"
 }

@@ -12,7 +12,7 @@ import { SessionRevocationService } from '../auth/session-revocation.ts';
 test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
   await t.test('PasswordService hashes and verifies passwords with timing safety', async () => {
     const passwordSvc = new PasswordService();
-    const rawPass = 'SuperSecretVahagPass2026!';
+    const rawPass = 'SuperSecretAcmePass2026!';
 
     const hash = await passwordSvc.hash(rawPass);
     assert.ok(hash.length > 20);
@@ -29,7 +29,7 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
 
   await t.test('TotpService generates RFC 6238 secrets, codes, and handles drift & recovery codes', () => {
     const totpSvc = new TotpService();
-    const enrollment = totpSvc.generateEnrollment('vahag', 'cPanel Clean-Room');
+    const enrollment = totpSvc.generateEnrollment('acme', 'cPanel Clean-Room');
 
     assert.ok(enrollment.secret.length >= 16);
     assert.ok(enrollment.uri.startsWith('otpauth://totp/'));
@@ -63,8 +63,8 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
 
     const { token, jti, expiresAt } = jwtSvc.signAccessToken({
       id: 'usr_1',
-      username: 'vahag',
-      email: 'vahag@architecturalnumbers.com',
+      username: 'acme',
+      email: 'acme@example-store.com',
       role: 'customer',
     });
 
@@ -74,7 +74,7 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
 
     const payload = jwtSvc.verifyAccessToken(token);
     assert.strictEqual(payload.sub, 'usr_1');
-    assert.strictEqual(payload.username, 'vahag');
+    assert.strictEqual(payload.username, 'acme');
     assert.strictEqual(payload.role, 'customer');
     assert.strictEqual(payload.jti, jti);
 
@@ -109,10 +109,10 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
       quotaBytes: 107374182400,
     };
 
-    const customerVahag = {
-      id: 'usr_vahag',
-      username: 'vahag',
-      email: 'vahag@architecturalnumbers.com',
+    const customerAcme = {
+      id: 'usr_acme',
+      username: 'acme',
+      email: 'acme@example-store.com',
       role: 'customer' as const,
       resellerId: 'usr_reseller',
       status: 'active' as const,
@@ -131,21 +131,21 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
 
     // 1. Admin can impersonate reseller and customer
     assert.strictEqual(rbac.canImpersonate(adminUser, resellerUser).allowed, true);
-    assert.strictEqual(rbac.canImpersonate(adminUser, customerVahag).allowed, true);
+    assert.strictEqual(rbac.canImpersonate(adminUser, customerAcme).allowed, true);
 
     // 2. Admin CANNOT impersonate another admin
     const peerAdmin = { ...adminUser, id: 'usr_admin_2', username: 'admin2' };
     assert.strictEqual(rbac.canImpersonate(adminUser, peerAdmin).allowed, false);
 
     // 3. Reseller CAN impersonate customer they own
-    assert.strictEqual(rbac.canImpersonate(resellerUser, customerVahag).allowed, true);
+    assert.strictEqual(rbac.canImpersonate(resellerUser, customerAcme).allowed, true);
 
     // 4. Reseller CANNOT impersonate customer owned by someone else
     assert.strictEqual(rbac.canImpersonate(resellerUser, otherCustomer).allowed, false);
 
     // 5. Customer CANNOT impersonate anyone
-    assert.strictEqual(rbac.canImpersonate(customerVahag, resellerUser).allowed, false);
-    assert.strictEqual(rbac.canImpersonate(customerVahag, otherCustomer).allowed, false);
+    assert.strictEqual(rbac.canImpersonate(customerAcme, resellerUser).allowed, false);
+    assert.strictEqual(rbac.canImpersonate(customerAcme, otherCustomer).allowed, false);
   });
 
   await t.test('ApiTokenService creates, verifies, and revokes scoped tokens', () => {
@@ -155,12 +155,12 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
     // Insert user
     db.prepare(`
       INSERT INTO users (id, username, password_hash, role, email, plan_name, quota_bytes, created_at)
-      VALUES ('usr_vahag', 'vahag', 'hash', 'customer', 'vahag@example.com', 'Standard', 10737418240, datetime('now'))
+      VALUES ('usr_acme', 'acme', 'hash', 'customer', 'acme@example.com', 'Standard', 10737418240, datetime('now'))
     `).run();
 
     const tokenSvc = new ApiTokenService(db);
     const { plaintextToken, record } = tokenSvc.createToken(
-      'usr_vahag',
+      'usr_acme',
       'Deploy CI Key',
       ['files.write', 'web.upsertVhost'],
       30
@@ -172,14 +172,14 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
     // Validate token
     const validated = tokenSvc.validateToken(plaintextToken);
     assert.ok(validated);
-    assert.strictEqual(validated.userId, 'usr_vahag');
+    assert.strictEqual(validated.userId, 'usr_acme');
 
     // Test scope checks
     assert.strictEqual(tokenSvc.hasScope(validated.scopes, 'files.write'), true);
     assert.strictEqual(tokenSvc.hasScope(validated.scopes, 'mysql.dropDatabase'), false);
 
     // Revoke token
-    const revoked = tokenSvc.revokeToken('usr_vahag', record.id);
+    const revoked = tokenSvc.revokeToken('usr_acme', record.id);
     assert.strictEqual(revoked, true);
 
     // Validated after revoke should return null
@@ -195,7 +195,7 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
     // Insert user for foreign key constraint
     db.prepare(`
       INSERT INTO users (id, username, password_hash, role, email, plan_name, quota_bytes, created_at)
-      VALUES ('usr_vahag', 'vahag', 'hash', 'customer', 'vahag@example.com', 'Standard', 10737418240, datetime('now'))
+      VALUES ('usr_acme', 'acme', 'hash', 'customer', 'acme@example.com', 'Standard', 10737418240, datetime('now'))
     `).run();
 
     const revMgr = new SessionRevocationService(db);
@@ -204,7 +204,7 @@ test('Auth, RBAC, Tokens & Session Security Suite', async (t) => {
     assert.strictEqual(revMgr.isRevoked(testJti), false);
 
     const expiresAtUnix = Math.floor(Date.now() / 1000) + 3600;
-    revMgr.revokeToken(testJti, 'usr_vahag', expiresAtUnix);
+    revMgr.revokeToken(testJti, 'usr_acme', expiresAtUnix);
 
     assert.strictEqual(revMgr.isRevoked(testJti), true);
 

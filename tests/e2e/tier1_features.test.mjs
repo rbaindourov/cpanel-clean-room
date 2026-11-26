@@ -41,31 +41,31 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
   describe('Category 1: Files', () => {
     describe('FIL-01: File Manager', () => {
       it('FIL-01.1: listDirectory returns metadata', () => {
-        const testDir = resolveSysroot('home/vahag/public_html');
+        const testDir = resolveSysroot('home/acme/public_html');
         const entries = fs.readdirSync(testDir, { withFileTypes: true });
         assert.ok(Array.isArray(entries));
       });
 
       it('FIL-01.2: writeFile creates text file with proper permissions', () => {
-        const p = writeSysrootFile('home/vahag/public_html/test.txt', 'Hello Clean Room', 0o644);
+        const p = writeSysrootFile('home/acme/public_html/test.txt', 'Hello Clean Room', 0o644);
         assert.ok(fs.existsSync(p));
         assert.equal(fs.readFileSync(p, 'utf8'), 'Hello Clean Room');
       });
 
       it('FIL-01.3: readFile reads UTF-8 content accurately', () => {
-        const content = readSysrootFile('home/vahag/public_html/test.txt');
+        const content = readSysrootFile('home/acme/public_html/test.txt');
         assert.equal(content, 'Hello Clean Room');
       });
 
       it('FIL-01.4: chmod updates file mode bits', () => {
-        const p = resolveSysroot('home/vahag/public_html/test.txt');
+        const p = resolveSysroot('home/acme/public_html/test.txt');
         fs.chmodSync(p, 0o755);
         const stat = fs.statSync(p);
         assert.equal(stat.mode & 0o777, 0o755);
       });
 
       it('FIL-01.5: deleteFile unlinks target file cleanly', () => {
-        const p = resolveSysroot('home/vahag/public_html/test.txt');
+        const p = resolveSysroot('home/acme/public_html/test.txt');
         fs.unlinkSync(p);
         assert.ok(!fs.existsSync(p));
       });
@@ -85,7 +85,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(supported.includes('webp'));
       });
       it('FIL-02.4: missing image file raises E_NOT_FOUND', () => {
-        assert.equal(existsSysrootFile('home/vahag/public_html/nonexistent.png'), false);
+        assert.equal(existsSysrootFile('home/acme/public_html/nonexistent.png'), false);
       });
       it('FIL-02.5: rejects unsupported format upload', () => {
         const isValid = ['png', 'jpg', 'webp'].includes('exe');
@@ -98,33 +98,33 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         const salt = crypto.randomBytes(8).toString('hex');
         const hash = crypto.createHash('sha256').update(`testpass${salt}`).digest('hex');
         const entry = `secureuser:$5$${salt}$${hash}`;
-        const p = writeSysrootFile('home/vahag/.htpasswd', entry);
+        const p = writeSysrootFile('home/acme/.htpasswd', entry);
         assert.ok(fs.existsSync(p));
       });
       it('FIL-03.2: injects auth_basic into nginx vhost', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
-          directoryPrivacy: { realm: 'Admins Only', authUserFile: '/home/vahag/.htpasswd' }
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
+          directoryPrivacy: { realm: 'Admins Only', authUserFile: '/home/acme/.htpasswd' }
         });
         assert.ok(vhost.includes('auth_basic "Admins Only";'));
-        assert.ok(vhost.includes('auth_basic_user_file /home/vahag/.htpasswd;'));
+        assert.ok(vhost.includes('auth_basic_user_file /home/acme/.htpasswd;'));
       });
       it('FIL-03.3: supports multiple users in htpasswd', () => {
         const content = 'user1:hash1\nuser2:hash2\n';
-        const p = writeSysrootFile('home/vahag/.htpasswd', content);
-        const read = readSysrootFile('home/vahag/.htpasswd');
+        const p = writeSysrootFile('home/acme/.htpasswd', content);
+        const read = readSysrootFile('home/acme/.htpasswd');
         assert.equal(read.split('\n').filter(Boolean).length, 2);
       });
       it('FIL-03.4: rotates user password in htpasswd', () => {
         const updated = 'user1:newhash\nuser2:hash2\n';
-        writeSysrootFile('home/vahag/.htpasswd', updated);
-        assert.ok(readSysrootFile('home/vahag/.htpasswd').includes('newhash'));
+        writeSysrootFile('home/acme/.htpasswd', updated);
+        assert.ok(readSysrootFile('home/acme/.htpasswd').includes('newhash'));
       });
       it('FIL-03.5: removes protection when directory privacy disabled', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           directoryPrivacy: null
         });
         assert.ok(!vhost.includes('auth_basic '));
@@ -133,7 +133,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
 
     describe('FIL-04: Disk Usage', () => {
       it('FIL-04.1: aggregates directory storage', () => {
-        const testFile = writeSysrootFile('home/vahag/public_html/large.bin', Buffer.alloc(1024));
+        const testFile = writeSysrootFile('home/acme/public_html/large.bin', Buffer.alloc(1024));
         const stat = fs.statSync(testFile);
         assert.equal(stat.size, 1024);
       });
@@ -167,8 +167,8 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(fs.existsSync(p));
       });
       it('FIL-05.2: restricts WebDAV account to subfolder', () => {
-        const config = { user: 'davuser', chroot: '/home/vahag/public_html/docs', ro: false };
-        assert.ok(config.chroot.startsWith('/home/vahag/'));
+        const config = { user: 'davuser', chroot: '/home/acme/public_html/docs', ro: false };
+        assert.ok(config.chroot.startsWith('/home/acme/'));
       });
       it('FIL-05.3: supports read-only permissions mode', () => {
         const config = { user: 'davviewer', ro: true };
@@ -187,9 +187,9 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
 
     describe('FIL-06: FTP Accounts', () => {
       it('FIL-06.1: creates virtual FTP user with chroot', () => {
-        const user = { name: 'vahag_ftp', chroot: '/home/vahag/public_html', quotaMb: 500 };
-        assert.equal(user.name, 'vahag_ftp');
-        assert.ok(user.chroot.includes('/home/vahag'));
+        const user = { name: 'acme_ftp', chroot: '/home/acme/public_html', quotaMb: 500 };
+        assert.equal(user.name, 'acme_ftp');
+        assert.ok(user.chroot.includes('/home/acme'));
       });
       it('FIL-06.2: enforces password complexity requirements', () => {
         const pass = 'Str0ngP@ssw0rd!2026';
@@ -197,7 +197,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(/[A-Z]/.test(pass) && /[0-9]/.test(pass) && /[^A-Za-z0-9]/.test(pass));
       });
       it('FIL-06.3: updates FTP account quota', () => {
-        const user = { name: 'vahag_ftp', quotaMb: 1000 };
+        const user = { name: 'acme_ftp', quotaMb: 1000 };
         assert.equal(user.quotaMb, 1000);
       });
       it('FIL-06.4: deletes virtual FTP user preserving directory', () => {
@@ -206,22 +206,22 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(deleted && dirRemains);
       });
       it('FIL-06.5: rejects duplicate FTP username', () => {
-        const users = ['vahag_ftp'];
+        const users = ['acme_ftp'];
         assert.throws(() => {
-          if (users.includes('vahag_ftp')) throw new Error('FTP_USER_EXISTS');
+          if (users.includes('acme_ftp')) throw new Error('FTP_USER_EXISTS');
         }, /FTP_USER_EXISTS/);
       });
     });
 
     describe('FIL-07: FTP Connections', () => {
       it('FIL-07.1: lists active FTP sessions', () => {
-        const sessions = [{ id: 101, user: 'vahag_ftp', ip: '127.0.0.1', connectedAt: 1700000000 }];
+        const sessions = [{ id: 101, user: 'acme_ftp', ip: '127.0.0.1', connectedAt: 1700000000 }];
         assert.equal(sessions.length, 1);
       });
       it('FIL-07.2: filters sessions by IP', () => {
         const sessions = [
-          { id: 101, user: 'vahag_ftp', ip: '127.0.0.1' },
-          { id: 102, user: 'vahag_ftp', ip: '10.0.0.1' }
+          { id: 101, user: 'acme_ftp', ip: '127.0.0.1' },
+          { id: 102, user: 'acme_ftp', ip: '10.0.0.1' }
         ];
         const filtered = sessions.filter(s => s.ip === '127.0.0.1');
         assert.equal(filtered.length, 1);
@@ -236,7 +236,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.equal(sessionExists, false);
       });
       it('FIL-07.5: records kick event in audit log', () => {
-        const entry = 'Kicked session 101 for user vahag_ftp';
+        const entry = 'Kicked session 101 for user acme_ftp';
         writeSysrootFile('var/log/ftp_audit.log', entry);
         assert.ok(readSysrootFile('var/log/ftp_audit.log').includes('101'));
       });
@@ -267,15 +267,15 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
 
     describe('FIL-09: Backup', () => {
       it('FIL-09.1: initiates full cpmove backup generation', () => {
-        logMockExecution('panel-agentd', ['backup.generateCpmove', 'vahag']);
+        logMockExecution('panel-agentd', ['backup.generateCpmove', 'acme']);
         assert.ok(readMockExecutions().some(l => l.includes('backup.generateCpmove')));
       });
       it('FIL-09.2: generates partial homedir backup', () => {
-        const p = writeSysrootFile('home/vahag/backup_homedir.tar', 'dummy tar content');
+        const p = writeSysrootFile('home/acme/backup_homedir.tar', 'dummy tar content');
         assert.ok(fs.existsSync(p));
       });
       it('FIL-09.3: generates partial MySQL backup', () => {
-        const p = writeSysrootFile('home/vahag/backup_mysql.sql', 'DUMP CONTENT');
+        const p = writeSysrootFile('home/acme/backup_mysql.sql', 'DUMP CONTENT');
         assert.ok(fs.existsSync(p));
       });
       it('FIL-09.4: emits NDJSON progress stream for backup', () => {
@@ -302,12 +302,12 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.equal(stage, 'compressing');
       });
       it('FIL-10.3: wizard step 3 returns download link', () => {
-        const link = '/api/v1/backups/download/cpmove-vahag.tar.gz';
+        const link = '/api/v1/backups/download/cpmove-acme.tar.gz';
         assert.ok(link.startsWith('/api/v1/backups/download/'));
       });
       it('FIL-10.4: restore step 1 inspects manifest', () => {
-        const manifest = { user: 'vahag', domains: ['architecturalnumbers.com'] };
-        assert.equal(manifest.user, 'vahag');
+        const manifest = { user: 'acme', domains: ['example-store.com'] };
+        assert.equal(manifest.user, 'acme');
       });
       it('FIL-10.5: restore step 2 handles database conflict option', () => {
         const policy = 'overwrite';
@@ -317,16 +317,16 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
 
     describe('FIL-11: Git Version Control', () => {
       it('FIL-11.1: provisions bare git repository path', () => {
-        const p = resolveSysroot('home/vahag/repositories/myrepo.git');
+        const p = resolveSysroot('home/acme/repositories/myrepo.git');
         fs.mkdirSync(p, { recursive: true });
         assert.ok(fs.existsSync(p));
       });
       it('FIL-11.2: configures working tree deployment path', () => {
-        const deployPath = '/home/vahag/public_html';
-        assert.ok(deployPath.startsWith('/home/vahag/'));
+        const deployPath = '/home/acme/public_html';
+        assert.ok(deployPath.startsWith('/home/acme/'));
       });
       it('FIL-11.3: installs executable post-receive hook', () => {
-        const hook = writeSysrootFile('home/vahag/repositories/myrepo.git/hooks/post-receive', '#!/bin/sh\ngit checkout -f\n', 0o755);
+        const hook = writeSysrootFile('home/acme/repositories/myrepo.git/hooks/post-receive', '#!/bin/sh\ngit checkout -f\n', 0o755);
         assert.ok(fs.existsSync(hook));
         assert.equal(fs.statSync(hook).mode & 0o777, 0o755);
       });
@@ -335,7 +335,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(remote.startsWith('git@'));
       });
       it('FIL-11.5: deletes repository without deleting working tree', () => {
-        const repoPath = resolveSysroot('home/vahag/repositories/myrepo.git');
+        const repoPath = resolveSysroot('home/acme/repositories/myrepo.git');
         fs.rmSync(repoPath, { recursive: true, force: true });
         assert.ok(!fs.existsSync(repoPath));
       });
@@ -348,29 +348,29 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
   describe('Category 2: Databases', () => {
     describe('DB-01: phpMyAdmin SSO', () => {
       it('DB-01.1: mints 60-second HMAC SignonSession token', () => {
-        const sso = generatePhpMyAdminSSO({ user: 'vahag', dbUser: 'vahag_k' });
+        const sso = generatePhpMyAdminSSO({ user: 'acme', dbUser: 'acme_k' });
         assert.ok(sso.token);
         assert.ok(sso.signature);
         assert.ok(sso.redirectUrl.includes('/phpmyadmin/index.php'));
       });
 
       it('DB-01.2: verifies valid HMAC token payload', () => {
-        const sso = generatePhpMyAdminSSO({ user: 'vahag', dbUser: 'vahag_k' });
+        const sso = generatePhpMyAdminSSO({ user: 'acme', dbUser: 'acme_k' });
         const res = verifyPhpMyAdminSSO(sso.token, sso.signature);
         assert.equal(res.valid, true);
-        assert.equal(res.payload.user, 'vahag');
-        assert.equal(res.payload.dbUser, 'vahag_k');
+        assert.equal(res.payload.user, 'acme');
+        assert.equal(res.payload.dbUser, 'acme_k');
       });
 
       it('DB-01.3: rejects tampered token signature', () => {
-        const sso = generatePhpMyAdminSSO({ user: 'vahag', dbUser: 'vahag_k' });
+        const sso = generatePhpMyAdminSSO({ user: 'acme', dbUser: 'acme_k' });
         const res = verifyPhpMyAdminSSO(sso.token, 'bad_signature_here');
         assert.equal(res.valid, false);
         assert.equal(res.error, 'SIGNATURE_MISMATCH');
       });
 
       it('DB-01.4: rejects expired SSO token', () => {
-        const sso = generatePhpMyAdminSSO({ user: 'vahag', dbUser: 'vahag_k', validSeconds: -10 });
+        const sso = generatePhpMyAdminSSO({ user: 'acme', dbUser: 'acme_k', validSeconds: -10 });
         const res = verifyPhpMyAdminSSO(sso.token, sso.signature);
         assert.equal(res.valid, false);
         assert.equal(res.error, 'TOKEN_EXPIRED');
@@ -384,37 +384,37 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
 
     describe('DB-02: MySQL Databases', () => {
       it('DB-02.1: enforces user database prefix', () => {
-        const user = 'vahag';
-        const name = 'architecturalnumbers';
+        const user = 'acme';
+        const name = 'store';
         const fullName = `${user}_${name}`;
-        assert.equal(fullName, 'vahag_architecturalnumbers');
+        assert.equal(fullName, 'acme_store');
       });
       it('DB-02.2: enforces user prefix on database users', () => {
-        const user = 'vahag';
+        const user = 'acme';
         const dbUser = `${user}_k`;
-        assert.equal(dbUser, 'vahag_k');
+        assert.equal(dbUser, 'acme_k');
       });
       it('DB-02.3: compiles GRANT SQL with utf8mb4', () => {
-        const sql = `GRANT ALL PRIVILEGES ON \`vahag_architecturalnumbers\`.* TO 'vahag_k'@'localhost';`;
-        assert.ok(sql.includes('vahag_architecturalnumbers'));
+        const sql = `GRANT ALL PRIVILEGES ON \`acme_store\`.* TO 'acme_k'@'localhost';`;
+        assert.ok(sql.includes('acme_store'));
       });
       it('DB-02.4: logs database creation via agentd RPC', () => {
-        logMockExecution('mysql', ['-e', 'CREATE DATABASE `vahag_test` CHARACTER SET utf8mb4;']);
+        logMockExecution('mysql', ['-e', 'CREATE DATABASE `acme_test` CHARACTER SET utf8mb4;']);
         assert.ok(readMockExecutions().some(l => l.includes('CREATE DATABASE')));
       });
       it('DB-02.5: drops database and revokes user grants', () => {
-        logMockExecution('mysql', ['-e', 'DROP DATABASE `vahag_test`;']);
+        logMockExecution('mysql', ['-e', 'DROP DATABASE `acme_test`;']);
         assert.ok(readMockExecutions().some(l => l.includes('DROP DATABASE')));
       });
     });
 
     describe('DB-03: MySQL Database Wizard', () => {
       it('DB-03.1: wizard step 1 creates database name', () => {
-        const step1 = { dbname: 'vahag_wizdb' };
-        assert.ok(step1.dbname.startsWith('vahag_'));
+        const step1 = { dbname: 'acme_wizdb' };
+        assert.ok(step1.dbname.startsWith('acme_'));
       });
       it('DB-03.2: wizard step 2 creates user and password', () => {
-        const step2 = { dbuser: 'vahag_wizusr', pass: 'StrongPass123!' };
+        const step2 = { dbuser: 'acme_wizusr', pass: 'StrongPass123!' };
         assert.ok(step2.pass.length >= 8);
       });
       it('DB-03.3: wizard step 3 selects privileges', () => {
@@ -422,13 +422,13 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.equal(privs.length, 4);
       });
       it('DB-03.4: wizard step 4 outputs connection string', () => {
-        const snippet = `$pdo = new PDO("mysql:host=localhost;dbname=vahag_wizdb", "vahag_wizusr", "pass");`;
-        assert.ok(snippet.includes('vahag_wizdb'));
+        const snippet = `$pdo = new PDO("mysql:host=localhost;dbname=acme_wizdb", "acme_wizusr", "pass");`;
+        assert.ok(snippet.includes('acme_wizdb'));
       });
       it('DB-03.5: aborts wizard on name collision', () => {
-        const existing = ['vahag_wizdb'];
+        const existing = ['acme_wizdb'];
         assert.throws(() => {
-          if (existing.includes('vahag_wizdb')) throw new Error('DB_COLLISION');
+          if (existing.includes('acme_wizdb')) throw new Error('DB_COLLISION');
         }, /DB_COLLISION/);
       });
     });
@@ -443,11 +443,11 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(cidr.includes('/'));
       });
       it('DB-04.3: logs remote GRANT to mock execution', () => {
-        logMockExecution('mysql', ['-e', `GRANT ALL ON \`vahag_db\`.* TO 'vahag_k'@'192.168.1.50';`]);
+        logMockExecution('mysql', ['-e', `GRANT ALL ON \`acme_db\`.* TO 'acme_k'@'192.168.1.50';`]);
         assert.ok(readMockExecutions().some(l => l.includes('192.168.1.50')));
       });
       it('DB-04.4: deletes remote access entry', () => {
-        logMockExecution('mysql', ['-e', `REVOKE ALL ON \`vahag_db\`.* FROM 'vahag_k'@'192.168.1.50';`]);
+        logMockExecution('mysql', ['-e', `REVOKE ALL ON \`acme_db\`.* FROM 'acme_k'@'192.168.1.50';`]);
         assert.ok(readMockExecutions().some(l => l.includes('REVOKE')));
       });
       it('DB-04.5: rejects malformed IP address', () => {
@@ -459,30 +459,30 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
 
     describe('DB-05: PostgreSQL Databases', () => {
       it('DB-05.1: formats PostgreSQL CREATE DATABASE statement', () => {
-        const ddl = `CREATE DATABASE "vahag_pgdb" OWNER "vahag_pguser";`;
-        assert.ok(ddl.includes('vahag_pgdb'));
+        const ddl = `CREATE DATABASE "acme_pgdb" OWNER "acme_pguser";`;
+        assert.ok(ddl.includes('acme_pgdb'));
       });
       it('DB-05.2: creates PostgreSQL role with encrypted password', () => {
-        const roleDdl = `CREATE ROLE "vahag_pguser" WITH LOGIN ENCRYPTED PASSWORD 'secret';`;
+        const roleDdl = `CREATE ROLE "acme_pguser" WITH LOGIN ENCRYPTED PASSWORD 'secret';`;
         assert.ok(roleDdl.includes('ENCRYPTED PASSWORD'));
       });
       it('DB-05.3: logs psql command to mock execution log', () => {
-        logMockExecution('psql', ['-c', 'CREATE DATABASE vahag_pgdb;']);
+        logMockExecution('psql', ['-c', 'CREATE DATABASE acme_pgdb;']);
         assert.ok(readMockExecutions().some(l => l.includes('psql')));
       });
       it('DB-05.4: alters role connection limits', () => {
-        const sql = `ALTER ROLE "vahag_pguser" CONNECTION LIMIT 10;`;
+        const sql = `ALTER ROLE "acme_pguser" CONNECTION LIMIT 10;`;
         assert.ok(sql.includes('CONNECTION LIMIT 10'));
       });
       it('DB-05.5: drops PostgreSQL database cleanly', () => {
-        const sql = `DROP DATABASE IF EXISTS "vahag_pgdb";`;
+        const sql = `DROP DATABASE IF EXISTS "acme_pgdb";`;
         assert.ok(sql.includes('DROP DATABASE'));
       });
     });
 
     describe('DB-06: phpPgAdmin', () => {
       it('DB-06.1: mints phpPgAdmin session authentication', () => {
-        const sso = { user: 'vahag_pguser', url: '/phppgadmin/?server=localhost' };
+        const sso = { user: 'acme_pguser', url: '/phppgadmin/?server=localhost' };
         assert.ok(sso.url.includes('/phppgadmin/'));
       });
       it('DB-06.2: validates unix socket connection parameters', () => {
@@ -511,28 +511,28 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
     describe('DOM-01: Domains Manager', () => {
       it('DOM-01.1: generates Nginx vhost config', () => {
         const conf = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           phpVersion: '8.4'
         });
-        assert.ok(conf.includes('server_name architecturalnumbers.com;'));
-        assert.ok(conf.includes('fastcgi_pass unix:/run/php/php8.4-fpm-vahag.sock;'));
+        assert.ok(conf.includes('server_name example-store.com;'));
+        assert.ok(conf.includes('fastcgi_pass unix:/run/php/php8.4-fpm-acme.sock;'));
       });
       it('DOM-01.2: writes vhost into scratch/sysroot/etc/nginx/sites-available', () => {
-        const conf = generateNginxVhost({ domain: 'architecturalnumbers.com', docroot: '/home/vahag/public_html' });
-        const p = writeSysrootFile('etc/nginx/sites-available/architecturalnumbers.com.conf', conf);
+        const conf = generateNginxVhost({ domain: 'example-store.com', docroot: '/home/acme/public_html' });
+        const p = writeSysrootFile('etc/nginx/sites-available/example-store.com.conf', conf);
         assert.ok(fs.existsSync(p));
       });
       it('DOM-01.3: verifies sites-enabled symlink creation', () => {
-        const target = resolveSysroot('etc/nginx/sites-available/architecturalnumbers.com.conf');
-        const link = resolveSysroot('etc/nginx/sites-enabled/architecturalnumbers.com.conf');
+        const target = resolveSysroot('etc/nginx/sites-available/example-store.com.conf');
+        const link = resolveSysroot('etc/nginx/sites-enabled/example-store.com.conf');
         if (fs.existsSync(link)) fs.unlinkSync(link);
         fs.symlinkSync(target, link);
         assert.ok(fs.existsSync(link));
       });
       it('DOM-01.4: updates domain document root', () => {
-        const conf = generateNginxVhost({ domain: 'architecturalnumbers.com', docroot: '/home/vahag/new_docroot' });
-        assert.ok(conf.includes('root /home/vahag/new_docroot;'));
+        const conf = generateNginxVhost({ domain: 'example-store.com', docroot: '/home/acme/new_docroot' });
+        assert.ok(conf.includes('root /home/acme/new_docroot;'));
       });
       it('DOM-01.5: deletes domain vhost and reloads nginx', () => {
         logMockExecution('systemctl', ['reload', 'nginx']);
@@ -551,8 +551,8 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
       });
       it('DOM-02.3: injects redirect into Nginx vhost', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           customRewrites: 'rewrite ^/old /new permanent;'
         });
         assert.ok(vhost.includes('rewrite ^/old /new permanent;'));
@@ -573,10 +573,10 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
     describe('DOM-03: Zone Editor', () => {
       it('DOM-03.1: compiles RFC 1035 BIND9 zone file', () => {
         const zone = generateBindZone({
-          domain: 'architecturalnumbers.com',
+          domain: 'example-store.com',
           records: [
             { name: '@', type: 'A', data: '127.0.0.1' },
-            { name: 'www', type: 'CNAME', data: 'architecturalnumbers.com.' }
+            { name: 'www', type: 'CNAME', data: 'example-store.com.' }
           ]
         });
         assert.ok(zone.includes('$TTL 86400'));
@@ -584,8 +584,8 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(zone.includes('CNAME'));
       });
       it('DOM-03.2: writes zone file into scratch/sysroot/etc/bind/zones', () => {
-        const zone = generateBindZone({ domain: 'architecturalnumbers.com' });
-        const p = writeSysrootFile('etc/bind/zones/architecturalnumbers.com.db', zone);
+        const zone = generateBindZone({ domain: 'example-store.com' });
+        const p = writeSysrootFile('etc/bind/zones/example-store.com.db', zone);
         assert.ok(fs.existsSync(p));
       });
       it('DOM-03.3: increments serial number on modification', () => {
@@ -594,12 +594,12 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.equal(s2, 2026111202);
       });
       it('DOM-03.4: logs rndc reload execution', () => {
-        logMockExecution('rndc', ['reload', 'architecturalnumbers.com']);
+        logMockExecution('rndc', ['reload', 'example-store.com']);
         assert.ok(readMockExecutions().some(l => l.includes('rndc')));
       });
       it('DOM-03.5: formats DKIM TXT record properly in zone', () => {
         const zone = generateBindZone({
-          domain: 'architecturalnumbers.com',
+          domain: 'example-store.com',
           dkim: { selector: 'default', publicKeyBase64: 'MIIBIjANBgk' }
         });
         assert.ok(zone.includes('default._domainkey'));
@@ -613,7 +613,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.equal(token.length, 32);
       });
       it('DOM-04.2: updates A record with client IP', () => {
-        const rec = { name: 'home.architecturalnumbers.com', type: 'A', data: '192.168.1.100', ttl: 60 };
+        const rec = { name: 'home.example-store.com', type: 'A', data: '192.168.1.100', ttl: 60 };
         assert.equal(rec.ttl, 60);
       });
       it('DOM-04.3: rejects invalid bearer token', () => {
@@ -627,66 +627,66 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(calls > limit);
       });
       it('DOM-04.5: logs dynamic update event', () => {
-        logMockExecution('named', ['dynamic-update', 'home.architecturalnumbers.com', '192.168.1.100']);
+        logMockExecution('named', ['dynamic-update', 'home.example-store.com', '192.168.1.100']);
         assert.ok(readMockExecutions().some(l => l.includes('dynamic-update')));
       });
     });
 
     describe('DOM-05: Addon Domains', () => {
-      it('DOM-05.1: provisions addon domain trace4less.com', () => {
+      it('DOM-05.1: provisions addon domain legacy-crm.org', () => {
         const vhost = generateNginxVhost({
-          domain: 'trace4less.com',
-          docroot: '/home/vahag/trace4less.com',
+          domain: 'legacy-crm.org',
+          docroot: '/home/acme/legacy-crm.org',
           phpVersion: '7.2'
         });
-        assert.ok(vhost.includes('server_name trace4less.com;'));
-        assert.ok(vhost.includes('root /home/vahag/trace4less.com;'));
+        assert.ok(vhost.includes('server_name legacy-crm.org;'));
+        assert.ok(vhost.includes('root /home/acme/legacy-crm.org;'));
       });
       it('DOM-05.2: creates isolated document root directory', () => {
-        const p = resolveSysroot('home/vahag/trace4less.com');
+        const p = resolveSysroot('home/acme/legacy-crm.org');
         fs.mkdirSync(p, { recursive: true });
         assert.ok(fs.existsSync(p));
       });
       it('DOM-05.3: provisions separate DNS zone for addon domain', () => {
-        const zone = generateBindZone({ domain: 'trace4less.com' });
-        const p = writeSysrootFile('etc/bind/zones/trace4less.com.db', zone);
+        const zone = generateBindZone({ domain: 'legacy-crm.org' });
+        const p = writeSysrootFile('etc/bind/zones/legacy-crm.org.db', zone);
         assert.ok(fs.existsSync(p));
       });
       it('DOM-05.4: assigns distinct Multi-PHP pool', () => {
-        const pool = generatePhpFpmPool({ user: 'vahag', domain: 'trace4less.com', phpVersion: '7.2' });
-        assert.ok(pool.includes('[vahag-trace4less.com]'));
-        assert.ok(pool.includes('php7.2-fpm-vahag.sock'));
+        const pool = generatePhpFpmPool({ user: 'acme', domain: 'legacy-crm.org', phpVersion: '7.2' });
+        assert.ok(pool.includes('[acme-legacy-crm.org]'));
+        assert.ok(pool.includes('php7.2-fpm-acme.sock'));
       });
       it('DOM-05.5: removes addon domain vhost without affecting main domain', () => {
-        const addonConf = resolveSysroot('etc/nginx/sites-available/trace4less.com.conf');
-        writeSysrootFile('etc/nginx/sites-available/trace4less.com.conf', '# addon');
+        const addonConf = resolveSysroot('etc/nginx/sites-available/legacy-crm.org.conf');
+        writeSysrootFile('etc/nginx/sites-available/legacy-crm.org.conf', '# addon');
         fs.unlinkSync(addonConf);
         assert.ok(!fs.existsSync(addonConf));
       });
     });
 
     describe('DOM-06: Subdomains', () => {
-      it('DOM-06.1: provisions subdomain store.architecturalnumbers.com', () => {
+      it('DOM-06.1: provisions subdomain store.example-store.com', () => {
         const conf = generateNginxVhost({
-          domain: 'store.architecturalnumbers.com',
-          docroot: '/home/vahag/store'
+          domain: 'store.example-store.com',
+          docroot: '/home/acme/store'
         });
-        assert.ok(conf.includes('store.architecturalnumbers.com'));
+        assert.ok(conf.includes('store.example-store.com'));
       });
       it('DOM-06.2: adds A record in parent zone', () => {
         const rec = { name: 'store', type: 'A', data: '127.0.0.1' };
         assert.equal(rec.name, 'store');
       });
       it('DOM-06.3: verifies docroot isolation for subdomain', () => {
-        const docroot = '/home/vahag/store';
-        assert.ok(docroot.startsWith('/home/vahag/'));
+        const docroot = '/home/acme/store';
+        assert.ok(docroot.startsWith('/home/acme/'));
       });
       it('DOM-06.4: supports wildcard subdomain syntax', () => {
-        const domain = '*.architecturalnumbers.com';
+        const domain = '*.example-store.com';
         assert.ok(domain.startsWith('*.'));
       });
       it('DOM-06.5: cleans up subdomain vhost and records', () => {
-        logMockExecution('rndc', ['reload', 'architecturalnumbers.com']);
+        logMockExecution('rndc', ['reload', 'example-store.com']);
         assert.ok(readMockExecutions().some(l => l.includes('rndc')));
       });
     });
@@ -694,35 +694,35 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
     describe('DOM-07: Parked Domains (Aliases)', () => {
       it('DOM-07.1: adds domain alias to Nginx server_name', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
-          aliases: ['architecturalnumbers.net', 'architecturalnumbers.org']
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
+          aliases: ['example-store.net', 'example-store.org']
         });
-        assert.ok(vhost.includes('architecturalnumbers.com architecturalnumbers.net architecturalnumbers.org;'));
+        assert.ok(vhost.includes('example-store.com example-store.net example-store.org;'));
       });
       it('DOM-07.2: shares primary document root', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
-          aliases: ['architecturalnumbers.net']
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
+          aliases: ['example-store.net']
         });
-        assert.ok(vhost.includes('root /home/vahag/public_html;'));
+        assert.ok(vhost.includes('root /home/acme/public_html;'));
       });
       it('DOM-07.3: includes alias in SSL SAN list', () => {
-        const sans = ['architecturalnumbers.com', 'architecturalnumbers.net'];
+        const sans = ['example-store.com', 'example-store.net'];
         assert.equal(sans.length, 2);
       });
       it('DOM-07.4: adds CNAME record pointing to primary domain', () => {
-        const rec = { name: 'alias', type: 'CNAME', data: 'architecturalnumbers.com.' };
+        const rec = { name: 'alias', type: 'CNAME', data: 'example-store.com.' };
         assert.equal(rec.type, 'CNAME');
       });
       it('DOM-07.5: removes parked domain alias from vhost', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           aliases: []
         });
-        assert.ok(!vhost.includes('architecturalnumbers.net'));
+        assert.ok(!vhost.includes('example-store.net'));
       });
     });
 
@@ -733,7 +733,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
       });
       it('DOM-08.2: generates index.html from template payload', () => {
         const html = `<!DOCTYPE html><html><head><title>Under Construction</title></head><body><h1>Coming Soon</h1></body></html>`;
-        const p = writeSysrootFile('home/vahag/public_html/index.html', html);
+        const p = writeSysrootFile('home/acme/public_html/index.html', html);
         assert.ok(fs.existsSync(p));
       });
       it('DOM-08.3: guards against overwriting existing files without force flag', () => {
@@ -745,11 +745,11 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
       });
       it('DOM-08.4: validates template variables substitution', () => {
         const tpl = '<h1>Welcome to {{company}}</h1>';
-        const res = tpl.replace('{{company}}', 'Architectural Numbers');
-        assert.equal(res, '<h1>Welcome to Architectural Numbers</h1>');
+        const res = tpl.replace('{{company}}', 'Example Store');
+        assert.equal(res, '<h1>Welcome to Example Store</h1>');
       });
       it('DOM-08.5: logs site publish action', () => {
-        logMockExecution('panel-agentd', ['sitepublisher.deploy', 'architecturalnumbers.com']);
+        logMockExecution('panel-agentd', ['sitepublisher.deploy', 'example-store.com']);
         assert.ok(readMockExecutions().some(l => l.includes('sitepublisher.deploy')));
       });
     });
@@ -783,8 +783,8 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
   // =========================================================================
   describe('Category 4: Email', () => {
     describe('EML-01: Email Accounts', () => {
-      it('EML-01.1: provisions production@architecturalnumbers.com', () => {
-        const mailbox = 'production@architecturalnumbers.com';
+      it('EML-01.1: provisions production@example-store.com', () => {
+        const mailbox = 'production@example-store.com';
         const quotaMb = 3000;
         assert.ok(mailbox.includes('@'));
         assert.equal(quotaMb, 3000);
@@ -795,7 +795,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(hash.startsWith('$6$'));
       });
       it('EML-01.3: creates Maildir cur, new, tmp directories', () => {
-        const base = resolveSysroot('home/vahag/mail/architecturalnumbers.com/production');
+        const base = resolveSysroot('home/acme/mail/example-store.com/production');
         fs.mkdirSync(path.join(base, 'cur'), { recursive: true });
         fs.mkdirSync(path.join(base, 'new'), { recursive: true });
         fs.mkdirSync(path.join(base, 'tmp'), { recursive: true });
@@ -804,7 +804,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         assert.ok(fs.existsSync(path.join(base, 'tmp')));
       });
       it('EML-01.4: writes Dovecot passwd entry', () => {
-        const entry = 'sales@architecturalnumbers.com:{SHA512-CRYPT}dummyhash:1001:1001::/home/vahag/mail/architecturalnumbers.com/sales::userdb_quota_rule=*:storage=4000M';
+        const entry = 'sales@example-store.com:{SHA512-CRYPT}dummyhash:1001:1001::/home/acme/mail/example-store.com/sales::userdb_quota_rule=*:storage=4000M';
         const p = writeSysrootFile('etc/dovecot/passwd', entry);
         assert.ok(fs.existsSync(p));
       });
@@ -816,7 +816,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
 
     describe('EML-02: Forwarders', () => {
       it('EML-02.1: writes address forwarder to /etc/postfix/virtual', () => {
-        const entry = 'info@architecturalnumbers.com sales@architecturalnumbers.com\n';
+        const entry = 'info@example-store.com sales@example-store.com\n';
         const p = writeSysrootFile('etc/postfix/virtual', entry);
         assert.ok(fs.existsSync(p));
       });
@@ -845,17 +845,17 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
 
     describe('EML-03: Email Routing', () => {
       it('EML-03.1: sets local mail exchanger in transport maps', () => {
-        const entry = 'architecturalnumbers.com local:\n';
+        const entry = 'example-store.com local:\n';
         writeSysrootFile('etc/postfix/transport', entry);
         assert.ok(readSysrootFile('etc/postfix/transport').includes('local:'));
       });
       it('EML-03.2: sets remote mail exchanger (Google Workspace)', () => {
-        const entry = 'architecturalnumbers.com smtp:\n';
+        const entry = 'example-store.com smtp:\n';
         writeSysrootFile('etc/postfix/transport', entry);
         assert.ok(readSysrootFile('etc/postfix/transport').includes('smtp:'));
       });
       it('EML-03.3: sets backup mail exchanger', () => {
-        const entry = 'architecturalnumbers.com relay:\n';
+        const entry = 'example-store.com relay:\n';
         writeSysrootFile('etc/postfix/transport', entry);
         assert.ok(readSysrootFile('etc/postfix/transport').includes('relay:'));
       });
@@ -875,7 +875,7 @@ describe('Tier 1: Feature Coverage (All 68 Features Across 9 Categories)', () =>
         const sieve = `require ["vacation"];
 vacation
   :days 1
-  :subject "Out of Office: Architectural Numbers"
+  :subject "Out of Office: Example Store"
   "Thank you for contacting us. We will get back to you shortly.";
 `;
         assert.ok(sieve.includes('require ["vacation"];'));
@@ -883,11 +883,11 @@ vacation
       });
       it('EML-04.2: writes Sieve script to mailbox directory', () => {
         const sieve = 'vacation :days 1 "Out";';
-        const p = writeSysrootFile('home/vahag/mail/architecturalnumbers.com/sales/.dovecot.sieve', sieve);
+        const p = writeSysrootFile('home/acme/mail/example-store.com/sales/.dovecot.sieve', sieve);
         assert.ok(fs.existsSync(p));
       });
       it('EML-04.3: logs sievec compilation command', () => {
-        logMockExecution('sievec', ['/home/vahag/mail/architecturalnumbers.com/sales/.dovecot.sieve']);
+        logMockExecution('sievec', ['/home/acme/mail/example-store.com/sales/.dovecot.sieve']);
         assert.ok(readMockExecutions().some(l => l.includes('sievec')));
       });
       it('EML-04.4: enforces rate limiting interval', () => {
@@ -895,7 +895,7 @@ vacation
         assert.ok(days >= 1);
       });
       it('EML-04.5: disables autoresponder and removes sieve script', () => {
-        const p = resolveSysroot('home/vahag/mail/architecturalnumbers.com/sales/.dovecot.sieve');
+        const p = resolveSysroot('home/acme/mail/example-store.com/sales/.dovecot.sieve');
         if (fs.existsSync(p)) fs.unlinkSync(p);
         assert.ok(!fs.existsSync(p));
       });
@@ -903,19 +903,19 @@ vacation
 
     describe('EML-05: Default Address (Catch-All)', () => {
       it('EML-05.1: writes catch-all forwarder to /etc/postfix/virtual', () => {
-        const entry = '@architecturalnumbers.com admin@architecturalnumbers.com\n';
+        const entry = '@example-store.com admin@example-store.com\n';
         writeSysrootFile('etc/postfix/virtual', entry);
-        assert.ok(readSysrootFile('etc/postfix/virtual').includes('@architecturalnumbers.com admin@'));
+        assert.ok(readSysrootFile('etc/postfix/virtual').includes('@example-store.com admin@'));
       });
       it('EML-05.2: configures catch-all bounce with :fail:', () => {
-        const entry = '@architecturalnumbers.com :fail: No such user\n';
+        const entry = '@example-store.com :fail: No such user\n';
         writeSysrootFile('etc/postfix/virtual', entry);
         assert.ok(readSysrootFile('etc/postfix/virtual').includes(':fail:'));
       });
       it('EML-05.3: handles pipe to script', () => {
-        const entry = '@architecturalnumbers.com |/home/vahag/bin/mailparser.php\n';
+        const entry = '@example-store.com |/home/acme/bin/mailparser.php\n';
         writeSysrootFile('etc/postfix/virtual', entry);
-        assert.ok(readSysrootFile('etc/postfix/virtual').includes('|/home/vahag/'));
+        assert.ok(readSysrootFile('etc/postfix/virtual').includes('|/home/acme/'));
       });
       it('EML-05.4: reloads postfix on catch-all update', () => {
         logMockExecution('systemctl', ['reload', 'postfix']);
@@ -929,7 +929,7 @@ vacation
 
     describe('EML-06: Mailing Lists', () => {
       it('EML-06.1: creates mailing list record', () => {
-        const list = { name: 'newsletter', domain: 'architecturalnumbers.com', admin: 'vahag@example.com' };
+        const list = { name: 'newsletter', domain: 'example-store.com', admin: 'acme@example.com' };
         assert.equal(list.name, 'newsletter');
       });
       it('EML-06.2: adds subscribers to list', () => {
@@ -945,7 +945,7 @@ vacation
         assert.equal(subs.length, 1);
       });
       it('EML-06.5: logs mailing list provisioning', () => {
-        logMockExecution('mailman', ['create', 'newsletter@architecturalnumbers.com']);
+        logMockExecution('mailman', ['create', 'newsletter@example-store.com']);
         assert.ok(readMockExecutions().some(l => l.includes('mailman')));
       });
     });
@@ -1002,11 +1002,11 @@ vacation
     describe('EML-09: User Email Filters', () => {
       it('EML-09.1: writes user Sieve filter rule', () => {
         const sieve = `require ["fileinto"];\nif header :contains "From" "boss@company.com" { fileinto "Priority"; }\n`;
-        const p = writeSysrootFile('home/vahag/mail/architecturalnumbers.com/sales/.dovecot.sieve', sieve);
+        const p = writeSysrootFile('home/acme/mail/example-store.com/sales/.dovecot.sieve', sieve);
         assert.ok(fs.existsSync(p));
       });
       it('EML-09.2: compiles user Sieve script', () => {
-        logMockExecution('sievec', ['/home/vahag/mail/architecturalnumbers.com/sales/.dovecot.sieve']);
+        logMockExecution('sievec', ['/home/acme/mail/example-store.com/sales/.dovecot.sieve']);
         assert.ok(readMockExecutions().some(l => l.includes('sievec')));
       });
       it('EML-09.3: adds discard rule action', () => {
@@ -1018,7 +1018,7 @@ vacation
         assert.ok(validSieve);
       });
       it('EML-09.5: removes user email filter cleanly', () => {
-        const p = resolveSysroot('home/vahag/mail/architecturalnumbers.com/sales/.dovecot.sieve');
+        const p = resolveSysroot('home/acme/mail/example-store.com/sales/.dovecot.sieve');
         if (fs.existsSync(p)) fs.unlinkSync(p);
         assert.ok(!fs.existsSync(p));
       });
@@ -1032,7 +1032,7 @@ vacation
       });
       it('EML-10.2: writes DKIM private key to /var/lib/rspamd/dkim/', () => {
         const dkim = generateDkimKeyPair(2048);
-        const p = writeSysrootFile('var/lib/rspamd/dkim/architecturalnumbers.com.dkim.key', dkim.privateKey, 0o600);
+        const p = writeSysrootFile('var/lib/rspamd/dkim/example-store.com.dkim.key', dkim.privateKey, 0o600);
         assert.ok(fs.existsSync(p));
         assert.equal(fs.statSync(p).mode & 0o777, 0o600);
       });
@@ -1042,7 +1042,7 @@ vacation
         assert.ok(spf.endsWith('~all'));
       });
       it('EML-10.4: generates compliant DMARC TXT record', () => {
-        const dmarc = 'v=DMARC1; p=reject; sp=reject; rua=mailto:dmarc@architecturalnumbers.com';
+        const dmarc = 'v=DMARC1; p=reject; sp=reject; rua=mailto:dmarc@example-store.com';
         assert.ok(dmarc.includes('v=DMARC1;'));
         assert.ok(dmarc.includes('p=reject;'));
       });
@@ -1106,7 +1106,7 @@ vacation
 
     describe('EML-13: Email Encryption (GnuPG)', () => {
       it('EML-13.1: generates RSA keypair parameter structure', () => {
-        const params = { name: 'Vahag', email: 'sales@architecturalnumbers.com', keySize: 2048 };
+        const params = { name: 'Acme', email: 'sales@example-store.com', keySize: 2048 };
         assert.equal(params.keySize, 2048);
       });
       it('EML-13.2: exports ASCII-armored public key block', () => {
@@ -1114,7 +1114,7 @@ vacation
         assert.ok(armored.includes('BEGIN PGP PUBLIC KEY BLOCK'));
       });
       it('EML-13.3: lists stored PGP keys in keyring', () => {
-        const keys = [{ keyId: 'ABCD1234EFGH5678', user: 'sales@architecturalnumbers.com' }];
+        const keys = [{ keyId: 'ABCD1234EFGH5678', user: 'sales@example-store.com' }];
         assert.equal(keys.length, 1);
       });
       it('EML-13.4: validates key expiration timestamp', () => {
@@ -1153,11 +1153,11 @@ vacation
 
     describe('EML-15: Calendars & Contacts', () => {
       it('EML-15.1: generates CalDAV synchronization URL', () => {
-        const url = 'https://architecturalnumbers.com:2080/caldav/';
+        const url = 'https://example-store.com:2080/caldav/';
         assert.ok(url.includes(':2080'));
       });
       it('EML-15.2: generates CardDAV synchronization URL', () => {
-        const url = 'https://architecturalnumbers.com:2080/carddav/';
+        const url = 'https://example-store.com:2080/carddav/';
         assert.ok(url.includes('carddav'));
       });
       it('EML-15.3: generates Apple .mobileconfig profile XML', () => {
@@ -1180,11 +1180,11 @@ vacation
         assert.equal(breakdown.INBOX, 2000000000);
       });
       it('EML-16.2: logs doveadm expunge command', () => {
-        logMockExecution('doveadm', ['expunge', '-u', 'production@architecturalnumbers.com', 'mailbox', 'Trash', 'savedbefore', '30d']);
+        logMockExecution('doveadm', ['expunge', '-u', 'production@example-store.com', 'mailbox', 'Trash', 'savedbefore', '30d']);
         assert.ok(readMockExecutions().some(l => l.includes('doveadm')));
       });
       it('EML-16.3: expunges seen messages in Junk folder', () => {
-        logMockExecution('doveadm', ['expunge', '-u', 'production@architecturalnumbers.com', 'mailbox', 'Junk', 'SEEN']);
+        logMockExecution('doveadm', ['expunge', '-u', 'production@example-store.com', 'mailbox', 'Junk', 'SEEN']);
         assert.ok(readMockExecutions().some(l => l.includes('Junk')));
       });
       it('EML-16.4: asserts freed storage correctly reflected in quota calculation', () => {
@@ -1218,8 +1218,8 @@ vacation
         assert.equal(codes.length, 4);
       });
       it('MET-01.3: filters visitors by domain', () => {
-        const hits = [{ domain: 'architecturalnumbers.com' }, { domain: 'trace4less.com' }];
-        assert.equal(hits.filter(h => h.domain === 'trace4less.com').length, 1);
+        const hits = [{ domain: 'example-store.com' }, { domain: 'legacy-crm.org' }];
+        assert.equal(hits.filter(h => h.domain === 'legacy-crm.org').length, 1);
       });
       it('MET-01.4: paginates visitor results list', () => {
         const page1 = [1, 2, 3];
@@ -1439,8 +1439,8 @@ vacation
         assert.ok(publicKey.includes('BEGIN PUBLIC KEY'));
       });
       it('SEC-01.2: authorizes public key into ~/.ssh/authorized_keys', () => {
-        const key = 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG5... vahag@laptop\n';
-        const p = writeSysrootFile('home/vahag/.ssh/authorized_keys', key, 0o600);
+        const key = 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG5... acme@laptop\n';
+        const p = writeSysrootFile('home/acme/.ssh/authorized_keys', key, 0o600);
         assert.ok(fs.existsSync(p));
         assert.equal(fs.statSync(p).mode & 0o777, 0o600);
       });
@@ -1449,11 +1449,11 @@ vacation
         assert.ok(key.startsWith('ssh-rsa ') || key.startsWith('ssh-ed25519 '));
       });
       it('SEC-01.4: deauthorizes public key from authorized_keys', () => {
-        writeSysrootFile('home/vahag/.ssh/authorized_keys', '');
-        assert.equal(readSysrootFile('home/vahag/.ssh/authorized_keys'), '');
+        writeSysrootFile('home/acme/.ssh/authorized_keys', '');
+        assert.equal(readSysrootFile('home/acme/.ssh/authorized_keys'), '');
       });
       it('SEC-01.5: deletes private key from storage', () => {
-        const p = writeSysrootFile('home/vahag/.ssh/id_rsa', 'private key data', 0o600);
+        const p = writeSysrootFile('home/acme/.ssh/id_rsa', 'private key data', 0o600);
         fs.unlinkSync(p);
         assert.ok(!fs.existsSync(p));
       });
@@ -1462,24 +1462,24 @@ vacation
     describe('SEC-02: IP Blocker', () => {
       it('SEC-02.1: generates Nginx deny directive for single IPv4', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           ipBlocklist: ['198.51.100.1']
         });
         assert.ok(vhost.includes('deny 198.51.100.1;'));
       });
       it('SEC-02.2: generates Nginx deny directive for CIDR subnet', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           ipBlocklist: ['203.0.113.0/24']
         });
         assert.ok(vhost.includes('deny 203.0.113.0/24;'));
       });
       it('SEC-02.3: verifies multiple blocked IPs written to vhost', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           ipBlocklist: ['198.51.100.1', '198.51.100.2']
         });
         assert.ok(vhost.includes('deny 198.51.100.1;'));
@@ -1503,33 +1503,33 @@ vacation
         assert.ok(expiresAt > Date.now());
       });
       it('SEC-03.2: logs ACME HTTP-01 challenge issuance', () => {
-        logMockExecution('lego', ['--email', 'webmaster@architecturalnumbers.com', '--domains', 'architecturalnumbers.com', 'run']);
+        logMockExecution('lego', ['--email', 'webmaster@example-store.com', '--domains', 'example-store.com', 'run']);
         assert.ok(readMockExecutions().some(l => l.includes('lego')));
       });
       it('SEC-03.3: configures SSL certificates in Nginx vhost', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           ssl: {
-            certPath: '/etc/ssl/certs/architecturalnumbers.com.crt',
-            keyPath: '/etc/ssl/private/architecturalnumbers.com.key',
+            certPath: '/etc/ssl/certs/example-store.com.crt',
+            keyPath: '/etc/ssl/private/example-store.com.key',
             forceHttps: true
           }
         });
-        assert.ok(vhost.includes('ssl_certificate /etc/ssl/certs/architecturalnumbers.com.crt;'));
+        assert.ok(vhost.includes('ssl_certificate /etc/ssl/certs/example-store.com.crt;'));
         assert.ok(vhost.includes('return 301 https://$host$request_uri;'));
       });
       it('SEC-03.4: verifies SAN coverage across 10 FQDNs per manifest', () => {
         const sans = [
-          'architecturalnumbers.com', 'www.architecturalnumbers.com', 'mail.architecturalnumbers.com',
-          'cpanel.architecturalnumbers.com', 'webmail.architecturalnumbers.com'
+          'example-store.com', 'www.example-store.com', 'mail.example-store.com',
+          'cpanel.example-store.com', 'webmail.example-store.com'
         ];
         assert.ok(sans.length >= 5);
       });
       it('SEC-03.5: forces HTTPS redirection block', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           ssl: { forceHttps: true, certPath: '/c', keyPath: '/k' }
         });
         assert.ok(vhost.includes('listen 80;'));
@@ -1565,14 +1565,14 @@ vacation
     describe('SEC-05: Hotlink Protection', () => {
       it('SEC-05.1: generates Nginx valid_referers directive', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           hotlinkProtection: {
-            allowedDomains: ['architecturalnumbers.com', 'google.com'],
+            allowedDomains: ['example-store.com', 'google.com'],
             fileExts: 'jpg|png|gif|webp'
           }
         });
-        assert.ok(vhost.includes('valid_referers none blocked server_names architecturalnumbers.com google.com;'));
+        assert.ok(vhost.includes('valid_referers none blocked server_names example-store.com google.com;'));
         assert.ok(vhost.includes('if ($invalid_referer) {'));
       });
       it('SEC-05.2: blocks direct hotlinking to images', () => {
@@ -1580,13 +1580,13 @@ vacation
         assert.ok(exts.includes('jpg'));
       });
       it('SEC-05.3: specifies authorized referrer domains', () => {
-        const domains = ['architecturalnumbers.com'];
+        const domains = ['example-store.com'];
         assert.equal(domains.length, 1);
       });
       it('SEC-05.4: disables hotlink protection', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           hotlinkProtection: null
         });
         assert.ok(!vhost.includes('valid_referers'));
@@ -1603,11 +1603,11 @@ vacation
         assert.equal(maxConn, 5);
       });
       it('SEC-06.2: configures redirect URL on abuse', () => {
-        const redirect = 'https://architecturalnumbers.com/leech_warning.html';
+        const redirect = 'https://example-store.com/leech_warning.html';
         assert.ok(redirect.startsWith('https://'));
       });
       it('SEC-06.3: applies limit to protected download directory', () => {
-        const dir = '/home/vahag/public_html/downloads';
+        const dir = '/home/acme/public_html/downloads';
         assert.ok(dir.includes('downloads'));
       });
       it('SEC-06.4: emits HTTP 429 when connection limit exceeded', () => {
@@ -1655,20 +1655,20 @@ vacation
         assert.ok(versions.includes('5.6'));
       });
       it('SOF-01.2: switches domain PHP version from 8.3 to 8.4', () => {
-        const pool = generatePhpFpmPool({ user: 'vahag', domain: 'architecturalnumbers.com', phpVersion: '8.4' });
-        assert.ok(pool.includes('php8.4-fpm-vahag.sock'));
+        const pool = generatePhpFpmPool({ user: 'acme', domain: 'example-store.com', phpVersion: '8.4' });
+        assert.ok(pool.includes('php8.4-fpm-acme.sock'));
       });
       it('SOF-01.3: updates Nginx fastcgi_pass socket path', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           phpVersion: '8.4'
         });
-        assert.ok(vhost.includes('fastcgi_pass unix:/run/php/php8.4-fpm-vahag.sock;'));
+        assert.ok(vhost.includes('fastcgi_pass unix:/run/php/php8.4-fpm-acme.sock;'));
       });
       it('SOF-01.4: writes pool config to scratch/sysroot/etc/php/8.4/fpm/pool.d/', () => {
-        const pool = generatePhpFpmPool({ user: 'vahag', domain: 'architecturalnumbers.com', phpVersion: '8.4' });
-        const p = writeSysrootFile('etc/php/8.4/fpm/pool.d/vahag-architecturalnumbers.com.conf', pool);
+        const pool = generatePhpFpmPool({ user: 'acme', domain: 'example-store.com', phpVersion: '8.4' });
+        const p = writeSysrootFile('etc/php/8.4/fpm/pool.d/acme-example-store.com.conf', pool);
         assert.ok(fs.existsSync(p));
       });
       it('SOF-01.5: logs PHP-FPM reload command', () => {
@@ -1691,8 +1691,8 @@ vacation
         assert.ok(pool.includes('php_admin_value[max_execution_time] = 90'));
       });
       it('SOF-02.4: configures open_basedir restriction', () => {
-        const pool = generatePhpFpmPool({ user: 'vahag' });
-        assert.ok(pool.includes('php_admin_value[open_basedir] = /home/vahag/:/tmp/'));
+        const pool = generatePhpFpmPool({ user: 'acme' });
+        assert.ok(pool.includes('php_admin_value[open_basedir] = /home/acme/:/tmp/'));
       });
       it('SOF-02.5: rejects out-of-range directive values', () => {
         const time = -50;
@@ -1704,15 +1704,15 @@ vacation
 
     describe('SOF-03: WP-CLI WordPress Toolkit', () => {
       it('SOF-03.1: logs wp core download execution dropped to tenant UID', () => {
-        logMockExecution('wp', ['core', 'download', '--path=/home/vahag/public_html']);
+        logMockExecution('wp', ['core', 'download', '--path=/home/acme/public_html']);
         assert.ok(readMockExecutions().some(l => l.includes('wp')));
       });
       it('SOF-03.2: logs wp core install execution with database credentials', () => {
-        logMockExecution('wp', ['core', 'install', '--url=https://architecturalnumbers.com', '--title=Architectural Numbers', '--admin_user=vahag_k']);
+        logMockExecution('wp', ['core', 'install', '--url=https://example-store.com', '--title=Example Store', '--admin_user=acme_k']);
         assert.ok(readMockExecutions().some(l => l.includes('core')));
       });
       it('SOF-03.3: clones WordPress site to staging subdomain', () => {
-        logMockExecution('wp', ['search-replace', 'architecturalnumbers.com', 'staging.architecturalnumbers.com']);
+        logMockExecution('wp', ['search-replace', 'example-store.com', 'staging.example-store.com']);
         assert.ok(readMockExecutions().some(l => l.includes('staging')));
       });
       it('SOF-03.4: logs automatic plugin update check', () => {
@@ -1720,7 +1720,7 @@ vacation
         assert.ok(readMockExecutions().some(l => l.includes('plugin')));
       });
       it('SOF-03.5: mints 1-click passwordless wp-admin login URL', () => {
-        const ssoUrl = 'https://architecturalnumbers.com/wp-login.php?auth_token=ephemeral_wp_token';
+        const ssoUrl = 'https://example-store.com/wp-login.php?auth_token=ephemeral_wp_token';
         assert.ok(ssoUrl.includes('wp-login.php?auth_token='));
       });
     });
@@ -1730,7 +1730,7 @@ vacation
         const unit = `[Unit]
 Description=Node App my-app
 [Service]
-ExecStart=/usr/bin/node /home/vahag/apps/my-app/index.js
+ExecStart=/usr/bin/node /home/acme/apps/my-app/index.js
 Restart=always
 Environment=PORT=3001
 [Install]
@@ -1741,7 +1741,7 @@ WantedBy=default.target
       });
       it('SOF-04.2: generates Nginx reverse proxy configuration', () => {
         const vhost = `server {
-    server_name node.architecturalnumbers.com;
+    server_name node.example-store.com;
     location / {
         proxy_pass http://127.0.0.1:3001;
         proxy_set_header Host $host;
@@ -1769,7 +1769,7 @@ WantedBy=default.target
         const unit = `[Unit]
 Description=Python App py-app
 [Service]
-ExecStart=/home/vahag/venv/bin/gunicorn -w 3 -b 127.0.0.1:8000 wsgi:app
+ExecStart=/home/acme/venv/bin/gunicorn -w 3 -b 127.0.0.1:8000 wsgi:app
 Restart=always
 `;
         assert.ok(unit.includes('gunicorn -w 3'));
@@ -1783,8 +1783,8 @@ Restart=always
         assert.ok(readMockExecutions().some(l => l.includes('python-py-app')));
       });
       it('SOF-05.4: verifies virtualenv path containment', () => {
-        const venv = '/home/vahag/venv';
-        assert.ok(venv.startsWith('/home/vahag/'));
+        const venv = '/home/acme/venv';
+        assert.ok(venv.startsWith('/home/acme/'));
       });
       it('SOF-05.5: reads Python error logs', () => {
         const log = 'Starting gunicorn 20.1.0';
@@ -1794,11 +1794,11 @@ Restart=always
 
     describe('SOF-06: Composer / Packages', () => {
       it('SOF-06.1: detects composer.json in project root', () => {
-        const pkg = { name: 'vahag/architectural', require: { php: '^8.3' } };
+        const pkg = { name: 'acme/example-store', require: { php: '^8.3' } };
         assert.equal(pkg.require.php, '^8.3');
       });
       it('SOF-06.2: logs composer install execution dropped to tenant UID', () => {
-        logMockExecution('composer', ['install', '--no-dev', '-d', '/home/vahag/public_html']);
+        logMockExecution('composer', ['install', '--no-dev', '-d', '/home/acme/public_html']);
         assert.ok(readMockExecutions().some(l => l.includes('composer')));
       });
       it('SOF-06.3: lists installed Composer packages', () => {
@@ -1821,17 +1821,17 @@ Restart=always
         assert.ok(mods.includes('DBI'));
       });
       it('SOF-07.2: verifies local tenant cpan library path configured', () => {
-        const libPath = '/home/vahag/perl5/lib/perl5';
-        assert.ok(libPath.startsWith('/home/vahag/'));
+        const libPath = '/home/acme/perl5/lib/perl5';
+        assert.ok(libPath.startsWith('/home/acme/'));
       });
       it('SOF-07.3: checks Perl script syntax with perl -c', () => {
-        logMockExecution('perl', ['-c', '/home/vahag/public_html/test.pl']);
+        logMockExecution('perl', ['-c', '/home/acme/public_html/test.pl']);
         assert.ok(readMockExecutions().some(l => l.includes('perl')));
       });
       it('SOF-07.4: rejects Perl script outside authorized docroot', () => {
         const path = '/etc/passwd';
         assert.throws(() => {
-          if (!path.startsWith('/home/vahag/')) throw new Error('PATH_OUTSIDE_DOCROOT');
+          if (!path.startsWith('/home/acme/')) throw new Error('PATH_OUTSIDE_DOCROOT');
         }, /PATH_OUTSIDE_DOCROOT/);
       });
       it('SOF-07.5: handles Perl execution syntax errors', () => {
@@ -1899,13 +1899,13 @@ Restart=always
         assert.equal(parts.length, 5);
       });
       it('ADV-02.2: translates cPanel ea-php84 CLI path to system php8.4', () => {
-        const legacyCmd = '/opt/cpanel/ea-php84/root/usr/bin/php /home/vahag/public_html/wp-cron.php';
+        const legacyCmd = '/opt/cpanel/ea-php84/root/usr/bin/php /home/acme/public_html/wp-cron.php';
         const cleanCmd = legacyCmd.replace(/\/opt\/cpanel\/ea-php(\d\d)\/root\/usr\/bin\/php/, '/usr/bin/php$1').replace(/php84/, 'php8.4');
-        assert.equal(cleanCmd, '/usr/bin/php8.4 /home/vahag/public_html/wp-cron.php');
+        assert.equal(cleanCmd, '/usr/bin/php8.4 /home/acme/public_html/wp-cron.php');
       });
-      it('ADV-02.3: writes validated cron job to /etc/cron.d/tenant-vahag', () => {
-        const cronEntry = '0 2 * * * vahag /usr/bin/php8.4 /home/vahag/public_html/wp-cron.php >/dev/null 2>&1\n';
-        const p = writeSysrootFile('etc/cron.d/tenant-vahag', cronEntry);
+      it('ADV-02.3: writes validated cron job to /etc/cron.d/tenant-acme', () => {
+        const cronEntry = '0 2 * * * acme /usr/bin/php8.4 /home/acme/public_html/wp-cron.php >/dev/null 2>&1\n';
+        const p = writeSysrootFile('etc/cron.d/tenant-acme', cronEntry);
         assert.ok(fs.existsSync(p));
       });
       it('ADV-02.4: rejects invalid schedule format', () => {
@@ -1915,18 +1915,18 @@ Restart=always
         }, /INVALID_CRON_SCHEDULE/);
       });
       it('ADV-02.5: deletes cron job cleanly', () => {
-        writeSysrootFile('etc/cron.d/tenant-vahag', '');
-        assert.equal(readSysrootFile('etc/cron.d/tenant-vahag'), '');
+        writeSysrootFile('etc/cron.d/tenant-acme', '');
+        assert.equal(readSysrootFile('etc/cron.d/tenant-acme'), '');
       });
     });
 
     describe('ADV-03: Track DNS', () => {
       it('ADV-03.1: performs domain A record query', () => {
-        const res = { domain: 'architecturalnumbers.com', type: 'A', ip: '127.0.0.1' };
+        const res = { domain: 'example-store.com', type: 'A', ip: '127.0.0.1' };
         assert.equal(res.ip, '127.0.0.1');
       });
       it('ADV-03.2: performs MX record query with priorities', () => {
-        const mx = [{ priority: 0, host: 'mail.architecturalnumbers.com' }];
+        const mx = [{ priority: 0, host: 'mail.example-store.com' }];
         assert.equal(mx[0].priority, 0);
       });
       it('ADV-03.3: performs reverse DNS (PTR) lookup', () => {
@@ -1946,16 +1946,16 @@ Restart=always
     describe('ADV-04: Indexes', () => {
       it('ADV-04.1: configures autoindex off (Disabled)', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           customRewrites: 'location /files { autoindex off; }'
         });
         assert.ok(vhost.includes('autoindex off;'));
       });
       it('ADV-04.2: configures autoindex on (Enabled)', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           customRewrites: 'location /downloads { autoindex on; }'
         });
         assert.ok(vhost.includes('autoindex on;'));
@@ -1977,18 +1977,18 @@ Restart=always
     describe('ADV-05: Error Pages', () => {
       it('ADV-05.1: customizes HTTP 404 error page HTML', () => {
         const html = '<html><body>Custom 404: Page Not Found</body></html>';
-        const p = writeSysrootFile('home/vahag/public_html/404.html', html);
+        const p = writeSysrootFile('home/acme/public_html/404.html', html);
         assert.ok(fs.existsSync(p));
       });
       it('ADV-05.2: customizes HTTP 500 error page HTML', () => {
         const html = '<html><body>Custom 500: Server Error</body></html>';
-        const p = writeSysrootFile('home/vahag/public_html/500.html', html);
+        const p = writeSysrootFile('home/acme/public_html/500.html', html);
         assert.ok(fs.existsSync(p));
       });
       it('ADV-05.3: injects error_page directive into Nginx vhost', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           customErrorPages: { 404: '/404.html', 500: '/500.html' }
         });
         assert.ok(vhost.includes('error_page 404 /404.html;'));
@@ -1996,16 +1996,16 @@ Restart=always
       });
       it('ADV-05.4: customizes HTTP 403 Forbidden error page', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           customErrorPages: { 403: '/403.html' }
         });
         assert.ok(vhost.includes('error_page 403 /403.html;'));
       });
       it('ADV-05.5: resets custom error page to server default', () => {
         const vhost = generateNginxVhost({
-          domain: 'architecturalnumbers.com',
-          docroot: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          docroot: '/home/acme/public_html',
           customErrorPages: {}
         });
         assert.ok(!vhost.includes('error_page'));
@@ -2044,8 +2044,8 @@ Restart=always
   describe('Category 9: Preferences', () => {
     describe('PRE-01: User Manager', () => {
       it('PRE-01.1: creates sub-account user record', () => {
-        const user = { username: 'vahag_sub1', roles: ['email', 'ftp'], domain: 'architecturalnumbers.com' };
-        assert.equal(user.username, 'vahag_sub1');
+        const user = { username: 'acme_sub1', roles: ['email', 'ftp'], domain: 'example-store.com' };
+        assert.equal(user.username, 'acme_sub1');
         assert.equal(user.roles.length, 2);
       });
       it('PRE-01.2: updates sub-account password', () => {
@@ -2053,8 +2053,8 @@ Restart=always
         assert.ok(updatedPass.length >= 8);
       });
       it('PRE-01.3: links sub-account to domain mailbox', () => {
-        const link = { user: 'vahag_sub1', mailbox: 'sales@architecturalnumbers.com' };
-        assert.equal(link.mailbox, 'sales@architecturalnumbers.com');
+        const link = { user: 'acme_sub1', mailbox: 'sales@example-store.com' };
+        assert.equal(link.mailbox, 'sales@example-store.com');
       });
       it('PRE-01.4: disables sub-account login access', () => {
         const disabled = true;
@@ -2098,7 +2098,7 @@ Restart=always
         assert.equal(secret.length, 40);
       });
       it('PRE-03.2: generates TOTP QR code data URI', () => {
-        const uri = 'otpauth://totp/cPanel:vahag?secret=JBSWY3DPEHPK3PXP&issuer=CleanRoom';
+        const uri = 'otpauth://totp/cPanel:acme?secret=JBSWY3DPEHPK3PXP&issuer=CleanRoom';
         assert.ok(uri.startsWith('otpauth://totp/'));
       });
       it('PRE-03.3: validates 6-digit TOTP verification token', () => {
@@ -2117,21 +2117,21 @@ Restart=always
     });
 
     describe('PRE-04: 1-Click User Impersonation', () => {
-      it('PRE-04.1: generates ephemeral impersonation JWT for tenant vahag', () => {
-        const tokenPayload = { operator: 'admin', impersonatedUser: 'vahag', iat: Date.now(), exp: Date.now() + 900 };
-        assert.equal(tokenPayload.impersonatedUser, 'vahag');
+      it('PRE-04.1: generates ephemeral impersonation JWT for tenant acme', () => {
+        const tokenPayload = { operator: 'admin', impersonatedUser: 'acme', iat: Date.now(), exp: Date.now() + 900 };
+        assert.equal(tokenPayload.impersonatedUser, 'acme');
         assert.equal(tokenPayload.operator, 'admin');
       });
       it('PRE-04.2: validates X-Impersonate-User header injection', () => {
-        const header = 'vahag';
-        assert.equal(header, 'vahag');
+        const header = 'acme';
+        assert.equal(header, 'acme');
       });
       it('PRE-04.3: enforces tenant-level chroot data isolation during impersonation', () => {
-        const accessibleDocroot = '/home/vahag/public_html';
-        assert.ok(accessibleDocroot.startsWith('/home/vahag/'));
+        const accessibleDocroot = '/home/acme/public_html';
+        assert.ok(accessibleDocroot.startsWith('/home/acme/'));
       });
       it('PRE-04.4: logs impersonated actions to audit log with operator ID', () => {
-        const entry = '[AUDIT] Operator admin impersonating vahag executed file.write on /home/vahag/test.txt';
+        const entry = '[AUDIT] Operator admin impersonating acme executed file.write on /home/acme/test.txt';
         writeSysrootFile('var/log/audit.log', entry);
         assert.ok(readSysrootFile('var/log/audit.log').includes('Operator admin'));
       });
@@ -2143,7 +2143,7 @@ Restart=always
 
     describe('PRE-05: Contact Information', () => {
       it('PRE-05.1: updates primary notification contact email', () => {
-        const email = 'vahag@example.com';
+        const email = 'acme@example.com';
         assert.ok(email.includes('@'));
       });
       it('PRE-05.2: configures quota warning threshold percentage', () => {
@@ -2159,7 +2159,7 @@ Restart=always
         assert.equal(sslAlertEnabled, true);
       });
       it('PRE-05.5: logs test notification email dispatch', () => {
-        logMockExecution('sendmail', ['-t', 'vahag@example.com']);
+        logMockExecution('sendmail', ['-t', 'acme@example.com']);
         assert.ok(readMockExecutions().some(l => l.includes('sendmail')));
       });
     });

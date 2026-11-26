@@ -25,7 +25,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('create provisions tenant homedir, cgroups v2 slice, and quota', async () => {
       const res = await handler.create({
-        username: 'vahag',
+        username: 'acme',
         plan: {
           cpuQuota: '200%',
           memoryMax: '2G',
@@ -36,7 +36,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
       assert.equal(res.uid, 1005);
       assert.equal(res.gid, 1005);
-      assert.equal(res.homeDir, '/home/vahag');
+      assert.equal(res.homeDir, '/home/acme');
       assert.equal(res.sliceCreated, true);
 
       // Verify slice file on disk
@@ -48,13 +48,13 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       assert.ok(sliceContent.includes('TasksMax=150'));
 
       // Verify homedir scaffolding
-      assert.ok(fs.existsSync(sysroot.resolve('/home/vahag/public_html')));
-      assert.ok(fs.existsSync(sysroot.resolve('/home/vahag/mail')));
+      assert.ok(fs.existsSync(sysroot.resolve('/home/acme/public_html')));
+      assert.ok(fs.existsSync(sysroot.resolve('/home/acme/mail')));
     });
 
     test('updateLimits adjusts cgroups v2 slice and reloads daemon', async () => {
       const res = await handler.updateLimits({
-        username: 'vahag',
+        username: 'acme',
         plan: {
           cpuQuota: '300%',
           memoryMax: '4G',
@@ -72,25 +72,25 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('suspend writes .suspended file and locks user', async () => {
       const res = await handler.suspend({
-        username: 'vahag',
+        username: 'acme',
         reason: 'Maintenance',
       });
       assert.equal(res.suspended, true);
-      const marker = sysroot.resolve('/home/vahag/.suspended');
+      const marker = sysroot.resolve('/home/acme/.suspended');
       assert.ok(fs.existsSync(marker));
       const markerJson = JSON.parse(fs.readFileSync(marker, 'utf8'));
       assert.equal(markerJson.reason, 'Maintenance');
     });
 
     test('resume removes .suspended file and unlocks user', async () => {
-      const res = await handler.resume({ username: 'vahag' });
+      const res = await handler.resume({ username: 'acme' });
       assert.equal(res.suspended, false);
-      const marker = sysroot.resolve('/home/vahag/.suspended');
+      const marker = sysroot.resolve('/home/acme/.suspended');
       assert.equal(fs.existsSync(marker), false);
     });
 
     test('delete removes slice and processes', async () => {
-      const res = await handler.delete({ username: 'vahag', purgeHome: false });
+      const res = await handler.delete({ username: 'acme', purgeHome: false });
       assert.equal(res.deleted, true);
       const slicePath = sysroot.resolve('/etc/systemd/system/user-1005.slice');
       assert.equal(fs.existsSync(slicePath), false);
@@ -102,17 +102,17 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('upsertVhost creates Nginx vhost with SSL, PHP pool, and reloads', async () => {
       const res = await handler.upsertVhost({
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
-        aliases: ['www.architecturalnumbers.com'],
-        documentRoot: '/home/vahag/public_html',
+        username: 'acme',
+        domain: 'example-store.com',
+        aliases: ['www.example-store.com'],
+        documentRoot: '/home/acme/public_html',
         phpVersion: '8.3',
         useApacheBackend: false,
         forceHttps: true,
         ssl: {
           enabled: true,
-          certPath: '/etc/ssl/certs/architecturalnumbers.com.crt',
-          keyPath: '/etc/ssl/private/architecturalnumbers.com.key',
+          certPath: '/etc/ssl/certs/example-store.com.crt',
+          keyPath: '/etc/ssl/private/example-store.com.key',
         },
       });
 
@@ -121,21 +121,21 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       assert.ok(fs.existsSync(sysroot.resolve(res.enabledPath)));
 
       const vhostContent = sysroot.readFile(res.vhostPath);
-      assert.ok(vhostContent.includes('server_name architecturalnumbers.com www.architecturalnumbers.com'));
-      assert.ok(vhostContent.includes('fastcgi_pass unix:/run/php/php83-fpm-architecturalnumbers.com.sock;'));
+      assert.ok(vhostContent.includes('server_name example-store.com www.example-store.com'));
+      assert.ok(vhostContent.includes('fastcgi_pass unix:/run/php/php83-fpm-example-store.com.sock;'));
       assert.ok(vhostContent.includes('listen 443 ssl http2;'));
 
-      const poolPath = sysroot.resolve('/etc/php/8.3/fpm/pool.d/vahag-architecturalnumbers.com.conf');
+      const poolPath = sysroot.resolve('/etc/php/8.3/fpm/pool.d/acme-example-store.com.conf');
       assert.ok(fs.existsSync(poolPath));
       const poolContent = fs.readFileSync(poolPath, 'utf8');
-      assert.ok(poolContent.includes('listen = /run/php/php83-fpm-architecturalnumbers.com.sock'));
+      assert.ok(poolContent.includes('listen = /run/php/php83-fpm-example-store.com.sock'));
     });
 
     test('upsertVhost supports Apache2 backend fallback (127.0.0.1:8080) per ADR-04', async () => {
       const res = await handler.upsertVhost({
-        username: 'vahag',
+        username: 'acme',
         domain: 'legacyapp.la',
-        documentRoot: '/home/vahag/public_html/legacy',
+        documentRoot: '/home/acme/public_html/legacy',
         phpVersion: '7.4',
         useApacheBackend: true,
       });
@@ -146,26 +146,26 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('setPhpVersion moves pool and updates vhost socket', async () => {
       const res = await handler.setPhpVersion({
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         fromVersion: '8.3',
         toVersion: '8.4',
       });
 
       assert.equal(res.reloaded, true);
-      assert.equal(res.newSocket, '/run/php/php84-fpm-architecturalnumbers.com.sock');
+      assert.equal(res.newSocket, '/run/php/php84-fpm-example-store.com.sock');
 
-      const vhostContent = sysroot.readFile('/etc/nginx/sites-available/architecturalnumbers.com.conf');
-      assert.ok(vhostContent.includes('fastcgi_pass unix:/run/php/php84-fpm-architecturalnumbers.com.sock;'));
+      const vhostContent = sysroot.readFile('/etc/nginx/sites-available/example-store.com.conf');
+      assert.ok(vhostContent.includes('fastcgi_pass unix:/run/php/php84-fpm-example-store.com.sock;'));
 
-      assert.equal(sysroot.exists('/etc/php/8.3/fpm/pool.d/vahag-architecturalnumbers.com.conf'), false);
-      assert.equal(sysroot.exists('/etc/php/8.4/fpm/pool.d/vahag-architecturalnumbers.com.conf'), true);
+      assert.equal(sysroot.exists('/etc/php/8.3/fpm/pool.d/acme-example-store.com.conf'), false);
+      assert.equal(sysroot.exists('/etc/php/8.4/fpm/pool.d/acme-example-store.com.conf'), true);
     });
 
     test('updatePhpIni updates php_admin_value in pool', async () => {
       const res = await handler.updatePhpIni({
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         phpVersion: '8.4',
         directives: {
           memory_limit: '1024M',
@@ -174,26 +174,26 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       });
 
       assert.equal(res.updated, true);
-      const poolContent = sysroot.readFile('/etc/php/8.4/fpm/pool.d/vahag-architecturalnumbers.com.conf');
+      const poolContent = sysroot.readFile('/etc/php/8.4/fpm/pool.d/acme-example-store.com.conf');
       assert.ok(poolContent.includes('php_admin_value[memory_limit] = 1024M'));
       assert.ok(poolContent.includes('php_admin_value[max_execution_time] = 600'));
     });
 
     test('issueSsl generates certificate and key', async () => {
       const res = await handler.issueSsl({
-        domain: 'architecturalnumbers.com',
-        sanDomains: ['www.architecturalnumbers.com'],
-        email: 'vahag@architecturalnumbers.com',
+        domain: 'example-store.com',
+        sanDomains: ['www.example-store.com'],
+        email: 'acme@example-store.com',
       });
 
       assert.ok(fs.existsSync(sysroot.resolve(res.certPath)));
       assert.ok(fs.existsSync(sysroot.resolve(res.keyPath)));
-      assert.ok(res.sanDomains.includes('www.architecturalnumbers.com'));
+      assert.ok(res.sanDomains.includes('www.example-store.com'));
     });
 
     test('deleteVhost removes vhost and pool configs', async () => {
       const res = await handler.deleteVhost({
-        username: 'vahag',
+        username: 'acme',
         domain: 'legacyapp.la',
         phpVersion: '7.4',
       });
@@ -220,12 +220,12 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('upsertZone formats RFC 1035 zone, increments serial, and validates syntax', async () => {
       const res = await handler.upsertZone({
-        domain: 'architecturalnumbers.com',
-        primaryNs: 'ns1.winwinhost.com.',
+        domain: 'example-store.com',
+        primaryNs: 'ns1.cleanpanel.local.',
         records: [
-          { name: '@', type: 'A', value: '192.168.11.32', ttl: 300 },
-          { name: 'mail', type: 'A', value: '192.168.11.24', ttl: 300 },
-          { name: '@', type: 'MX', value: 'mail.architecturalnumbers.com.', priority: 10 },
+          { name: '@', type: 'A', value: '203.0.113.32', ttl: 300 },
+          { name: 'mail', type: 'A', value: '203.0.113.24', ttl: 300 },
+          { name: '@', type: 'MX', value: 'mail.example-store.com.', priority: 10 },
           { name: 'default._domainkey', type: 'TXT', value: 'v=DKIM1; k=rsa; p=' + 'A'.repeat(300) },
         ],
         syncCloudflare: true,
@@ -234,29 +234,29 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       assert.equal(res.reloaded, true);
       assert.ok(res.serial > 2026000000);
 
-      const zoneContent = sysroot.readFile('/etc/bind/zones/architecturalnumbers.com.db');
-      assert.ok(zoneContent.includes('SOA ns1.winwinhost.com.'));
-      assert.ok(zoneContent.includes('IN MX 10 mail.architecturalnumbers.com.'));
+      const zoneContent = sysroot.readFile('/etc/bind/zones/example-store.com.db');
+      assert.ok(zoneContent.includes('SOA ns1.cleanpanel.local.'));
+      assert.ok(zoneContent.includes('IN MX 10 mail.example-store.com.'));
       assert.ok(zoneContent.includes('IN TXT ( "'));
 
       const namedConf = sysroot.readFile('/etc/bind/named.conf.local');
-      assert.ok(namedConf.includes('zone "architecturalnumbers.com"'));
+      assert.ok(namedConf.includes('zone "example-store.com"'));
     });
 
     test('parseZone extracts records from zone content', () => {
-      const zoneContent = sysroot.readFile('/etc/bind/zones/architecturalnumbers.com.db');
+      const zoneContent = sysroot.readFile('/etc/bind/zones/example-store.com.db');
       const parsed = handler.parseZone(zoneContent);
       assert.ok(parsed.serial > 2026000000);
-      assert.ok(parsed.records.some((r) => r.type === 'A' && r.value === '192.168.11.32'));
-      assert.ok(parsed.records.some((r) => r.type === 'MX' && r.value === 'mail.architecturalnumbers.com.'));
+      assert.ok(parsed.records.some((r) => r.type === 'A' && r.value === '203.0.113.32'));
+      assert.ok(parsed.records.some((r) => r.type === 'MX' && r.value === 'mail.example-store.com.'));
     });
 
     test('deleteZone removes zone file and named.conf block', async () => {
-      const res = await handler.deleteZone({ domain: 'architecturalnumbers.com' });
+      const res = await handler.deleteZone({ domain: 'example-store.com' });
       assert.equal(res.deleted, true);
-      assert.equal(sysroot.exists('/etc/bind/zones/architecturalnumbers.com.db'), false);
+      assert.equal(sysroot.exists('/etc/bind/zones/example-store.com.db'), false);
       const namedConf = sysroot.readFile('/etc/bind/named.conf.local');
-      assert.ok(!namedConf.includes('zone "architecturalnumbers.com"'));
+      assert.ok(!namedConf.includes('zone "example-store.com"'));
     });
   });
 
@@ -265,7 +265,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('upsertDomain generates authentic RSA 2048 and Ed25519 DKIM keys', async () => {
       const rsaRes = await handler.upsertDomain({
-        domain: 'architecturalnumbers.com',
+        domain: 'example-store.com',
         dkimSelector: 'default',
         keyType: 'rsa2048',
       });
@@ -274,7 +274,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       assert.ok(rsaRes.dkimDnsRecord.value.startsWith('v=DKIM1; k=rsa; p='));
 
       const edRes = await handler.upsertDomain({
-        domain: 'trace4less.com',
+        domain: 'legacy-crm.org',
         dkimSelector: 'ed25519sel',
         keyType: 'ed25519',
       });
@@ -285,38 +285,38 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('upsertMailbox scaffolds Maildir and adds Dovecot passwd entry', async () => {
       const res = await handler.upsertMailbox({
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         localPart: 'sales',
         passwordHash: '{ARGON2ID}$argon2id$mockHash',
         quotaBytes: 2147483648,
       });
 
-      assert.equal(res.email, 'sales@architecturalnumbers.com');
-      assert.ok(fs.existsSync(sysroot.resolve('/home/vahag/mail/architecturalnumbers.com/sales/cur')));
-      assert.ok(fs.existsSync(sysroot.resolve('/home/vahag/mail/architecturalnumbers.com/sales/.Sent')));
+      assert.equal(res.email, 'sales@example-store.com');
+      assert.ok(fs.existsSync(sysroot.resolve('/home/acme/mail/example-store.com/sales/cur')));
+      assert.ok(fs.existsSync(sysroot.resolve('/home/acme/mail/example-store.com/sales/.Sent')));
 
       const passwdContent = sysroot.readFile('/etc/dovecot/passwd');
-      assert.ok(passwdContent.includes('sales@architecturalnumbers.com:{ARGON2ID}$argon2id$mockHash:1005:1005::'));
+      assert.ok(passwdContent.includes('sales@example-store.com:{ARGON2ID}$argon2id$mockHash:1005:1005::'));
       assert.ok(passwdContent.includes('userdb_quota_rule=*:storage=2147483648'));
     });
 
     test('upsertForwarder updates Postfix virtual aliases and calls postmap', async () => {
       const res = await handler.upsertForwarder({
-        domain: 'architecturalnumbers.com',
-        source: 'info@architecturalnumbers.com',
-        destinations: ['sales@architecturalnumbers.com', 'vahag@external.com'],
+        domain: 'example-store.com',
+        source: 'info@example-store.com',
+        destinations: ['sales@example-store.com', 'acme@external.com'],
       });
 
       assert.equal(res.updated, true);
       const virtualContent = sysroot.readFile('/etc/postfix/virtual');
-      assert.ok(virtualContent.includes('info@architecturalnumbers.com sales@architecturalnumbers.com,vahag@external.com'));
+      assert.ok(virtualContent.includes('info@example-store.com sales@example-store.com,acme@external.com'));
     });
 
     test('upsertSieve compiles Sieve script with sievec', async () => {
       const res = await handler.upsertSieve({
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         localPart: 'sales',
         sieveScript: 'require ["fileinto"]; if header :contains "subject" "spam" { discard; }',
       });
@@ -327,15 +327,15 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('deleteMailbox removes entry from passwd table', async () => {
       const res = await handler.deleteMailbox({
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         localPart: 'sales',
         purgeMaildir: false,
       });
 
       assert.equal(res.deleted, true);
       const passwdContent = sysroot.readFile('/etc/dovecot/passwd');
-      assert.ok(!passwdContent.includes('sales@architecturalnumbers.com:'));
+      assert.ok(!passwdContent.includes('sales@example-store.com:'));
     });
   });
 
@@ -344,30 +344,30 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('createDatabase prefixes DB name with tenant username', async () => {
       const res = await handler.createDatabase({
-        username: 'vahag',
-        databaseName: 'architecturalnumbers',
+        username: 'acme',
+        databaseName: 'store',
       });
 
-      assert.equal(res.fullDatabaseName, 'vahag_architecturalnumbers');
+      assert.equal(res.fullDatabaseName, 'acme_store');
       assert.equal(res.created, true);
     });
 
     test('upsertUserGrant provisions user and grants permissions', async () => {
       const res = await handler.upsertUserGrant({
-        username: 'vahag',
-        dbUserSuffix: 'k',
+        username: 'acme',
+        dbUserSuffix: 'wp1',
         password: 'ValidPassword123!',
-        databaseName: 'vahag_architecturalnumbers',
+        databaseName: 'acme_store',
       });
 
-      assert.equal(res.fullDbUser, 'vahag_k');
+      assert.equal(res.fullDbUser, 'acme_wp1');
       assert.equal(res.granted, true);
     });
 
     test('createSignonSession generates phpMyAdmin HMAC SSO token', async () => {
       const res = await handler.createSignonSession({
-        username: 'vahag',
-        databaseUser: 'vahag_k',
+        username: 'acme',
+        databaseUser: 'acme_wp1',
         databasePassword: 'SecretPassword',
       });
 
@@ -377,7 +377,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       const sessFile = sysroot.resolve(`/tmp/sess_${res.signonToken}`);
       assert.ok(fs.existsSync(sessFile));
       const sessContent = fs.readFileSync(sessFile, 'utf8');
-      assert.ok(sessContent.includes('PMA_single_signon_user|s:7:"vahag_k";'));
+      assert.ok(sessContent.includes('PMA_single_signon_user|s:8:"acme_wp1";'));
       assert.ok(sessContent.includes('PMA_single_signon_HMAC'));
     });
 
@@ -385,7 +385,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       await assert.rejects(
         () =>
           handler.dropDatabase({
-            username: 'vahag',
+            username: 'acme',
             fullDatabaseName: 'otheruser_db',
           }),
         /PERMISSION_DENIED/
@@ -394,8 +394,8 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('dropDatabase drops authorized user database', async () => {
       const res = await handler.dropDatabase({
-        username: 'vahag',
-        fullDatabaseName: 'vahag_architecturalnumbers',
+        username: 'acme',
+        fullDatabaseName: 'acme_store',
       });
       assert.equal(res.dropped, true);
     });
@@ -406,11 +406,11 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('Strict chroot containment prevents directory traversal escape', () => {
       assert.throws(
-        () => handler.resolveContained('vahag', '../../etc/shadow'),
+        () => handler.resolveContained('acme', '../../etc/shadow'),
         /PERMISSION_DENIED/
       );
       assert.throws(
-        () => handler.resolveContained('vahag', '/../../var/log/panel'),
+        () => handler.resolveContained('acme', '/../../var/log/panel'),
         /PERMISSION_DENIED/
       );
     });
@@ -418,7 +418,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
     test('execOperation write, list, read, chmod, and delete inside tenant homedir', async () => {
       // 1. mkdir
       const mkdirRes = await handler.execOperation({
-        username: 'vahag',
+        username: 'acme',
         action: 'mkdir',
         path: '/public_html/assets',
       });
@@ -426,7 +426,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
       // 2. write
       const writeRes = await handler.execOperation({
-        username: 'vahag',
+        username: 'acme',
         action: 'write',
         path: '/public_html/index.php',
         content: '<?php echo "Hello clean-room"; ?>',
@@ -437,7 +437,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
       // 3. read
       const readRes = await handler.execOperation({
-        username: 'vahag',
+        username: 'acme',
         action: 'read',
         path: '/public_html/index.php',
       });
@@ -445,7 +445,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
       // 4. list
       const listRes = await handler.execOperation({
-        username: 'vahag',
+        username: 'acme',
         action: 'list',
         path: '/public_html',
       });
@@ -455,7 +455,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
       // 5. chmod
       const chmodRes = await handler.execOperation({
-        username: 'vahag',
+        username: 'acme',
         action: 'chmod',
         path: '/public_html/index.php',
         mode: 0o640,
@@ -464,7 +464,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
       // 6. archive and extract
       const archiveRes = await handler.execOperation({
-        username: 'vahag',
+        username: 'acme',
         action: 'archive',
         path: '/public_html',
         targetPath: '/backups/web.tar.gz',
@@ -473,7 +473,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       assert.equal(archiveRes.success, true);
 
       const extractRes = await handler.execOperation({
-        username: 'vahag',
+        username: 'acme',
         action: 'extract',
         path: '/backups/web.tar.gz',
         targetPath: '/extracted',
@@ -482,12 +482,12 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
       // 7. delete
       const delRes = await handler.execOperation({
-        username: 'vahag',
+        username: 'acme',
         action: 'delete',
         path: '/public_html/index.php',
       });
       assert.equal(delRes.success, true);
-      assert.equal(sysroot.exists('/home/vahag/public_html/index.php'), false);
+      assert.equal(sysroot.exists('/home/acme/public_html/index.php'), false);
     });
   });
 
@@ -496,39 +496,39 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('run status, install, createLogin, and autoUpdate', async () => {
       const statusRes = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         action: 'status',
-        domain: 'architecturalnumbers.com',
-        path: '/home/vahag/public_html',
+        domain: 'example-store.com',
+        path: '/home/acme/public_html',
       });
       assert.equal(statusRes.success, true);
       assert.equal(statusRes.version, '6.7.1');
 
       const installRes = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         action: 'install',
-        domain: 'architecturalnumbers.com',
-        path: '/home/vahag/public_html',
-        dbName: 'vahag_wp',
-        dbUser: 'vahag_k',
+        domain: 'example-store.com',
+        path: '/home/acme/public_html',
+        dbName: 'acme_wp',
+        dbUser: 'acme_wp1',
       });
       assert.equal(installRes.success, true);
       assert.ok(installRes.message?.includes('WordPress successfully installed'));
 
       const loginRes = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         action: 'createLogin',
-        domain: 'architecturalnumbers.com',
-        path: '/home/vahag/public_html',
+        domain: 'example-store.com',
+        path: '/home/acme/public_html',
       });
       assert.equal(loginRes.success, true);
       assert.ok(loginRes.loginUrl?.includes('wp-login.php'));
 
       const updateRes = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         action: 'autoUpdate',
-        domain: 'architecturalnumbers.com',
-        path: '/home/vahag/public_html',
+        domain: 'example-store.com',
+        path: '/home/acme/public_html',
       });
       assert.equal(updateRes.success, true);
     });
@@ -541,7 +541,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       const progressSteps: string[] = [];
       const res = await handler.run(
         {
-          username: 'vahag',
+          username: 'acme',
           mode: 'cpmove_export',
         },
         {
@@ -554,7 +554,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
       assert.equal(res.success, true);
       assert.equal(res.mode, 'cpmove_export');
-      assert.ok(res.archivePath?.endsWith('cpmove-vahag.tar.gz'));
+      assert.ok(res.archivePath?.endsWith('cpmove-acme.tar.gz'));
       assert.ok(progressSteps.includes('dumping_mysql'));
       assert.ok(progressSteps.includes('completed'));
     });
@@ -563,7 +563,7 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
       const progressSteps: string[] = [];
       const res = await handler.run(
         {
-          username: 'vahag',
+          username: 'acme',
           mode: 'cpmove_import',
         },
         {
@@ -582,20 +582,20 @@ describe('packages/agentd 8 Service Handlers Suite', () => {
 
     test('restic_backup, restic_list, and restic_restore execute smoothly', async () => {
       const backupRes = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         mode: 'restic_backup',
       });
       assert.equal(backupRes.success, true);
 
       const listRes = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         mode: 'restic_list',
       });
       assert.equal(listRes.success, true);
       assert.ok(listRes.snapshots && listRes.snapshots.length > 0);
 
       const restoreRes = await handler.run({
-        username: 'vahag',
+        username: 'acme',
         mode: 'restic_restore',
         snapshotId: 'a1b2c3d4',
       });

@@ -312,8 +312,8 @@ export type DnsRecordItem = z.infer<typeof DnsRecordItemSchema>;
 // Op 11: dns.upsertZone
 export const DnsUpsertZoneParamsSchema = z.object({
   domain: DomainNameSchema,
-  primaryNs: z.string().default('ns1.winwinhost.com.'),
-  adminEmail: z.string().default('hostmaster.winwinhost.com.'),
+  primaryNs: z.string().default('ns1.cleanpanel.local.'),
+  adminEmail: z.string().default('hostmaster.cleanpanel.local.'),
   ttl: z.number().int().positive().default(300),
   records: z.array(DnsRecordItemSchema),
   syncCloudflare: z.boolean().default(false),

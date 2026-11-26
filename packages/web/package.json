@@ -1,6 +1,7 @@
 {
   "name": "@cpanel-clean-room/web",
   "version": "1.0.0",
+  "license": "MIT",
   "description": "Jupiter-modernized React SPA control panel for cPanel clean-room appliance",
   "type": "module",
   "scripts": {

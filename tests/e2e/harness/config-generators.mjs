@@ -81,7 +81,7 @@ export function generateNginxVhost(opts) {
     domain,
     docroot,
     phpVersion = '8.3',
-    user = 'vahag',
+    user = 'acme',
     ssl = null, // { certPath, keyPath, forceHttps }
     aliases = [],
     ipBlocklist = [],
@@ -194,8 +194,8 @@ export function generateNginxVhost(opts) {
  */
 export function generatePhpFpmPool(opts) {
   const {
-    user = 'vahag',
-    domain = 'architecturalnumbers.com',
+    user = 'acme',
+    domain = 'example-store.com',
     phpVersion = '8.3',
     memoryLimit = '512M',
     uploadMaxFilesize = '512M',

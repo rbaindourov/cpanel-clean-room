@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { SQLiteAdapter } from './db/sqlite-adapter.ts';
 import { createStandardMigrationRunner } from './db/migrations.ts';
-import { seedVahagData } from './seed-vahag.ts';
+import { seedDemoData } from './seed-demo.ts';
 import { createServer } from './server.ts';
 import { AgentdClient } from './agentd-client.ts';
 
@@ -27,7 +27,7 @@ export * from './ws/terminal.ts';
 export * from './ws/logs.ts';
 export * from './sso/pma.ts';
 export * from './sso/roundcube.ts';
-export * from './seed-vahag.ts';
+export * from './seed-demo.ts';
 
 export function createSqliteAdapter(options: { dbPath?: string } = {}): SQLiteAdapter {
   return new SQLiteAdapter(options.dbPath || ':memory:');
@@ -51,8 +51,8 @@ if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
   const migrationRunner = createStandardMigrationRunner(db);
   migrationRunner.runPendingMigrations();
 
-  // Pre-seed authentic Vahag account if newly initialized
-  seedVahagData({ db, sysrootPath: sysroot });
+  // Pre-seed authentic Acme Hosting Tenant account if newly initialized
+  seedDemoData({ db, sysrootPath: sysroot });
 
   const defaultSockPath = sysroot === '/' ? '/run/panel/agent.sock' : path.resolve(sysroot, 'run/panel/agent.sock');
   const sockPath = process.env.PANEL_SOCK_PATH || process.env.PANEL_AGENTD_SOCK || defaultSockPath;

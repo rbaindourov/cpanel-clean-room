@@ -74,7 +74,7 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
         id: 'req-tenant',
         operation: 'tenant.create',
         params: {
-          username: 'vahag',
+          username: 'acme',
           plan: { cpuQuota: '200%', memoryMax: '2G', tasksMax: 150, diskQuotaBytes: 10737418240 },
         },
       });
@@ -87,10 +87,10 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
         id: 'req-web',
         operation: 'web.upsertVhost',
         params: {
-          username: 'vahag',
-          domain: 'architecturalnumbers.com',
-          aliases: ['www.architecturalnumbers.com'],
-          documentRoot: '/home/vahag/public_html',
+          username: 'acme',
+          domain: 'example-store.com',
+          aliases: ['www.example-store.com'],
+          documentRoot: '/home/acme/public_html',
           phpVersion: '8.3',
           useApacheBackend: false,
           ssl: { enabled: true },
@@ -104,11 +104,11 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
         id: 'req-dns',
         operation: 'dns.upsertZone',
         params: {
-          domain: 'architecturalnumbers.com',
-          primaryNs: 'ns1.winwinhost.com.',
+          domain: 'example-store.com',
+          primaryNs: 'ns1.cleanpanel.local.',
           records: [
-            { name: '@', type: 'A', value: '192.168.11.32', ttl: 300 },
-            { name: '@', type: 'MX', value: 'mail.architecturalnumbers.com.', priority: 10 },
+            { name: '@', type: 'A', value: '203.0.113.32', ttl: 300 },
+            { name: '@', type: 'MX', value: 'mail.example-store.com.', priority: 10 },
           ],
         },
       });
@@ -120,7 +120,7 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
         id: 'req-mail',
         operation: 'mail.upsertDomain',
         params: {
-          domain: 'architecturalnumbers.com',
+          domain: 'example-store.com',
           dkimSelector: 'default',
           keyType: 'rsa2048',
         },
@@ -133,19 +133,19 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
         id: 'req-db',
         operation: 'mysql.createDatabase',
         params: {
-          username: 'vahag',
-          databaseName: 'architecturalnumbers',
+          username: 'acme',
+          databaseName: 'store',
         },
       });
       assert.equal(dbRes.success, true);
-      assert.equal(dbRes.data.fullDatabaseName, 'vahag_architecturalnumbers');
+      assert.equal(dbRes.data.fullDatabaseName, 'acme_store');
 
       const ssoRes = await client.send({
         id: 'req-sso',
         operation: 'mysql.createSignonSession',
         params: {
-          username: 'vahag',
-          databaseUser: 'vahag_k',
+          username: 'acme',
+          databaseUser: 'acme_wp1',
         },
       });
       assert.equal(ssoRes.success, true);
@@ -156,7 +156,7 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
         id: 'req-file-write',
         operation: 'files.operation',
         params: {
-          username: 'vahag',
+          username: 'acme',
           action: 'write',
           path: '/public_html/test.txt',
           content: 'Daemon live socket test verified',
@@ -168,7 +168,7 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
         id: 'req-file-list',
         operation: 'files.operation',
         params: {
-          username: 'vahag',
+          username: 'acme',
           action: 'list',
           path: '/public_html',
         },
@@ -181,10 +181,10 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
         id: 'req-wp',
         operation: 'wp.toolkit',
         params: {
-          username: 'vahag',
+          username: 'acme',
           action: 'status',
-          domain: 'architecturalnumbers.com',
-          path: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          path: '/home/acme/public_html',
         },
       });
       assert.equal(wpRes.success, true);
@@ -209,7 +209,7 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
           id: 'req-backup-stream',
           operation: 'backup.cpmoveAndRestic',
           params: {
-            username: 'vahag',
+            username: 'acme',
             mode: 'cpmove_export',
           },
         }) + '\n'
@@ -217,7 +217,7 @@ describe('createAgentDaemon Full Integration Over Unix Domain Socket', () => {
 
       const backupFinal = await donePromise;
       assert.equal(backupFinal.success, true);
-      assert.ok(backupFinal.data.archivePath.includes('cpmove-vahag.tar.gz'));
+      assert.ok(backupFinal.data.archivePath.includes('cpmove-acme.tar.gz'));
       assert.ok(messages.some((m) => m.type === 'progress'));
     } finally {
       client.close();

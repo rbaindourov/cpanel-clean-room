@@ -2,7 +2,7 @@
 /**
  * scripts/cpanel_screenshot_crawler.mjs
  * ──────────────────────────────────────────────────────────────────────────────
- * Authenticates to HostGator cPanel for architecturalnumbers.com, injects
+ * Authenticates to HostGator cPanel for example-store.com, injects
  * deterministic privacy/token masking into the DOM, and captures crisp
  * screenshots of all major cPanel categories and sub-screens.
  *

@@ -7,7 +7,7 @@ export const LoginPage: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('vahag');
+  const [username, setUsername] = useState('acme');
   const [password, setPassword] = useState('CleanRoomPass123!');
   const [twoFactorCode, setTwoFactorCode] = useState('');
   const [requires2FA, setRequires2FA] = useState(false);
@@ -50,9 +50,9 @@ export const LoginPage: React.FC = () => {
         {/* Brand Header */}
         <div className="text-center mb-8">
           <div className="inline-flex w-14 h-14 rounded-2xl bg-amber-500 items-center justify-center font-black text-slate-950 text-2xl shadow-lg shadow-amber-500/20 mb-3">
-            W
+            C
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">WinWinHost Appliance</h1>
+          <h1 className="text-2xl font-bold text-white tracking-tight">CleanPanel Appliance</h1>
           <p className="text-xs text-slate-400 mt-1">Clean-Room cPanel Control Panel</p>
         </div>
 
@@ -75,7 +75,7 @@ export const LoginPage: React.FC = () => {
                     required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="e.g. vahag or admin"
+                    placeholder="e.g. acme or admin"
                     className="w-full bg-[#232736] border border-[#343B52] rounded-lg pl-9 pr-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
                   />
                 </div>

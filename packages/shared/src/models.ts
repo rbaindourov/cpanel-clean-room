@@ -24,7 +24,7 @@ export interface PlanLimits {
 
 export interface Account {
   id: string;                   // UUID v4
-  username: string;             // Linux tenant user (e.g. 'vahag')
+  username: string;             // Linux tenant user (e.g. 'acme')
   email: string;
   role: UserRole;
   resellerId?: string;          // If owned by a reseller
@@ -32,7 +32,7 @@ export interface Account {
   planLimits: PlanLimits;
   uid?: number;                 // POSIX UID (e.g. 1005)
   gid?: number;                 // POSIX GID (e.g. 1005)
-  homeDir: string;              // e.g. '/home/vahag'
+  homeDir: string;              // e.g. '/home/acme'
   shell: string;                // e.g. '/bin/bash' or '/usr/bin/jailshell'
   suspended: boolean;
   suspendReason?: string;
@@ -69,10 +69,10 @@ export type PhpVersion =
 export interface Domain {
   id: string;
   accountId: string;
-  domainName: string;           // FQDN e.g. 'architecturalnumbers.com'
+  domainName: string;           // FQDN e.g. 'example-store.com'
   type: DomainType;
   parentDomainId?: string;      // If subdomain or alias
-  documentRoot: string;         // e.g. '/home/vahag/public_html'
+  documentRoot: string;         // e.g. '/home/acme/public_html'
   phpVersion: PhpVersion;       // e.g. '8.3'
   useApacheBackend: boolean;    // ADR-04: true if proxying to 127.0.0.1:8080
   sslStatus: SslStatus;
@@ -81,8 +81,8 @@ export interface Domain {
   sslCertificatePath?: string;
   sslPrivateKeyPath?: string;
   forceHttps: boolean;          // Emit HTTP 301 to HTTPS
-  ipAddress: string;            // Server IP e.g. '192.168.11.32'
-  aliases: string[];            // Parked aliases e.g. ['www.architecturalnumbers.com']
+  ipAddress: string;            // Server IP e.g. '203.0.113.32'
+  aliases: string[];            // Parked aliases e.g. ['www.example-store.com']
   customNginxDirectives?: string[];
   createdAt: string;
   updatedAt: string;
@@ -134,8 +134,8 @@ export interface DnsZone {
   id: string;
   domainId: string;
   domainName: string;
-  primaryNs: string;            // e.g. 'ns1.winwinhost.com.'
-  adminEmail: string;           // e.g. 'hostmaster.winwinhost.com.'
+  primaryNs: string;            // e.g. 'ns1.cleanpanel.local.'
+  adminEmail: string;           // e.g. 'hostmaster.cleanpanel.local.'
   serial: number;               // YYYYMMDDNN e.g. 2026111201
   refresh: number;              // e.g. 10800 (3h)
   retry: number;                // e.g. 3600 (1h)
@@ -155,9 +155,9 @@ export interface Mailbox {
   id: string;
   accountId: string;
   domainId: string;
-  email: string;                // Full address e.g. 'sales@architecturalnumbers.com'
+  email: string;                // Full address e.g. 'sales@example-store.com'
   localPart: string;            // e.g. 'sales'
-  domain: string;               // e.g. 'architecturalnumbers.com'
+  domain: string;               // e.g. 'example-store.com'
   passwordHash: string;         // {ARGON2ID}$... or {SHA512-CRYPT}$...
   quotaBytes: number;           // e.g. 4194304000 (4 GB)
   usedBytes: number;            // e.g. 2469941036
@@ -171,7 +171,7 @@ export interface EmailForwarder {
   id: string;
   accountId: string;
   domainId: string;
-  source: string;               // 'info@architecturalnumbers.com' or '@architecturalnumbers.com'
+  source: string;               // 'info@example-store.com' or '@example-store.com'
   destinations: string[];       // Target email addresses
   isCatchAll: boolean;
   createdAt: string;
@@ -238,7 +238,7 @@ export interface EmailDeliverability {
 // ---------------------------------------------------------------------------
 
 export interface DatabaseUserGrant {
-  username: string;             // <user>_<dbuser> e.g. 'vahag_k'
+  username: string;             // <user>_<dbuser> e.g. 'acme_wp1'
   remoteHost: string;           // 'localhost' or '192.168.1.100' or '%'
   privileges: string[];         // ['ALL PRIVILEGES'] or ['SELECT', 'INSERT', ...]
 }
@@ -246,7 +246,7 @@ export interface DatabaseUserGrant {
 export interface Database {
   id: string;
   accountId: string;
-  databaseName: string;         // <user>_<dbname> e.g. 'vahag_architecturalnumbers'
+  databaseName: string;         // <user>_<dbname> e.g. 'acme_store'
   charset: string;              // e.g. 'utf8mb4'
   collation: string;            // e.g. 'utf8mb4_unicode_ci'
   users: DatabaseUserGrant[];
@@ -258,7 +258,7 @@ export interface Database {
 export interface DatabaseUser {
   id: string;
   accountId: string;
-  username: string;             // Full username e.g. 'vahag_k'
+  username: string;             // Full username e.g. 'acme_wp1'
   remoteHost: string;           // 'localhost' or '%'
   databases: string[];          // Associated database names
   createdAt: string;
@@ -284,8 +284,8 @@ export interface FileEntry {
 export interface FtpAccount {
   id: string;
   accountId: string;
-  username: string;             // e.g. 'vahag_deploy'
-  homedir: string;              // e.g. '/home/vahag/public_html'
+  username: string;             // e.g. 'acme_deploy'
+  homedir: string;              // e.g. '/home/acme/public_html'
   quotaBytes: number;           // 0 = unlimited
   usedBytes: number;
   suspended: boolean;
@@ -305,7 +305,7 @@ export interface Backup {
   accountId: string;
   type: BackupType;
   status: BackupStatus;
-  fileName?: string;            // e.g. 'cpmove-vahag.tar.gz'
+  fileName?: string;            // e.g. 'cpmove-acme.tar.gz'
   filePath?: string;
   sizeBytes?: number;
   resticSnapshotId?: string;
@@ -328,7 +328,7 @@ export interface CronJob {
   day: string;                  // e.g. '*'
   month: string;                // e.g. '*'
   weekday: string;              // e.g. '*'
-  command: string;              // e.g. '/usr/bin/php8.3 /home/vahag/public_html/cron.php'
+  command: string;              // e.g. '/usr/bin/php8.3 /home/acme/public_html/cron.php'
   description?: string;
   enabled: boolean;
   createdAt: string;
@@ -407,8 +407,8 @@ export interface WordPressSite {
   accountId: string;
   domainId: string;
   domainName: string;
-  path: string;                 // e.g. '/home/vahag/public_html'
-  url: string;                  // e.g. 'https://architecturalnumbers.com'
+  path: string;                 // e.g. '/home/acme/public_html'
+  url: string;                  // e.g. 'https://example-store.com'
   version: string;              // e.g. '6.7.1'
   title: string;
   adminEmail: string;

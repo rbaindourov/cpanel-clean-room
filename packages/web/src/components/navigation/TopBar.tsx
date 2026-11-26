@@ -59,10 +59,10 @@ export const TopBar: React.FC<TopBarProps> = ({ onSearchChange, searchQuery }) =
       <div className="flex items-center space-x-6 flex-1 max-w-2xl">
         <div className="flex items-center space-x-2.5 cursor-pointer" onClick={() => navigate('/')}>
           <div className="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center font-bold text-slate-950 text-base shadow">
-            W
+            C
           </div>
           <div className="hidden sm:block">
-            <div className="font-bold text-sm tracking-wide text-white leading-none">WinWinHost</div>
+            <div className="font-bold text-sm tracking-wide text-white leading-none">CleanPanel</div>
             <div className="text-[10px] text-slate-400 leading-tight">Control Panel</div>
           </div>
         </div>

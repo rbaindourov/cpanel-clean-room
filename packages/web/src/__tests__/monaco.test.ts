@@ -38,7 +38,7 @@ test('Monaco Editor Language Detection & Jupiter Theme Suite', async (t) => {
     assert.strictEqual(detectLanguageFromFilename('.bash_aliases'), 'shell');
 
     // Path resolution
-    assert.strictEqual(detectLanguageFromFilename('/home/vahag/.bashrc'), 'shell');
+    assert.strictEqual(detectLanguageFromFilename('/home/acme/.bashrc'), 'shell');
     assert.strictEqual(detectLanguageFromFilename('public_html/.htaccess'), 'ini');
     assert.strictEqual(detectLanguageFromFilename('/var/www/.env.production'), 'ini');
 

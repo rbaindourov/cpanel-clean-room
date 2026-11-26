@@ -130,8 +130,8 @@ export function registerSoftwareRoutes(options: SoftwareRouteOptions): Router {
       installations: [
         {
           id: 'wp-1',
-          domain: 'architecturalnumbers.com',
-          path: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          path: '/home/acme/public_html',
           version: '6.7.1',
           autoUpdate: true,
           status: 'healthy',
@@ -193,7 +193,7 @@ export function registerSoftwareRoutes(options: SoftwareRouteOptions): Router {
     try {
       const username = req.effectiveUser.username;
       const callerUid = req.effectiveUser.uid;
-      const { domain = 'architecturalnumbers.com', path: wpPath = '/home/vahag/public_html', autoUpdate = true } = req.body;
+      const { domain = 'example-store.com', path: wpPath = '/home/acme/public_html', autoUpdate = true } = req.body;
 
       await agentd.call(
         'wp.toolkit',
@@ -211,7 +211,7 @@ export function registerSoftwareRoutes(options: SoftwareRouteOptions): Router {
     try {
       const username = req.effectiveUser.username;
       const callerUid = req.effectiveUser.uid;
-      const { domain = 'architecturalnumbers.com', path: wpPath = '/home/vahag/public_html' } = req.body;
+      const { domain = 'example-store.com', path: wpPath = '/home/acme/public_html' } = req.body;
 
       const result = await agentd.call(
         'wp.toolkit',

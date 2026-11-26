@@ -1,6 +1,7 @@
 {
   "name": "@cpanel-clean-room/shared",
   "version": "1.0.0",
+  "license": "MIT",
   "description": "Shared TypeScript data models, Zod RPC contracts, deterministic .htaccess-to-Nginx translator, and appliance constants.",
   "type": "module",
   "main": "./src/index.ts",

@@ -171,7 +171,7 @@ export class SysrootEngine {
    * Helper to obtain tenant UID/GID.
    */
   public getTenantUidGid(username: string): { uid: number; gid: number } {
-    if (username === 'vahag') {
+    if (username === 'acme') {
       return { uid: 1005, gid: 1005 };
     }
     let hash = 0;
@@ -253,7 +253,7 @@ export class SysrootEngine {
       if (effectiveArgs.includes('core') && effectiveArgs.includes('version')) {
         stdout = '6.7.1\n';
       } else if (effectiveArgs.includes('login') && effectiveArgs.includes('create')) {
-        stdout = 'https://architecturalnumbers.com/wp-login.php?action=sso&token=mock-token-123\n';
+        stdout = 'https://example-store.com/wp-login.php?action=sso&token=mock-token-123\n';
       } else {
         stdout = 'Success: Command executed successfully.\n';
       }
@@ -264,7 +264,7 @@ export class SysrootEngine {
             time: '2026-11-12T08:00:00Z',
             id: 'a1b2c3d4',
             short_id: 'a1b2c3d4',
-            paths: ['/home/vahag'],
+            paths: ['/home/acme'],
           },
         ]);
       } else {

@@ -12,7 +12,7 @@
 
 The **cPanel Clean-Room Modern Appliance** project delivers a complete, modern, 100% TypeScript/Node.js hosting control panel engineered from scratch to achieve functional and operational parity with HostGator's cPanel appliance while eliminating legacy architectural debt, security vulnerabilities, and licensing constraints.
 
-Derived from an empirical audit of client Vahag Kazanchyan's HostGator shared hosting account (`architecturalnumbers.com`), the appliance re-implements all **68 baseline cPanel tools across 9 core functional categories**, preserving full backward compatibility for `cpmove-<user>.tar.gz` migration archives, `.htaccess` rewrite rules, RFC 1035 BIND9 zone files, Dovecot/Postfix mail configurations, and MariaDB/MySQL databases.
+Derived from an empirical audit of reference HostGator shared hosting account `acme` (`example-store.com`), the appliance re-implements all **68 baseline cPanel tools across 9 core functional categories**, preserving full backward compatibility for `cpmove-<user>.tar.gz` migration archives, `.htaccess` rewrite rules, RFC 1035 BIND9 zone files, Dovecot/Postfix mail configurations, and MariaDB/MySQL databases.
 
 ### Core Architectural Differentiators
 1. **Strict Privilege Separation**: Privileged system modifications run exclusively inside `panel-agentd` (listening on an NDJSON Unix domain socket with strict Zod validation). The unprivileged Web/API server runs as a standard user with zero root access.
@@ -69,7 +69,7 @@ Derived from an empirical audit of client Vahag Kazanchyan's HostGator shared ho
 
 ### Milestone 2 — Unprivileged Web & API Server (`packages/server`)
 - Configured SQLite WAL database with dual-driver support (`better-sqlite3` native with fallback to `node:sqlite`).
-- Created versioned migration runner and pre-seeder for authentic HostGator data (`vahag` user, domains `architecturalnumbers.com`, `trace4less.com`, databases, mailboxes, and Multi-PHP pools).
+- Created versioned migration runner and pre-seeder for reference HostGator data (`acme` user, domains `example-store.com`, `legacy-crm.org`, databases, mailboxes, and Multi-PHP pools).
 - Built comprehensive security & authentication pipeline:
   - Argon2id password hashing with scrypt fallback.
   - RFC 6238 monotonic TOTP two-factor authentication (blocking replay in the 30-second window).
@@ -103,7 +103,7 @@ Derived from an empirical audit of client Vahag Kazanchyan's HostGator shared ho
 
 ## 4. Complete Feature Catalog Matrix (68 Baseline + 9 Extended Tools = 77 Total Tools)
 
-The cPanel Clean-Room Modern Hosting Appliance implements **all 68 empirical baseline tools across all 9 categories** discovered during the HostGator shared hosting audit (`architecturalnumbers.com`), plus **9 extended architectural tools** designed for modern multi-domain routing, PostgreSQL administration, and Web Application Firewall security, achieving a comprehensive catalog of **77 fully operational tools**.
+The cPanel Clean-Room Modern Hosting Appliance implements **all 68 empirical baseline tools across all 9 categories** discovered during the HostGator shared hosting audit (`example-store.com`), plus **9 extended architectural tools** designed for modern multi-domain routing, PostgreSQL administration, and Web Application Firewall security, achieving a comprehensive catalog of **77 fully operational tools**.
 
 ### 4.1 Master 77-Tool Feature Matrix
 
@@ -256,7 +256,7 @@ A summary of tool distribution across all 9 functional categories confirming com
   - **Output Assets**:
     - `dist/index.html` (521 bytes)
     - `dist/assets/index-BD5nxabj.css` (40.08 kB | gzip: 8.25 kB)
-    - `dist/assets/index-C5MmSnjK.js` (1,448.74 kB | gzip: 309.29 kB)
+    - `dist/assets/index-BvSvexDJ.js` (1,448.72 kB | gzip: 309.27 kB)
 
 ### 6.2 Unit Test Suite Gate
 - **Command**: `npm test` (`node --experimental-strip-types --test packages/*/src/**/*.test.ts`)
@@ -278,7 +278,7 @@ A summary of tool distribution across all 9 functional categories confirming com
 | **Tier 1** | **Feature Coverage (68 Features across 9 Categories)** | 385 | 385 | 0 | **PASSED** | 685 ms |
 | **Tier 2** | **Boundary & Corner Cases (Adversarial Security & Stress)** | 30 | 30 | 0 | **PASSED** | 164 ms |
 | **Tier 3** | **Cross-Feature Interactions (Pairwise Pipelines)** | 17 | 17 | 0 | **PASSED** | 289 ms |
-| **Tier 4** | **Real-World Scenarios (Vahag WP, Legacy PHP, cpmove Round-Trip)** | 18 | 18 | 0 | **PASSED** | 220 ms |
+| **Tier 4** | **Real-World Scenarios (Acme WP, Legacy PHP, cpmove Round-Trip)** | 18 | 18 | 0 | **PASSED** | 220 ms |
 | **Total** | **Aggregated 4-Tier Test Suite** | **450** | **450** | **0** | **PASSED** | **1,359 ms** |
 
 ### 6.4 Documentation, Manifest & Screenshot Integrity Gate
@@ -297,8 +297,8 @@ A summary of tool distribution across all 9 functional categories confirming com
 - **Panel Server Boot**: Port 3001 (`127.0.0.1:3001`) with production `spaStaticDir: ./packages/web/dist`
 - **Live HTTP Curl Receipts**:
   1. `GET /`: `HTTP/1.1 200 OK` | `Content-Type: text/html; charset=UTF-8` | HTML body length: 521 bytes | `<div id="root">` present.
-  2. Asset Discovery: Extracted `<script src="/assets/index-C5MmSnjK.js">` and `<link rel="stylesheet" href="/assets/index-BD5nxabj.css">`.
-  3. `GET /assets/index-C5MmSnjK.js`: `HTTP/1.1 200 OK` | `Content-Type: application/javascript; charset=UTF-8` | Size: 1,448,262 bytes.
+  2. Asset Discovery: Extracted `<script src="/assets/index-BvSvexDJ.js">` and `<link rel="stylesheet" href="/assets/index-BD5nxabj.css">`.
+  3. `GET /assets/index-BvSvexDJ.js`: `HTTP/1.1 200 OK` | `Content-Type: application/javascript; charset=UTF-8` | Size: 1,448,720 bytes.
   4. `GET /assets/index-BD5nxabj.css`: `HTTP/1.1 200 OK` | `Content-Type: text/css; charset=UTF-8` | Size: 40,083 bytes.
   5. Deep SPA Fallback Routes (HTML5 History API fallback):
      - `GET /login`: `200 OK` | `text/html; charset=UTF-8`

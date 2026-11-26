@@ -17,7 +17,7 @@
 | **`ADR-07`** | **Web File Manager (`FIL-01`)** | **Native React File Explorer + Monaco Code Editor inside our Panel SPA** | Eliminates `FileBrowser`'s 30 historical GHSAs, provides a 100% unified dark/light UI theme, and executes `tar`/`zip`/`chmod` via typed tenant-UID RPCs. |
 | **`ADR-08`** | **Terminal, SQL GUI & Webmail (`ADV-01`, `DB-01`, `EML-01`)** | **Native `@xterm/xterm` + `node-pty` WebSocket Terminal in React UI** + **1-Click Passwordless SSO into `phpMyAdmin` (`SignonSession`) & `Roundcube`** | Gives developers an embedded IDE-grade terminal right next to Monaco Editor while keeping industry-standard `phpMyAdmin` and `Roundcube`. |
 | **`ADR-09`** | **Backup & cPanel Migration (`FIL-07`/`08`/`10`)** | **Dual-Engine Backup:** **100% `cpmove-<user>.tar.gz` Import & Export** + **Scheduled `restic` Encrypted Deduplicated Backups (S3/B2/R2/SFTP)** | Guarantees 1-click migration from HostGator/Bluehost/GoDaddy *and* zero-lock-in `.tar.gz` exports alongside modern deduplicated cloud snapshots. |
-| **`ADR-10`** | **Application Runtimes & 1-Click Installer (`SOF-04`/`05`/`07`)** | **Multi-PHP FPM (`5.6`–`8.5`) + Native `WP-CLI` WordPress Toolkit + Node.js/Python `systemd` App Runner** | Covers legacy PHP (`trace4less.com`), modern WordPress (`architecturalnumbers.com`), and modern Node.js/Python apps behind Nginx. |
+| **`ADR-10`** | **Application Runtimes & 1-Click Installer (`SOF-04`/`05`/`07`)** | **Multi-PHP FPM (`5.6`–`8.5`) + Native `WP-CLI` WordPress Toolkit + Node.js/Python `systemd` App Runner** | Covers legacy PHP (`legacy-crm.org`), modern WordPress (`example-store.com`), and modern Node.js/Python apps behind Nginx. |
 | **`ADR-11`** | **Target OS, Sysroot Sandbox & Repo Structure** | **Ubuntu 22.04/24.04 & Debian 12 (`apt`)** + **Dual `PANEL_SYSROOT` (`sandbox` in `scratch/sysroot` vs. `production` in `/`)** inside `/home/robert/projects/cpanel-clean-room` | Allows 100% safe, non-destructive development, automated E2E testing, and live UI verification on developer workstations without touching host `/etc`. |
 
 ---
@@ -141,8 +141,8 @@ To guarantee that we can develop, run automated tests, and visually verify every
 
 1. **Milestone 1 — Shared Contracts, SQLite State & Privileged `panel-agentd` Daemon (`packages/shared` + `packages/agentd`)**:
    - Implement the Zod-validated Unix socket RPC protocol, `PANEL_SYSROOT` engine, `.htaccess`-to-Nginx converter, RFC 1035 BIND9 zone parser/writer, RSA/Ed25519 DKIM generator, and streaming `cpmove` `.tar.gz` importer/exporter.
-2. **Milestone 2 — Unprivileged API Server & Pre-Seeded `vahag` Account (`packages/server`)**:
-   - Implement `better-sqlite3` database, 3-tier RBAC (`admin`, `reseller`, `vahag`), REST APIs for all 9 cPanel categories, `node-pty` WebSocket terminal, and seed Vahag's authentic domains (`architecturalnumbers.com`, `trace4less.com`, `armenianlistings.com`, `westonletters.com`), databases (`vahag_architecturalnumbers`, `vahag_trace4less`), DNS zones, and Multi-PHP pools into `scratch/sysroot`.
+2. **Milestone 2 — Unprivileged API Server & Pre-Seeded `acme` Reference Account (`packages/server`)**:
+   - Implement `better-sqlite3` database, 3-tier RBAC (`admin`, `reseller`, `acme`), REST APIs for all 9 cPanel categories, `node-pty` WebSocket terminal, and seed reference domains (`example-store.com`, `legacy-crm.org`, `directory-hub.net`, `studio-letters.com`), databases (`acme_store`, `acme_crm`), DNS zones, and Multi-PHP pools into `scratch/sysroot`.
 3. **Milestone 3 — Jupiter-Modernized React + Monaco + `xterm.js` Control Panel SPA (`packages/web`)**:
    - Build the unified Admin/Reseller/Customer UI with `/`-hotkey instant search, 1-click user impersonation, Native File Manager + Monaco Code Editor, WebSocket Terminal, Zone Editor, Email & Deliverability Suite, MultiPHP + WP-CLI Toolkit, and 1-Click `cpmove` Backup Importer/Exporter.
 4. **Milestone 4 — End-to-End Integration Test Suite & Visual Verification**:

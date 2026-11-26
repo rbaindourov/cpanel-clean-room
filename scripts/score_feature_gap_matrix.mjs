@@ -27,7 +27,7 @@ const WEIGHTS = {
 
 /**
  * Complete 68-feature matrix mapped 1:1 to the exact item IDs extracted from
- * architecturalnumbers.com:2083 (HostGator cPanel Jupiter theme).
+ * example-store.com:2083 (HostGator cPanel Jupiter theme).
  *
  * Scores:
  *   1.0 = Full native support out of the box

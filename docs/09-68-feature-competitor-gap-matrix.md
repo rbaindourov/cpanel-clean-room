@@ -1,6 +1,6 @@
 # 09 — 68-Feature Competitor Parity & SaaS Readiness Gap Matrix
 
-> **Executive Summary:** Using [`scripts/score_feature_gap_matrix.mjs`](file:///home/robert/projects/cpanel-clean-room/scripts/score_feature_gap_matrix.mjs), we evaluated all **68 active cPanel tools** inventoried from Vahag Kazanchyan's HostGator account ([`docs/data/cpanel_feature_manifest.json`](file:///home/robert/projects/cpanel-clean-room/docs/data/cpanel_feature_manifest.json)) alongside **10 SaaS Product & Multi-Tenancy Requirements** across seven existing control panels and our **Strategy 3 (Composable OSS + Clean-Room Agent)** architecture. All raw data and weighted formulas are stored in [`docs/data/competitor_gap_matrix.json`](file:///home/robert/projects/cpanel-clean-room/docs/data/competitor_gap_matrix.json).
+> **Executive Summary:** Using [`scripts/score_feature_gap_matrix.mjs`](file:///home/robert/projects/cpanel-clean-room/scripts/score_feature_gap_matrix.mjs), we evaluated all **68 active cPanel tools** inventoried from our reference HostGator account ([`docs/data/cpanel_feature_manifest.json`](file:///home/robert/projects/cpanel-clean-room/docs/data/cpanel_feature_manifest.json)) alongside **10 SaaS Product & Multi-Tenancy Requirements** across seven existing control panels and our **Strategy 3 (Composable OSS + Clean-Room Agent)** architecture. All raw data and weighted formulas are stored in [`docs/data/competitor_gap_matrix.json`](file:///home/robert/projects/cpanel-clean-room/docs/data/competitor_gap_matrix.json).
 
 ---
 
@@ -52,7 +52,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.1 Category 01 — Email (`14` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `EML-01` | Email Accounts (Mailboxes & Quotas) | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `0.0` | `0.0` | `0.0` | **`1.0`** (`Postfix`+`Dovecot`) |
 | `EML-02` | Forwarders (Address & Domain) | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `0.0` | `0.0` | `0.0` | **`1.0`** (`virtual_alias_maps`) |
@@ -73,7 +73,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.2 Category 02 — Files (`11` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `FIL-01` | File Manager (Web Tree, Editor, Zip) | **P0** | `1.0` | `1.0` | `0.5` | `0.0` | `1.0` | `0.0` | `1.0` | **`1.0`** (Embedded `FileBrowser`) |
 | `FIL-02` | Images (Thumbnailer, Scaler, Converter) | **P2** | `0.0` | `0.0` | `0.0` | `0.0` | `0.0` | `0.0` | `0.0` | **`0.5`** (`sharp` / `libvips` action) |
@@ -91,7 +91,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.3 Category 03 — Databases (`4` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `DB-01` | phpMyAdmin (Web SQL GUI with SSO) | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `0.5` | `1.0` | **`1.0`** (phpMyAdmin `SignonSession`) |
 | `DB-02` | MySQL Databases (Create/Drop/Grants) | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | **`1.0`** (MariaDB Native SQL Driver) |
@@ -102,7 +102,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.4 Category 04 — Domains (`6` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `DOM-01` | Domains (Primary, Addon, Subdomains) | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | **`1.0`** (Nginx Vhost + FPM Pool) |
 | `DOM-02` | Redirects (`301`/`302` Rules) | **P1** | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | **`1.0`** (Declarative Nginx `return`) |
@@ -115,7 +115,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.5 Category 05 — Metrics (`8` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `MET-01` | Visitors (Recent Requests Inspector) | **P2** | `1.0` | `1.0` | `1.0` | `0.5` | `1.0` | `0.0` | `0.5` | **`1.0`** (Embedded `GoAccess`) |
 | `MET-02` | Errors (Live Nginx & PHP-FPM Tail) | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | **`1.0`** (SSE Log Tail Stream) |
@@ -130,7 +130,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.6 Category 06 — Security (`7` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `SEC-01` | SSH Access & Key Manager | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | **`1.0`** (`authorized_keys` + `ttyd`) |
 | `SEC-02` | IP Blocker (Per-Site Deny Rules) | **P1** | `1.0` | `1.0` | `0.5` | `0.0` | `1.0` | `0.5` | `1.0` | **`1.0`** (Nginx `deny` + `nftables`) |
@@ -144,7 +144,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.7 Category 07 — Software (`9` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `SOF-01` | PHP PEAR Packages | *Skip* | `0.5` | `0.0` | `0.0` | `0.0` | `0.0` | `0.0` | `0.0` | *Skip* (Replaced by Composer) |
 | `SOF-02` | Perl Modules | **P2** | `1.0` | `0.0` | `0.0` | `0.0` | `0.0` | `0.0` | `0.0` | **`1.0`** (`cpanm` CLI Support) |
@@ -160,7 +160,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.8 Category 08 — Advanced (`6` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `ADV-01` | Terminal (In-Browser WebSocket Shell) | **P1** | `1.0` | `0.5` | `0.0` | `0.0` | `1.0` | `0.0` | `0.5` | **`1.0`** (Embedded `ttyd` Binary) |
 | `ADV-02` | Cron Jobs | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | **`1.0`** (`/etc/cron.d/` + `systemd` Timers) |
@@ -173,7 +173,7 @@ Legend: `1.0` = Native Complete | `0.5` = Partial / Manual / Add-on Required | `
 
 ### 3.9 Category 09 — Preferences (`3` Tools)
 
-| Code | cPanel Feature (`architecturalnumbers.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
+| Code | cPanel Feature (`example-store.com`) | Priority | Virtualmin | HestiaCP | ISPConfig 3 | Froxlor v2 | AcePanel | VitoDeploy | CloudPanel | **Strategy 3 (Composable)** |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | `PRF-01` | Password & Security (2FA / TOTP) | **P0** | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | `1.0` | **`1.0`** (`Argon2id` + TOTP + WebAuthn) |
 | `PRF-02` | Contact Information & Notifications | **P1** | `1.0` | `1.0` | `1.0` | `1.0` | `0.5` | `1.0` | `0.5` | **`1.0`** (SMTP/Webhook Alert Rules) |

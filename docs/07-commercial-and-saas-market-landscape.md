@@ -38,7 +38,7 @@ flowchart TB
         COOL["Coolify / CapRover\nDocker PaaS Wrappers\nViolates Native Daemon Architecture"]
     end
 
-    GAP["THE MISSING MIDDLE WEDGE\nWinWinHost Control Plane + Go Host Agent\n• Multi-Server Central SaaS UI\n• Native Linux UID/cgroup Isolation\n• Full Mail (Postfix/Dovecot) + DNS + Web\n• 1-Click cPanel cpmove Migration"]
+    GAP["THE MISSING MIDDLE WEDGE\nCleanPanel Control Plane + Host Agent\n• Multi-Server Central SaaS UI\n• Native Linux UID/cgroup Isolation\n• Full Mail (Postfix/Dovecot) + DNS + Web\n• 1-Click cPanel cpmove Migration"]
 
     Q1 -->|"Price Hikes & Perl Debt Drive Churn"| GAP
     Q3 -->|"Missing Mail, DNS & Client Multi-Tenancy"| GAP
@@ -53,7 +53,7 @@ flowchart TB
 ### 2.1 The WebPros Monopoly (`cPanel/WHM` & `Plesk`)
 Since Oakley Capital / WebPros acquired both `cPanel` and `Plesk` and transitioned from flat per-server licensing to **tiered per-account metering** in 2019 (followed by six consecutive annual price increases through 2026), independent agencies and mid-market hosting providers have faced 300%–800% license cost inflation.
 
-| Metric | cPanel & WHM (Observed on `architecturalnumbers.com`) | Plesk Obsidian | DirectAdmin |
+| Metric | cPanel & WHM (Observed on `example-store.com`) | Plesk Obsidian | DirectAdmin |
 | :--- | :--- | :--- | :--- |
 | **Owner / License** | WebPros (Proprietary Commercial) | WebPros (Proprietary Commercial) | JBMC Software (Proprietary Commercial) |
 | **Core Runtime** | Perl 5 (`cpsrvd`), custom RPM/apt `ea-*` packages | Proprietary PHP + C++ `sw-engine` | Compiled C++/Go binary + PHP plugins |
@@ -65,7 +65,7 @@ Since Oakley Capital / WebPros acquired both `cPanel` and `Plesk` and transition
 | **Why Agencies Leave** | Annual per-account price hikes; heavy resource footprint; dated Perl UI | Same WebPros parent company & annual price escalations | Dated architecture; single-server management model |
 
 ### 2.2 Key Takeaway from Quadrant I
-As documented in [01-executive-summary-and-strategy.md](file:///home/robert/projects/cpanel-clean-room/docs/01-executive-summary-and-strategy.md) and captured empirically in [cpanel_feature_manifest.json](file:///home/robert/projects/cpanel-clean-room/docs/data/cpanel_feature_manifest.json), our live audit of client Vahag Kazanchyan's (`vahag`) HostGator account (`architecturalnumbers.com`) proved that even a 10+ year legacy cPanel user relies on **only ~18 core operational capabilities** (Multi-domain vhosts, Multi-PHP FPM `5.6`–`8.5`, AutoSSL, Authoritative DNS Zone Editor, Email Accounts + DKIM/SPF/DMARC + Forwarders, MySQL DBs + phpMyAdmin, Web File Manager, Backup Wizard, and Cron). The remaining 50+ widgets are upsell wrappers, legacy CGI relics, or redundant wizards.
+As documented in [01-executive-summary-and-strategy.md](file:///home/robert/projects/cpanel-clean-room/docs/01-executive-summary-and-strategy.md) and captured empirically in [cpanel_feature_manifest.json](file:///home/robert/projects/cpanel-clean-room/docs/data/cpanel_feature_manifest.json), our live audit of reference tenant `acme`'s HostGator account (`example-store.com`) proved that even a 10+ year legacy cPanel user relies on **only ~18 core operational capabilities** (Multi-domain vhosts, Multi-PHP FPM `5.6`–`8.5`, AutoSSL, Authoritative DNS Zone Editor, Email Accounts + DKIM/SPF/DMARC + Forwarders, MySQL DBs + phpMyAdmin, Web File Manager, Backup Wizard, and Cron). The remaining 50+ widgets are upsell wrappers, legacy CGI relics, or redundant wizards.
 
 ---
 
@@ -87,7 +87,7 @@ As documented in [01-executive-summary-and-strategy.md](file:///home/robert/proj
 
 Developer-focused SaaS control planes pioneered the **Central SaaS Dashboard + Remote Server Provisioning** business model (`$12–$45/month` flat subscription for managing multiple VPS nodes on Hetzner, DigitalOcean, Linode, or bare metal).
 
-| Capability | Laravel Forge | RunCloud | Ploi.io | SpinupWP | **cPanel Baseline (`vahag`)** |
+| Capability | Laravel Forge | RunCloud | Ploi.io | SpinupWP | **cPanel Baseline (`acme`)** |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Central Multi-Server Dashboard** | ✅ Yes (SaaS) | ✅ Yes (SaaS) | ✅ Yes (SaaS) | ✅ Yes (SaaS) | ❌ No (1 WHM per server) |
 | **Provisioning Transport** | Root SSH execution | Custom Agent + SSH | Root SSH execution | Root SSH execution | Local `cpsrvd` |
@@ -101,7 +101,7 @@ Developer-focused SaaS control planes pioneered the **Central SaaS Dashboard + R
 
 > [!IMPORTANT]
 > **Why Developer SaaS Panels Cannot Replace cPanel for Agency Clients:**
-> When an agency migrates a client like Vahag (`architecturalnumbers.com`, `trace4less.com`, `armenianlistings.com`) off HostGator cPanel, the client expects their existing `@architecturalnumbers.com` IMAP mailboxes, forwarders, autoresponders, MySQL databases, and browser File Manager to keep working. `Laravel Forge`, `RunCloud`, and `SpinupWP` tell the user to *"go pay Google Workspace \$7/user/month for email and use SFTP instead of a File Manager."* For an agency managing 30 domains with 100 mailboxes, that destroys the unit economics of leaving cPanel.
+> When an agency migrates a tenant like `acme` (`example-store.com`, `legacy-crm.org`, `directory-hub.net`) off HostGator cPanel, the tenant expects their existing `@example-store.com` IMAP mailboxes, forwarders, autoresponders, MySQL databases, and browser File Manager to keep working. `Laravel Forge`, `RunCloud`, and `SpinupWP` tell the user to *"go pay Google Workspace \$7/user/month for email and use SFTP instead of a File Manager."* For an agency managing 30 domains with 100 mailboxes, that destroys the unit economics of leaving cPanel.
 
 ---
 

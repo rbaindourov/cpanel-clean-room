@@ -75,7 +75,7 @@ test('AgentServer lifecycle, schema validation, streaming, and error handling', 
   server.registerHandler('test.backupStream', async (_params, ctx) => {
     ctx.emitProgress({ percent: 25, step: 'dumping_sql' });
     ctx.emitProgress({ percent: 75, step: 'compressing_homedir' });
-    return { archive: '/home/vahag/backups/cpmove-vahag.tar.gz', size: 102400 };
+    return { archive: '/home/acme/backups/cpmove-acme.tar.gz', size: 102400 };
   });
 
   await server.start();
@@ -87,17 +87,17 @@ test('AgentServer lifecycle, schema validation, streaming, and error handling', 
   const successRes = await client.send({
     id: 'req-1',
     operation: 'test.echo',
-    params: { username: 'vahag', domain: 'architecturalnumbers.com' },
+    params: { username: 'acme', domain: 'example-store.com' },
   });
   assert.equal(successRes.id, 'req-1');
   assert.equal(successRes.success, true);
-  assert.equal(successRes.data.received.username, 'vahag');
+  assert.equal(successRes.data.received.username, 'acme');
 
   // 2. Schema validation failure (username too short)
   const schemaFailRes = await client.send({
     id: 'req-2',
     operation: 'test.echo',
-    params: { username: 'v', domain: 'architecturalnumbers.com' },
+    params: { username: 'v', domain: 'example-store.com' },
   });
   assert.equal(schemaFailRes.id, 'req-2');
   assert.equal(schemaFailRes.success, false);
@@ -143,7 +143,7 @@ test('AgentServer lifecycle, schema validation, streaming, and error handling', 
   const finalRes = await pFinal;
   assert.equal(finalRes.id, 'stream-1');
   assert.equal(finalRes.success, true);
-  assert.equal(finalRes.data.archive, '/home/vahag/backups/cpmove-vahag.tar.gz');
+  assert.equal(finalRes.data.archive, '/home/acme/backups/cpmove-acme.tar.gz');
 
   client.close();
   await server.stop();

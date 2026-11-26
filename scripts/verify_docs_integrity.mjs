@@ -39,12 +39,13 @@ const REQUIRED_DOCS = [
   '03-visual-walkthrough-and-ui-anatomy.md',
   '04-open-source-control-panel-evaluation.md',
   '05-webmin-virtualmin-migration-and-customization-playbook.md',
-  '06-clean-room-winwinhost-control-panel-architecture.md',
+  '06-clean-room-control-panel-architecture.md',
   '07-commercial-and-saas-market-landscape.md',
   '08-empirical-open-source-codebase-and-security-audit.md',
   '09-68-feature-competitor-gap-matrix.md',
   '10-build-vs-leverage-decision-blueprint.md',
-  '11-architecture-decision-records-and-mvp-spec.md'
+  '11-architecture-decision-records-and-mvp-spec.md',
+  '12-clean-room-implementation-report.md'
 ];
 
 for (const doc of REQUIRED_DOCS) {
@@ -151,11 +152,21 @@ console.log('\n=== Step 5: Leak Prevention & PII Scrubbing Audit ===');
 // Construct target test patterns dynamically so this verification script does not false-positive on its own text
 const rawPassEncoded = 'dHpiYktjUjI9MVFI';
 const rawPassStr = Buffer.from(rawPassEncoded, 'base64').toString('utf8');
+const decodeB64 = (b64) => Buffer.from(b64, 'base64').toString('utf8');
 
 const BANNED_PATTERNS = [
   { name: 'Raw Password', pattern: new RegExp(rawPassStr, 'g') },
   { name: 'Unmasked HostGator IP', pattern: /\b198\.57\.247\.238\b/g },
-  { name: 'Active cPanel Session Token', pattern: /cpsess\d{8,}/g }
+  { name: 'Active cPanel Session Token', pattern: /cpsess\d{8,}/g },
+  { name: 'Client Username Identifier', pattern: new RegExp(decodeB64('dmFoYWc='), 'gi') },
+  { name: 'Client Primary Domain Identifier', pattern: new RegExp(decodeB64('YXJjaGl0ZWN0dXJhbG51bWJlcnM='), 'gi') },
+  { name: 'Client Addon Domain 1 Identifier', pattern: new RegExp(decodeB64('dHJhY2U0bGVzcw=='), 'gi') },
+  { name: 'Client Addon Domain 2 Identifier', pattern: new RegExp(decodeB64('YXJtZW5pYW5saXN0aW5ncw=='), 'gi') },
+  { name: 'Client Addon Domain 3 Identifier', pattern: new RegExp(decodeB64('d2VzdG9ubGV0dGVycw=='), 'gi') },
+  { name: 'Client Addon Domain 4 Identifier', pattern: new RegExp(decodeB64('c21vb3RoLWN1cnZlcw=='), 'gi') },
+  { name: 'Internal Host Branding Identifier', pattern: new RegExp(decodeB64('d2lud2luaG9zdA=='), 'gi') },
+  { name: 'Internal Panel Branding Identifier', pattern: new RegExp(decodeB64('d2lud2lucGFuZWw='), 'gi') },
+  { name: 'Internal LAN IP Prefix', pattern: new RegExp(decodeB64('MTkyLjE2OC4xMS4='), 'g') }
 ];
 
 const filesToAudit = [];

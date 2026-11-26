@@ -61,7 +61,7 @@ test('ApiClient & Auth Headers Suite', async (t) => {
   await t.test('getHeaders attaches X-Impersonate-User header when impersonation is active', () => {
     const storage: Record<string, string> = {
       panel_access_token: 'mock-admin-token',
-      panel_impersonate_user: 'vahag',
+      panel_impersonate_user: 'acme',
     };
     (globalThis as any).localStorage = {
       getItem: (key: string) => storage[key] || null,
@@ -73,7 +73,7 @@ test('ApiClient & Auth Headers Suite', async (t) => {
     const headers = client.getHeaders();
 
     assert.strictEqual(headers.get('Authorization'), 'Bearer mock-admin-token');
-    assert.strictEqual(headers.get('X-Impersonate-User'), 'vahag');
+    assert.strictEqual(headers.get('X-Impersonate-User'), 'acme');
 
     // Test explicit override
     const customHeaders = client.getHeaders({}, 'another_tenant');

@@ -51,7 +51,7 @@ describe('constants.ts Appliance Constants', () => {
 
   test('Default DNS settings match RFC 1035 defaults', () => {
     assert.equal(DEFAULT_DNS_SETTINGS.DEFAULT_TTL, 300);
-    assert.equal(DEFAULT_DNS_SETTINGS.DEFAULT_PRIMARY_NS, 'ns1.winwinhost.com.');
+    assert.equal(DEFAULT_DNS_SETTINGS.DEFAULT_PRIMARY_NS, 'ns1.cleanpanel.local.');
     assert.equal(DEFAULT_DNS_SETTINGS.DEFAULT_SOA_REFRESH, 10800);
   });
 });

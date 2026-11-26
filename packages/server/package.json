@@ -1,6 +1,7 @@
 {
   "name": "@cpanel-clean-room/server",
   "version": "1.0.0",
+  "license": "MIT",
   "description": "Unprivileged REST API and WebSocket server for cPanel clean-room appliance",
   "type": "module",
   "main": "./src/server.ts",
@@ -9,7 +10,7 @@
     "./agentd-client": "./src/agentd-client.ts",
     "./db": "./src/db/sqlite-adapter.ts",
     "./auth": "./src/auth/jwt.ts",
-    "./seed-vahag": "./src/seed-vahag.ts"
+    "./seed-demo": "./src/seed-demo.ts"
   },
   "scripts": {
     "build": "tsc --noEmit",

@@ -38,8 +38,8 @@ describe('Tier 3: Cross-Feature Interactions (Pairwise & Pipeline Integration)',
   // Pipeline 1: Full Web + DNS + SSL + Multi-PHP + .htaccess Rewrite
   // =========================================================================
   describe('Pipeline 1: Full Web + DNS + SSL + Multi-PHP + .htaccess Provisioning', () => {
-    const domain = 'architecturalnumbers.com';
-    const docroot = '/home/vahag/public_html';
+    const domain = 'example-store.com';
+    const docroot = '/home/acme/public_html';
     const phpVersion = '8.4';
 
     it('Step 1: Compiles RFC 1035 BIND9 zone file with A and MX records', () => {
@@ -60,15 +60,15 @@ describe('Tier 3: Cross-Feature Interactions (Pairwise & Pipeline Integration)',
 
     it('Step 2: Generates Multi-PHP FPM 8.4 pool configuration', () => {
       const pool = generatePhpFpmPool({
-        user: 'vahag',
+        user: 'acme',
         domain,
         phpVersion,
         memoryLimit: '512M',
         uploadMaxFilesize: '512M'
       });
-      const p = writeSysrootFile(`etc/php/${phpVersion}/fpm/pool.d/vahag-${domain}.conf`, pool);
+      const p = writeSysrootFile(`etc/php/${phpVersion}/fpm/pool.d/acme-${domain}.conf`, pool);
       assert.ok(fs.existsSync(p));
-      assert.ok(pool.includes(`php${phpVersion}-fpm-vahag.sock`));
+      assert.ok(pool.includes(`php${phpVersion}-fpm-acme.sock`));
       assert.ok(pool.includes('memory_limit] = 512M'));
     });
 
@@ -86,10 +86,10 @@ RewriteRule . /index.php [L]
     });
 
     it('Step 4: Deploys SSL certificates and forces HTTPS in Nginx vhost', () => {
-      const certPath = '/etc/ssl/certs/architecturalnumbers.com.crt';
-      const keyPath = '/etc/ssl/private/architecturalnumbers.com.key';
-      writeSysrootFile('etc/ssl/certs/architecturalnumbers.com.crt', 'CERT DATA');
-      writeSysrootFile('etc/ssl/private/architecturalnumbers.com.key', 'KEY DATA', 0o600);
+      const certPath = '/etc/ssl/certs/example-store.com.crt';
+      const keyPath = '/etc/ssl/private/example-store.com.key';
+      writeSysrootFile('etc/ssl/certs/example-store.com.crt', 'CERT DATA');
+      writeSysrootFile('etc/ssl/private/example-store.com.key', 'KEY DATA', 0o600);
 
       const vhost = generateNginxVhost({
         domain,
@@ -123,7 +123,7 @@ RewriteRule . /index.php [L]
   // Pipeline 2: Full Email & Deliverability & Sieve Stack
   // =========================================================================
   describe('Pipeline 2: Full Email & Deliverability & Sieve Stack', () => {
-    const domain = 'architecturalnumbers.com';
+    const domain = 'example-store.com';
 
     it('Step 1: Generates 2048-bit RSA DKIM key and stores in sysroot', () => {
       const dkim = generateDkimKeyPair(2048);
@@ -146,12 +146,12 @@ RewriteRule . /index.php [L]
     });
 
     it('Step 3: Provisions Maildir and writes Dovecot passwd entry for sales@', () => {
-      const base = resolveSysroot(`home/vahag/mail/${domain}/sales`);
+      const base = resolveSysroot(`home/acme/mail/${domain}/sales`);
       fs.mkdirSync(path.join(base, 'cur'), { recursive: true });
       fs.mkdirSync(path.join(base, 'new'), { recursive: true });
       fs.mkdirSync(path.join(base, 'tmp'), { recursive: true });
 
-      const entry = `sales@${domain}:{SHA512-CRYPT}$6$salt$hash:1001:1001::/home/vahag/mail/${domain}/sales::userdb_quota_rule=*:storage=4000M\n`;
+      const entry = `sales@${domain}:{SHA512-CRYPT}$6$salt$hash:1001:1001::/home/acme/mail/${domain}/sales::userdb_quota_rule=*:storage=4000M\n`;
       writeSysrootFile('etc/dovecot/passwd', entry);
       assert.ok(readSysrootFile('etc/dovecot/passwd').includes('sales@'));
     });
@@ -165,8 +165,8 @@ RewriteRule . /index.php [L]
 
     it('Step 5: Installs and compiles Dovecot Sieve autoresponder', () => {
       const sieve = `require ["vacation"];
-vacation :days 1 :subject "Auto-Reply: Architectural Numbers" "Thanks for reaching out!";`;
-      const sievePath = writeSysrootFile(`home/vahag/mail/${domain}/sales/.dovecot.sieve`, sieve);
+vacation :days 1 :subject "Auto-Reply: Example Store" "Thanks for reaching out!";`;
+      const sievePath = writeSysrootFile(`home/acme/mail/${domain}/sales/.dovecot.sieve`, sieve);
       logMockExecution('sievec', [sievePath]);
       assert.ok(readMockExecutions().some(l => l.includes('sievec')));
     });
@@ -177,14 +177,14 @@ vacation :days 1 :subject "Auto-Reply: Architectural Numbers" "Thanks for reachi
   // =========================================================================
   describe('Pipeline 3: Database & Auth & phpMyAdmin SSO Stack', () => {
     it('Step 1: Simulates MariaDB database creation with tenant prefix', () => {
-      const dbName = 'vahag_architecturalnumbers';
+      const dbName = 'acme_store';
       logMockExecution('mysql', ['-e', `CREATE DATABASE \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`]);
       assert.ok(readMockExecutions().some(l => l.includes(dbName)));
     });
 
     it('Step 2: Provisions database user and assigns scoped grants', () => {
-      const dbUser = 'vahag_k';
-      const dbName = 'vahag_architecturalnumbers';
+      const dbUser = 'acme_k';
+      const dbName = 'acme_store';
       logMockExecution('mysql', ['-e', `CREATE USER '${dbUser}'@'localhost' IDENTIFIED BY 'pass';`]);
       logMockExecution('mysql', ['-e', `GRANT ALL PRIVILEGES ON \`${dbName}\`.* TO '${dbUser}'@'localhost'; FLUSH PRIVILEGES;`]);
       assert.ok(readMockExecutions().some(l => l.includes('GRANT ALL PRIVILEGES')));
@@ -192,16 +192,16 @@ vacation :days 1 :subject "Auto-Reply: Architectural Numbers" "Thanks for reachi
 
     it('Step 3: Mints and validates 60-second HMAC SignonSession token for phpMyAdmin', () => {
       const sso = generatePhpMyAdminSSO({
-        user: 'vahag',
-        dbUser: 'vahag_k',
+        user: 'acme',
+        dbUser: 'acme_k',
         secret: 'secure_panel_sso_secret'
       });
       assert.ok(sso.redirectUrl.includes('/phpmyadmin/index.php'));
 
       const verified = verifyPhpMyAdminSSO(sso.token, sso.signature, 'secure_panel_sso_secret');
       assert.equal(verified.valid, true);
-      assert.equal(verified.payload.user, 'vahag');
-      assert.equal(verified.payload.dbUser, 'vahag_k');
+      assert.equal(verified.payload.user, 'acme');
+      assert.equal(verified.payload.dbUser, 'acme_k');
     });
   });
 
@@ -223,8 +223,8 @@ vacation :days 1 :subject "Auto-Reply: Architectural Numbers" "Thanks for reachi
     });
 
     it('Step 2: Writes tenant cron job with translated PHP CLI path', () => {
-      const cron = '0 2 * * * vahag /usr/bin/php8.4 /home/vahag/public_html/wp-cron.php >/dev/null 2>&1\n';
-      const p = writeSysrootFile('etc/cron.d/tenant-vahag', cron);
+      const cron = '0 2 * * * acme /usr/bin/php8.4 /home/acme/public_html/wp-cron.php >/dev/null 2>&1\n';
+      const p = writeSysrootFile('etc/cron.d/tenant-acme', cron);
       assert.ok(fs.existsSync(p));
       assert.ok(cron.includes('/usr/bin/php8.4'));
     });
@@ -241,17 +241,17 @@ vacation :days 1 :subject "Auto-Reply: Architectural Numbers" "Thanks for reachi
   describe('Pipeline 5: Security Defense In Depth Composition', () => {
     it('Composes IP Blocker, Directory Privacy, and Hotlink Protection in single vhost', () => {
       const vhost = generateNginxVhost({
-        domain: 'architecturalnumbers.com',
-        docroot: '/home/vahag/public_html',
+        domain: 'example-store.com',
+        docroot: '/home/acme/public_html',
         ipBlocklist: ['203.0.113.100'],
-        directoryPrivacy: { realm: 'Restricted Staff', authUserFile: '/home/vahag/.htpasswd' },
-        hotlinkProtection: { allowedDomains: ['architecturalnumbers.com'], fileExts: 'jpg|png|webp' },
+        directoryPrivacy: { realm: 'Restricted Staff', authUserFile: '/home/acme/.htpasswd' },
+        hotlinkProtection: { allowedDomains: ['example-store.com'], fileExts: 'jpg|png|webp' },
         customRewrites: 'try_files $uri $uri/ /index.php?$args;'
       });
 
       assert.ok(vhost.includes('deny 203.0.113.100;'));
       assert.ok(vhost.includes('auth_basic "Restricted Staff";'));
-      assert.ok(vhost.includes('valid_referers none blocked server_names architecturalnumbers.com;'));
+      assert.ok(vhost.includes('valid_referers none blocked server_names example-store.com;'));
       assert.ok(vhost.includes('try_files $uri $uri/ /index.php?$args;'));
     });
   });

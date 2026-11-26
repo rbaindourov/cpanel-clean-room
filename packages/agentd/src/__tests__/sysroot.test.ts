@@ -35,8 +35,8 @@ test('SysrootEngine directory scaffolding and atomic file operations', () => {
   assert.ok(fs.existsSync(path.join(sandboxDir, 'var/lib/rspamd/dkim')));
 
   // Atomic file write
-  const targetFile = '/etc/nginx/sites-available/architecturalnumbers.com.conf';
-  const testContent = 'server { listen 80; server_name architecturalnumbers.com; }';
+  const targetFile = '/etc/nginx/sites-available/example-store.com.conf';
+  const testContent = 'server { listen 80; server_name example-store.com; }';
   const writtenPath = engine.atomicWriteFile(targetFile, testContent, { mode: 0o640 });
 
   assert.ok(fs.existsSync(writtenPath));

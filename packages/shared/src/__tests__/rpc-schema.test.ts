@@ -37,7 +37,7 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     const valid = {
       id: '550e8400-e29b-41d4-a716-446655440000',
       method: 'tenant.create',
-      params: { username: 'vahag' },
+      params: { username: 'acme' },
       callerUid: 1000,
     };
     const parsed = RpcRequestSchema.parse(valid);
@@ -67,7 +67,7 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
       success: false,
       error: {
         code: 'ALREADY_EXISTS',
-        message: 'User vahag already exists',
+        message: 'User acme already exists',
       },
     };
     const parsedErr = RpcResponseSchema.parse(errorRes);
@@ -90,7 +90,7 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
   describe('Handler 1: Tenant Operations', () => {
     test('tenant.create validates valid and rejects invalid username', () => {
       const valid = {
-        username: 'vahag',
+        username: 'acme',
         plan: {
           cpuQuota: '200%',
           memoryMax: '2G',
@@ -101,7 +101,7 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
       assert.ok(TenantCreateParamsSchema.parse(valid));
 
       // Invalid username (uppercase, symbols, too short)
-      assert.throws(() => TenantCreateParamsSchema.parse({ ...valid, username: 'VAHAG' }));
+      assert.throws(() => TenantCreateParamsSchema.parse({ ...valid, username: 'ACME' }));
       assert.throws(() => TenantCreateParamsSchema.parse({ ...valid, username: 'va' }));
       assert.throws(() => TenantCreateParamsSchema.parse({ ...valid, username: 'user$bad' }));
     });
@@ -109,19 +109,19 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('tenant.updateLimits validates optional plan fields', () => {
       assert.ok(
         TenantUpdateLimitsParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           plan: { memoryMax: '4G' },
         })
       );
     });
 
     test('tenant.suspend and tenant.resume validate payloads', () => {
-      assert.ok(TenantSuspendParamsSchema.parse({ username: 'vahag', reason: 'Non-payment' }));
-      assert.ok(TenantResumeParamsSchema.parse({ username: 'vahag' }));
+      assert.ok(TenantSuspendParamsSchema.parse({ username: 'acme', reason: 'Non-payment' }));
+      assert.ok(TenantResumeParamsSchema.parse({ username: 'acme' }));
     });
 
     test('tenant.delete validates purgeHome boolean default', () => {
-      const parsed = TenantDeleteParamsSchema.parse({ username: 'vahag' });
+      const parsed = TenantDeleteParamsSchema.parse({ username: 'acme' });
       assert.equal(parsed.purgeHome, false);
     });
   });
@@ -129,10 +129,10 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
   describe('Handler 2: Web & PHP Operations', () => {
     test('web.upsertVhost validates full vhost spec', () => {
       const payload = {
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
-        aliases: ['www.architecturalnumbers.com'],
-        documentRoot: '/home/vahag/public_html',
+        username: 'acme',
+        domain: 'example-store.com',
+        aliases: ['www.example-store.com'],
+        documentRoot: '/home/acme/public_html',
         phpVersion: '8.3',
         useApacheBackend: false,
         ssl: { enabled: true, certPath: '/path/cert.crt', keyPath: '/path/key.key' },
@@ -144,8 +144,8 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('web.deleteVhost validates deletion params', () => {
       assert.ok(
         WebDeleteVhostParamsSchema.parse({
-          username: 'vahag',
-          domain: 'architecturalnumbers.com',
+          username: 'acme',
+          domain: 'example-store.com',
           phpVersion: '8.3',
         })
       );
@@ -153,8 +153,8 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
 
     test('web.setPhpVersion rejects invalid PHP versions', () => {
       const valid = {
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         fromVersion: '8.3',
         toVersion: '8.4',
       };
@@ -170,8 +170,8 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
 
     test('web.updatePhpIni validates directives dictionary', () => {
       const payload = {
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         phpVersion: '8.3',
         directives: {
           memory_limit: '512M',
@@ -184,9 +184,9 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
 
     test('web.issueSsl validates domain, SANs, and email', () => {
       const payload = {
-        domain: 'architecturalnumbers.com',
-        sanDomains: ['www.architecturalnumbers.com', 'mail.architecturalnumbers.com'],
-        email: 'vahag@architecturalnumbers.com',
+        domain: 'example-store.com',
+        sanDomains: ['www.example-store.com', 'mail.example-store.com'],
+        email: 'acme@example-store.com',
         provider: 'letsencrypt',
         challengeType: 'http-01',
       };
@@ -198,12 +198,12 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
   describe('Handler 3: DNS Operations', () => {
     test('dns.upsertZone validates RFC 1035 zone input', () => {
       const payload = {
-        domain: 'architecturalnumbers.com',
-        primaryNs: 'ns1.winwinhost.com.',
+        domain: 'example-store.com',
+        primaryNs: 'ns1.cleanpanel.local.',
         records: [
-          { name: '@', type: 'A' as const, value: '192.168.11.32', ttl: 300 },
-          { name: 'mail', type: 'A' as const, value: '192.168.11.24', ttl: 300 },
-          { name: '@', type: 'MX' as const, value: 'mail.architecturalnumbers.com.', priority: 10 },
+          { name: '@', type: 'A' as const, value: '203.0.113.32', ttl: 300 },
+          { name: 'mail', type: 'A' as const, value: '203.0.113.24', ttl: 300 },
+          { name: '@', type: 'MX' as const, value: 'mail.example-store.com.', priority: 10 },
           { name: 'default._domainkey', type: 'TXT' as const, value: 'v=DKIM1; k=rsa; p=MIIBIj...' },
         ],
       };
@@ -211,7 +211,7 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     });
 
     test('dns.deleteZone validates domain name', () => {
-      assert.ok(DnsDeleteZoneParamsSchema.parse({ domain: 'architecturalnumbers.com' }));
+      assert.ok(DnsDeleteZoneParamsSchema.parse({ domain: 'example-store.com' }));
     });
   });
 
@@ -219,7 +219,7 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('mail.upsertDomain validates DKIM parameters', () => {
       assert.ok(
         MailUpsertDomainParamsSchema.parse({
-          domain: 'architecturalnumbers.com',
+          domain: 'example-store.com',
           dkimSelector: 'default',
           keyType: 'rsa2048',
         })
@@ -228,8 +228,8 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
 
     test('mail.upsertMailbox validates localPart and quota', () => {
       const payload = {
-        username: 'vahag',
-        domain: 'architecturalnumbers.com',
+        username: 'acme',
+        domain: 'example-store.com',
         localPart: 'sales',
         passwordHash: '{ARGON2ID}$argon2id$...',
         quotaBytes: 4194304000,
@@ -242,9 +242,9 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
 
     test('mail.upsertForwarder validates source and destination emails', () => {
       const payload = {
-        domain: 'architecturalnumbers.com',
-        source: 'info@architecturalnumbers.com',
-        destinations: ['sales@architecturalnumbers.com'],
+        domain: 'example-store.com',
+        source: 'info@example-store.com',
+        destinations: ['sales@example-store.com'],
       };
       assert.ok(MailUpsertForwarderParamsSchema.parse(payload));
     });
@@ -252,8 +252,8 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('mail.deleteMailbox validates mailbox deletion', () => {
       assert.ok(
         MailDeleteMailboxParamsSchema.parse({
-          username: 'vahag',
-          domain: 'architecturalnumbers.com',
+          username: 'acme',
+          domain: 'example-store.com',
           localPart: 'sales',
           purgeMaildir: true,
         })
@@ -263,8 +263,8 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('mail.upsertSieve validates sieve script upload', () => {
       assert.ok(
         MailUpsertSieveParamsSchema.parse({
-          username: 'vahag',
-          domain: 'architecturalnumbers.com',
+          username: 'acme',
+          domain: 'example-store.com',
           localPart: 'sales',
           sieveScript: 'require ["fileinto"]; if header :contains "subject" "spam" { discard; }',
         })
@@ -276,13 +276,13 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('mysql.createDatabase enforces database name pattern', () => {
       assert.ok(
         MysqlCreateDatabaseParamsSchema.parse({
-          username: 'vahag',
-          databaseName: 'architecturalnumbers',
+          username: 'acme',
+          databaseName: 'store',
         })
       );
       assert.throws(() =>
         MysqlCreateDatabaseParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           databaseName: 'bad-db-name-with-dashes!',
         })
       );
@@ -291,19 +291,19 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('mysql.dropDatabase validates database drop params', () => {
       assert.ok(
         MysqlDropDatabaseParamsSchema.parse({
-          username: 'vahag',
-          fullDatabaseName: 'vahag_architecturalnumbers',
+          username: 'acme',
+          fullDatabaseName: 'acme_store',
         })
       );
     });
 
     test('mysql.upsertUserGrant validates password and host', () => {
       const payload = {
-        username: 'vahag',
-        dbUserSuffix: 'k',
+        username: 'acme',
+        dbUserSuffix: 'wp1',
         password: 'ValidPassword123!',
         host: 'localhost',
-        databaseName: 'vahag_architecturalnumbers',
+        databaseName: 'acme_store',
         privileges: ['ALL PRIVILEGES'],
       };
       assert.ok(MysqlUpsertUserGrantParamsSchema.parse(payload));
@@ -312,9 +312,9 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('mysql.createSignonSession validates session request', () => {
       assert.ok(
         MysqlCreateSignonSessionParamsSchema.parse({
-          username: 'vahag',
-          databaseUser: 'vahag_k',
-          targetDatabase: 'vahag_architecturalnumbers',
+          username: 'acme',
+          databaseUser: 'acme_wp1',
+          targetDatabase: 'acme_store',
         })
       );
     });
@@ -324,33 +324,33 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('files.operation validates list, read, write, chmod, archive', () => {
       assert.ok(
         FilesOperationParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           action: 'list',
-          path: '/home/vahag/public_html',
+          path: '/home/acme/public_html',
         })
       );
       assert.ok(
         FilesOperationParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           action: 'write',
-          path: '/home/vahag/public_html/index.php',
+          path: '/home/acme/public_html/index.php',
           content: '<?php echo "Hello World"; ?>',
         })
       );
       assert.ok(
         FilesOperationParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           action: 'chmod',
-          path: '/home/vahag/public_html',
+          path: '/home/acme/public_html',
           mode: 0o755,
         })
       );
       assert.ok(
         FilesOperationParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           action: 'archive',
-          path: '/home/vahag/public_html',
-          targetPath: '/home/vahag/backups/web.tar.gz',
+          path: '/home/acme/public_html',
+          targetPath: '/home/acme/backups/web.tar.gz',
           archiveFormat: 'tar.gz',
         })
       );
@@ -361,20 +361,20 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('wp.toolkit validates install, clone, and autoUpdate', () => {
       assert.ok(
         WpToolkitParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           action: 'install',
-          domain: 'architecturalnumbers.com',
-          path: '/home/vahag/public_html',
-          title: 'Architectural Numbers',
-          adminEmail: 'vahag@architecturalnumbers.com',
+          domain: 'example-store.com',
+          path: '/home/acme/public_html',
+          title: 'Example Store',
+          adminEmail: 'acme@example-store.com',
         })
       );
       assert.ok(
         WpToolkitParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           action: 'createLogin',
-          domain: 'architecturalnumbers.com',
-          path: '/home/vahag/public_html',
+          domain: 'example-store.com',
+          path: '/home/acme/public_html',
         })
       );
     });
@@ -384,14 +384,14 @@ describe('rpc-schema.ts Envelopes & Operations', () => {
     test('backup.cpmoveAndRestic validates cpmove and restic modes', () => {
       assert.ok(
         BackupCpmoveAndResticParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           mode: 'cpmove_export',
-          archivePath: '/home/vahag/backups/cpmove-vahag.tar.gz',
+          archivePath: '/home/acme/backups/cpmove-acme.tar.gz',
         })
       );
       assert.ok(
         BackupCpmoveAndResticParamsSchema.parse({
-          username: 'vahag',
+          username: 'acme',
           mode: 'restic_backup',
           resticTarget: 's3:s3.amazonaws.com/backup-bucket',
         })

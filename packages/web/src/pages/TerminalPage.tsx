@@ -48,7 +48,7 @@ const jupiterTerminalTheme = {
 export const TerminalPage: React.FC = () => {
   const { effectiveUser } = useAuth();
   const token = api.getToken() || '';
-  const username = effectiveUser?.username || 'vahag';
+  const username = effectiveUser?.username || 'acme';
 
   const containerRef = useRef<HTMLDivElement>(null);
   const termRef = useRef<Terminal | null>(null);

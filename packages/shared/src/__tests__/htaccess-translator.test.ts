@@ -96,13 +96,13 @@ RedirectMatch 301 ^/article/(\\d+)$ /posts/$1
   test('Translates Directory Privacy HTTP Basic Auth directives', () => {
     const authSample = `
 AuthType Basic
-AuthName "Vahag Admin Area"
-AuthUserFile /home/vahag/.htpasswd
+AuthName "Acme Admin Area"
+AuthUserFile /home/acme/.htpasswd
 Require valid-user
     `;
     const result = translateHtaccessToNginx(authSample);
-    assert.ok(result.nginxConfig.includes('auth_basic "Vahag Admin Area";'));
-    assert.ok(result.nginxConfig.includes('auth_basic_user_file /home/vahag/.htpasswd;'));
+    assert.ok(result.nginxConfig.includes('auth_basic "Acme Admin Area";'));
+    assert.ok(result.nginxConfig.includes('auth_basic_user_file /home/acme/.htpasswd;'));
   });
 
   test('Translates IP access control: Deny from, Allow from, Require ip', () => {

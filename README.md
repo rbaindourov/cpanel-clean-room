@@ -1,78 +1,88 @@
-# cPanel Clean-Room Functional Specification & Open-Source Modernization
+# cPanel Clean-Room — Open-Source Native Linux Web Hosting Control Panel
 
-This repository contains the complete clean-room reverse-engineering analysis, live visual audit, open-source control panel evaluation, and native Linux hosting architecture designed to transition client **Vahag Kazanchyan** (`architecturalnumbers.com`, `trace4less.com`, `westonletters.com`) off commercial cPanel licensing.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
----
+**cPanel Clean-Room** (`CleanPanel`) is an open-source, MIT-licensed native Linux web hosting control panel appliance and empirical clean-room specification designed to replace commercial cPanel/WHM installations without Docker overhead or legacy Perl/Bash security debt.
 
-## 📚 Documentation Index
-
-1. [`docs/01-executive-summary-and-strategy.md`](docs/01-executive-summary-and-strategy.md)  
-   **Executive Summary & Hosting Strategy**: Cost analysis of cPanel licensing markups and introductory price hikes vs. native Linux ownership; definition of Vahag's core workload requirements; dual-track roadmap (Track A: Turnkey VPS via Virtualmin GPL / HestiaCP; Track B: Native WinWinHost control plane).
-
-2. [`docs/02-hostgator-cpanel-feature-inventory.md`](docs/02-hostgator-cpanel-feature-inventory.md)  
-   **Feature Inventory & Linux Primitive Mapping**: Comprehensive categorization of all 68 tools discovered on HostGator cPanel (Jupiter theme); mapping of every tool to its underlying cPanel UAPI module and native Linux system primitives (`/etc/bind`, `/etc/nginx`, `/etc/postfix`, `/etc/dovecot`, `/run/php/*.sock`, `/var/run/mysqld/mysqld.sock`); priority tiers (`P0`, `P1`, `P2`, `Skip`).
-
-3. [`docs/03-visual-walkthrough-and-ui-anatomy.md`](docs/03-visual-walkthrough-and-ui-anatomy.md)  
-   **Visual Walkthrough & UI Anatomy**: Deep UI walkthrough embedding high-resolution, redacted reference screenshots from `docs/screenshots/`; analysis of Jupiter UX patterns worth preserving (quick search `/`, right-rail telemetry, deliverability verification) vs. anti-patterns to eliminate (third-party upsell banners, screen fragmentation).
-
-4. [`docs/04-open-source-control-panel-evaluation.md`](docs/04-open-source-control-panel-evaluation.md)  
-   **Open-Source Control Panel Evaluation**: Architectural and security evaluation of native (non-Docker) open-source panels: **Webmin + Virtualmin GPL + Usermin**, **ISPConfig 3**, **HestiaCP**, and **Froxlor**; explicit disqualification rationale for Docker-bound or closed-source panels; 16-point feature parity matrix against HostGator cPanel.
-
-5. [`docs/05-webmin-virtualmin-migration-and-customization-playbook.md`](docs/05-webmin-virtualmin-migration-and-customization-playbook.md)  
-   **Virtualmin Migration & Customization Playbook**: Step-by-step native LEMP installation runbook on Ubuntu 22.04/24.04 LTS; side-by-side Multi-PHP configuration (`PHP 7.2` for legacy `trace4less.com` + modern `PHP 8.4-FPM` for `architecturalnumbers.com`); native `cpmove` cPanel backup importer; Authentic Theme lockdown and white-labeling; zero-downtime DNS cutover runbook.
-
-6. [`docs/06-clean-room-winwinhost-control-panel-architecture.md`](docs/06-clean-room-winwinhost-control-panel-architecture.md)  
-   **Clean-Room WinWinHost Control Panel Architecture ("WinWinPanel")**: Complete system specification integrating into WinWinHost's multi-server cluster (`.32` Web/DNS/DB/Vault, `.24` Mail, `.25` `solidstate` Job Runner); unprivileged control plane UI + schema-validated root daemon over Unix socket; RBAC binding to `users_backend` (`:3030`); sub-system specs for Web, DNS, MySQL, SFTP, Mail, and off-host backups.
-
-7. [`docs/07-commercial-and-saas-market-landscape.md`](docs/07-commercial-and-saas-market-landscape.md)  
-   **Commercial & SaaS Market Landscape**: Four-quadrant teardown of Legacy Monoliths (`cPanel/WHM`, `Plesk`, `DirectAdmin`), Commercial Cluster Panels (`Enhance`, `ApisCP`), Developer SaaS SSH Control Planes (`Laravel Forge`, `RunCloud`, `Ploi.io`, `SpinupWP`), and Closed Freeware (`CloudPanel`, `CyberPanel`), defining the "Missing Middle" product wedge.
-
-8. [`docs/08-empirical-open-source-codebase-and-security-audit.md`](docs/08-empirical-open-source-codebase-and-security-audit.md)  
-   **Empirical Open-Source Codebase & Security Audit**: Source-level teardown of 11 shallow-cloned repositories (`HestiaCP`, `Webmin`, `Virtualmin GPL`, `ISPConfig 3`, `Froxlor v2`, `AcePanel`, `VitoDeploy`, `Ajenti 2`, `FileBrowser`, `ttyd`, `GoAccess`) measuring exact LOC, CLI/API counts, privilege escalation advisories (`GHSA`/`CVE`), and Copyleft vs. Permissive SaaS licensing.
-
-9. [`docs/09-68-feature-competitor-gap-matrix.md`](docs/09-68-feature-competitor-gap-matrix.md)  
-   **68-Feature Competitor Parity & SaaS Readiness Gap Matrix**: Feature-by-feature parity matrix scoring all 68 HostGator cPanel tools (`P0`/`P1`/`P2`/`Skip`) plus 10 SaaS Product Readiness gates across 7 existing panels and our Composable Clean-Room architecture (`97.1%` cPanel parity, `100%` SaaS fit).
-
-10. [`docs/10-build-vs-leverage-decision-blueprint.md`](docs/10-build-vs-leverage-decision-blueprint.md)  
-    **Build vs. Leverage Decision Blueprint & MVP Roadmap**: Head-to-head comparison of 4 engineering strategies (`Fork`, `Headless Bridge`, `Composable OSS + Clean-Room Agent`, `Pure Scratch`), specification of the 22 atomic Go RPC operations in `winwin-agentd`, clean-room `cpmove` backup importer design, and 8-week MVP build roadmap.
-
-11. [`docs/11-architecture-decision-records-and-mvp-spec.md`](docs/11-architecture-decision-records-and-mvp-spec.md)  
-    **Architecture Decision Records (`ADR-01` to `ADR-11`) & Full-Stack TypeScript MVP Specification**: Canonical specification locking in all 11 interactive `/grill-me` design decisions (Standalone Single-Server Appliance, 100% TypeScript Stack, Unified Single-Port 3-Tier RBAC + Impersonation, Pure Nginx+FPM + Optional Apache2, Local BIND9 + Cloudflare Sync, Postfix/Dovecot/Rspamd/Roundcube, Native React File Manager + Monaco Editor, Embedded `xterm.js` Terminal, Dual `cpmove` + `restic` Backups, WP-CLI + Node/Python App Runner, and Dual `PANEL_SYSROOT` Sandbox/Production Engine).
+It combines a **100% TypeScript / Node.js 22 LTS monorepo** (`@cpanel-clean-room/shared`, `@cpanel-clean-room/agentd`, `@cpanel-clean-room/server`, `@cpanel-clean-room/web`) with a comprehensive **12-part clean-room reverse-engineering specification and 11-repository empirical competitor gap audit**.
 
 ---
 
-## 🗂️ Audit Data & Visual Reference Assets
+## ✨ Key Architectural Highlights
 
-* **Feature Manifest**: [`docs/data/cpanel_feature_manifest.json`](docs/data/cpanel_feature_manifest.json)  
-  * Raw, sanitized JSON export capturing server environment variables, installed PHP versions (`ea-php81` through `ea-php85`, `alt-php56`), active databases (`vahag_architecturalnumbers`, `vahag_trace4less`), and all 68 discovered UI tool links.
-* **Empirical Competitor Source Metrics**: [`docs/data/competitor_empirical_metrics.json`](docs/data/competitor_empirical_metrics.json)  
-  * Programmatically generated source metrics (file counts, LOC by language, CLI/API counts, SPDX licenses, and published GitHub Security Advisories) across 11 open-source repositories.
-* **68-Feature Competitor Gap Matrix**: [`docs/data/competitor_gap_matrix.json`](docs/data/competitor_gap_matrix.json)  
-  * Machine-readable weighted scoring matrix (`68` cPanel tools + `10` SaaS product readiness dimensions + `4`-strategy effort model).
-* **Screenshot Library**: [`docs/screenshots/`](docs/screenshots/)  
-  * 43 redacted, high-resolution desktop captures categorized into `00-overview/`, `01-email/`, `02-files/`, `03-databases/`, `04-domains/`, `05-metrics/`, `06-security/`, `07-software/`, `08-advanced/`, and `09-preferences/`.
-* **Screenshot Manifest**: [`docs/screenshots/index.json`](docs/screenshots/index.json)  
-  * Machine-readable index recording filenames, categories, SHA-256 hashes, byte sizes, and HTTP response codes.
+- **Least-Privilege Process Separation (`ADR-02`):** The unprivileged HTTP/WebSocket server (`packages/server`) never runs as `root`. All privileged OS operations execute inside `panel-agentd` (`packages/agentd`) over a local `0600` NDJSON Unix domain socket (`/run/panel/agent.sock`) validated by strict Zod schemas and `execFile` argument arrays (zero shell string interpolation).
+- **Dual-Mode `PANEL_SYSROOT` Sandbox & Production Engine (`ADR-11`):**
+  - **Sandbox Mode (`PANEL_SYSROOT=./scratch/sysroot`)**: Safely generates and tests real Nginx vhosts, Multi-PHP FPM pools (`5.6`–`8.5`), RFC 1035 BIND9 zones, Postfix/Dovecot mail configs, Rspamd DKIM keys, and user files on any developer workstation without touching host `/etc`.
+  - **Production Mode (`PANEL_SYSROOT=/`)**: Manages native Linux daemons on Ubuntu 22.04/24.04 LTS & Debian 12 servers.
+- **Unified Single-Port Jupiter SPA (`ADR-03`, `ADR-07`, `ADR-08`):** React 18 + Vite 6 + Tailwind CSS interface with `/` hotkey instant search across 77 tools, 3-tier RBAC (`Admin` → `Reseller` → `Customer`), 1-click user impersonation, a built-in **File Manager + Monaco Code Editor**, and an embedded **`@xterm/xterm` WebSocket Terminal**.
+- **1-Click `cpmove` Migration & `restic` Cloud Backups (`ADR-09`):** Streams and restores standard cPanel `cpmove-<user>.tar.gz` / `backup-*.tar.gz` archives (preserving domains, MariaDB dumps, Dovecot password hashes, Maildirs, and BIND9 zones) alongside deduplicated `restic` snapshots.
 
 ---
 
-## 🛠️ Verification & Tooling
-
-To run the automated verification and security audit suite:
+## 🚀 Quick Start (Local Sandbox Mode)
 
 ```bash
-# Verify all markdown links, JSON datasets, screenshot integrity, and secret redactions
+git clone https://github.com/rbaindourov/cpanel-clean-room.git
+cd cpanel-clean-room
+npm install
+
+# Run full TypeScript build check, 170 unit tests, 450 E2E tests, and repo integrity check
+npm run build
+npm run test:all
 npm run verify
 
-# Re-run empirical open-source repository audit (shallow-clones into scratch/competitor-repos)
-npm run audit:competitors
-
-# Re-compute weighted 68-feature competitor gap matrix
-npm run score:gaps
-
-# Re-run read-only cPanel UAPI feature inventory (requires .env)
-npm run inventory
-
-# Re-run Playwright screenshot crawler with automated DOM privacy masking
-npm run screenshots
+# Start the pre-seeded appliance locally on http://127.0.0.1:3000
+npm start
 ```
+
+### Default Sandbox Accounts
+| Role | Username | Password | Pre-Seeded Workloads (`./scratch/sysroot`) |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `admin` | `admin123!` | Full server & account administration + 1-click customer impersonation |
+| **Customer** | `acme` | `acme123!` | Domains (`example-store.com`, `legacy-crm.org`, `directory-hub.net`, `studio-letters.com`), MySQL DBs (`acme_store`, `acme_crm`), Mailboxes, BIND9 zones, and Multi-PHP (`7.4`, `8.1`, `8.2`) pools |
+
+---
+
+## 📦 Monorepo Package Structure
+
+| Package | Path | Description |
+| :--- | :--- | :--- |
+| **`@cpanel-clean-room/shared`** | [`packages/shared/`](packages/shared/) | Shared TypeScript interfaces, 24 Zod RPC schemas, constants, and deterministic Apache `.htaccess`-to-Nginx rule translator |
+| **`@cpanel-clean-room/agentd`** | [`packages/agentd/`](packages/agentd/) | Privileged root NDJSON Unix-socket daemon (`SysrootEngine` + 8 handlers: `tenant`, `web-php`, `dns-bind`, `mail-rspamd`, `mysql`, `files`, `wp-toolkit`, `cpmove`) |
+| **`@cpanel-clean-room/server`** | [`packages/server/`](packages/server/) | Unprivileged Express REST API + WebSocket PTY server, SQLite WAL database (`19` tables), Argon2id/scrypt + TOTP 2FA, 3-tier RBAC, `phpMyAdmin`/`Roundcube` SSO, and demo dataset seeder |
+| **`@cpanel-clean-room/web`** | [`packages/web/`](packages/web/) | Jupiter-modernized React 18 + Vite 6 + Tailwind CSS SPA with Native File Manager, Monaco Code Editor, `@xterm/xterm` Terminal, and 10 category suites |
+
+---
+
+## 📚 Clean-Room Engineering Documentation Suite
+
+1. [`docs/01-executive-summary-and-strategy.md`](docs/01-executive-summary-and-strategy.md) — **Executive Summary & Hosting Strategy**: cPanel licensing economics vs. native Linux ownership, core workload analysis, and dual-track migration roadmap.
+2. [`docs/02-hostgator-cpanel-feature-inventory.md`](docs/02-hostgator-cpanel-feature-inventory.md) — **68-Feature Inventory & Linux Primitive Mapping**: Categorization of all 68 cPanel Jupiter tools mapped to cPanel UAPI endpoints, native Linux primitives (`/etc/bind`, `/etc/nginx`, `/etc/postfix`, `/etc/dovecot`, `/run/php/*.sock`), and priority tiers (`P0`, `P1`, `P2`, `Skip`).
+3. [`docs/03-visual-walkthrough-and-ui-anatomy.md`](docs/03-visual-walkthrough-and-ui-anatomy.md) — **Visual Walkthrough & UI Anatomy**: Detailed UI walkthrough embedding 43 redacted reference screenshots from [`docs/screenshots/`](docs/screenshots/).
+4. [`docs/04-open-source-control-panel-evaluation.md`](docs/04-open-source-control-panel-evaluation.md) — **Open-Source Control Panel Evaluation**: Architectural comparison of native (non-Docker) panels (`Webmin + Virtualmin GPL`, `ISPConfig 3`, `HestiaCP`, `Froxlor`).
+5. [`docs/05-webmin-virtualmin-migration-and-customization-playbook.md`](docs/05-webmin-virtualmin-migration-and-customization-playbook.md) — **Virtualmin Migration & Customization Playbook**: Native LEMP setup on Ubuntu 22.04/24.04 LTS, side-by-side Multi-PHP FPM configuration, and `cpmove` backup migration runbook.
+6. [`docs/06-clean-room-control-panel-architecture.md`](docs/06-clean-room-control-panel-architecture.md) — **Clean-Room Control Panel Architecture**: Multi-daemon Linux hosting topology, unprivileged UI + schema-validated root Unix socket daemon, and subsystem specifications.
+7. [`docs/07-commercial-and-saas-market-landscape.md`](docs/07-commercial-and-saas-market-landscape.md) — **Commercial & SaaS Market Landscape**: Four-quadrant teardown of Legacy Monoliths (`cPanel/WHM`, `Plesk`, `DirectAdmin`), Cluster Panels (`Enhance`, `ApisCP`), Developer SaaS Control Planes (`Laravel Forge`, `RunCloud`, `Ploi.io`, `SpinupWP`), and Closed Freeware (`CloudPanel`, `CyberPanel`).
+8. [`docs/08-empirical-open-source-codebase-and-security-audit.md`](docs/08-empirical-open-source-codebase-and-security-audit.md) — **Empirical Open-Source Codebase & Security Audit**: Source-level teardown of 11 repositories measuring exact LOC, CLI/API surface, privilege escalation advisories (`GHSA`/`CVE`), and Copyleft vs. Permissive licensing.
+9. [`docs/09-68-feature-competitor-gap-matrix.md`](docs/09-68-feature-competitor-gap-matrix.md) — **68-Feature Competitor Parity & SaaS Readiness Gap Matrix**: Feature-by-feature parity matrix scoring all 68 cPanel tools plus 10 SaaS Product Readiness gates across 7 existing panels and our Clean-Room architecture (`97.1%` cPanel parity, `100%` P0/P1 completion).
+10. [`docs/10-build-vs-leverage-decision-blueprint.md`](docs/10-build-vs-leverage-decision-blueprint.md) — **Build vs. Leverage Decision Blueprint & MVP Roadmap**: Head-to-head comparison of 4 engineering strategies, atomic daemon RPC operations, clean-room `cpmove` importer specification, and 8-week MVP build roadmap.
+11. [`docs/11-architecture-decision-records-and-mvp-spec.md`](docs/11-architecture-decision-records-and-mvp-spec.md) — **Architecture Decision Records (`ADR-01` to `ADR-11`) & Full-Stack TypeScript MVP Specification**: Canonical specification locking in all 11 architectural decisions.
+12. [`docs/12-clean-room-implementation-report.md`](docs/12-clean-room-implementation-report.md) — **Clean-Room Implementation Report & Production `systemd` Runbook**: Unabridged 77-tool feature catalog matrix, test verification metrics, and production deployment guide.
+
+---
+
+## 🗂️ Audit Datasets & Visual Assets
+
+- **Baseline cPanel Feature Manifest**: [`docs/data/cpanel_feature_manifest.json`](docs/data/cpanel_feature_manifest.json)
+- **Empirical 11-Repo Competitor Metrics**: [`docs/data/competitor_empirical_metrics.json`](docs/data/competitor_empirical_metrics.json)
+- **68-Feature Competitor Gap Matrix**: [`docs/data/competitor_gap_matrix.json`](docs/data/competitor_gap_matrix.json)
+- **Redacted Reference Screenshot Library (`43` PNGs)**: [`docs/screenshots/`](docs/screenshots/) & [`docs/screenshots/index.json`](docs/screenshots/index.json)
+
+---
+
+## 🤝 Contributing, Security & License
+
+- **Contributing Guide**: [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- **Security Policy**: [`SECURITY.md`](SECURITY.md)
+- **Code of Conduct**: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
+- **License**: Released under the [MIT License](LICENSE).
