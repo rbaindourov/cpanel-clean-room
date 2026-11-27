@@ -18,7 +18,7 @@ export const TelemetryRail: React.FC = () => {
     primaryDomain: 'example-store.com',
     homeDir: '/home/acme/public_html',
     primaryIp: '203.0.113.32',
-    sharedIp: '198.57.247.185',
+    sharedIp: '203.0.113.10',
     phpVersion: '8.3',
     diskUsedBytes: 2576980377, // ~2.4 GB
     diskLimitBytes: 10737418240, // 10 GB

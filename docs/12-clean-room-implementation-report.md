@@ -544,6 +544,13 @@ curl -s -o /dev/null -w "%{http_code}\n" "http://127.0.0.1:8443${ASSET_JS}"
   systemctl reload dovecot
   ```
 
+### 7.8 Client-Side Interactive Browser Sandbox (`VITE_DEMO_MODE`)
+To support zero-privilege public demonstrations (such as portfolio embeds or static CDN hosting), `@cpanel-clean-room/web` includes an optional in-browser Linux Appliance Sandbox (`packages/web/src/demo/installDemoRuntime.ts`) enabled exclusively at build time via `VITE_DEMO_MODE=true`:
+```bash
+VITE_DEMO_MODE=true VITE_BASE_URL=/cleanpanel/ npm run build -w @cpanel-clean-room/web
+```
+When `VITE_DEMO_MODE` is omitted (the default), zero demo interceptors are active and `@cpanel-clean-room/web` communicates exclusively with `@cpanel-clean-room/server`.
+
 ---
 
 ## 8. Conclusion

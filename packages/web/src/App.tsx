@@ -43,9 +43,12 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 };
 
 export const App: React.FC = () => {
+  const rawBase = String((import.meta as any).env?.BASE_URL || '/');
+  const routerBase = rawBase === '/' ? '/' : rawBase.replace(/\/$/, '');
+
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={routerBase}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
 

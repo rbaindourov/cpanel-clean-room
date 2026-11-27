@@ -85,7 +85,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsImpersonating(false);
     setImpersonator(null);
     if (typeof window !== 'undefined') {
-      window.location.href = '/login';
+      const base = String((import.meta as any).env?.BASE_URL || '/').replace(/\/$/, '');
+      window.location.href = `${base}/login`;
     }
   };
 

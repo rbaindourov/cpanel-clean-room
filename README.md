@@ -1,10 +1,14 @@
 # cPanel Clean-Room — Open-Source Native Linux Web Hosting Control Panel
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Live Interactive Demo](https://img.shields.io/badge/Live_Demo-robertscreations.com%2Fcleanpanel-amber)](https://robertscreations.com/cleanpanel/)
 
 **cPanel Clean-Room** (`CleanPanel`) is an open-source, MIT-licensed native Linux web hosting control panel appliance and empirical clean-room specification designed to replace commercial cPanel/WHM installations without Docker overhead or legacy Perl/Bash security debt.
 
 It combines a **100% TypeScript / Node.js 22 LTS monorepo** (`@cpanel-clean-room/shared`, `@cpanel-clean-room/agentd`, `@cpanel-clean-room/server`, `@cpanel-clean-room/web`) with a comprehensive **12-part clean-room reverse-engineering specification and 11-repository empirical competitor gap audit**.
+
+> **Live Interactive Browser Sandbox & Architecture Case Study:**
+> - **Playable Browser Sandbox (`VITE_DEMO_MODE`)**: [https://robertscreations.com/cleanpanel/](https://robertscreations.com/cleanpanel/)
+> - **Systems Architecture Deep-Dive**: [https://robertscreations.com/cpanel-clean-room-open-source-linux-hosting-control-panel](https://robertscreations.com/cpanel-clean-room-open-source-linux-hosting-control-panel)
 
 ---
 

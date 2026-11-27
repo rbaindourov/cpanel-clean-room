@@ -121,8 +121,10 @@ export class ApiClient {
         this.setToken(null);
         this.setRefreshToken(null);
         this.setImpersonateUser(null);
-        if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-          window.location.href = '/login';
+        const base = String((import.meta as any).env?.BASE_URL || '/').replace(/\/$/, '');
+        const loginPath = `${base}/login`;
+        if (typeof window !== 'undefined' && window.location.pathname !== loginPath) {
+          window.location.href = loginPath;
         }
         throw new ApiError({ code: 'UNAUTHORIZED', message: 'Session expired', status: 401 });
       }

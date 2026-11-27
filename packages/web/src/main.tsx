@@ -6,7 +6,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App.tsx';
+import { installDemoRuntime } from './demo/installDemoRuntime.ts';
 import './index.css';
+
+if ((import.meta as any).env?.VITE_DEMO_MODE === 'true') {
+  installDemoRuntime();
+}
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
